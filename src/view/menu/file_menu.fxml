@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+
+<fx:root text="File" id="FileMenu" type="javafx.scene.control.Menu" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+    <MenuItem text="Open main" onAction="#openMainImage"/>
+    <MenuItem text="Open secondary" onAction="#openSecondaryImage"/>
+    <MenuItem text="Save main" onAction="#saveMainImage"/>
+    <MenuItem text="Save secondary" onAction="#saveSecondaryImage"/>
+</fx:root>

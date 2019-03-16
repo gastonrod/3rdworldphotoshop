@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+
+<fx:root text="Modify" closable="false" type="javafx.scene.control.Tab" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+        <VBox>
+            <Text VBox.vgrow="ALWAYS" fx:id="pixelValueText"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button text="Copy from main to sec" onAction="#copyFromMainToSec"/>
+            <HBox spacing="10" alignment="bottom_left">
+                <TextField fx:id="pixelModifyTextField" promptText="Enter a numeric value"/>
+                <Button text="Modify pixel"
+                        onAction="#modifyPixel"
+                        fx:id="pixelModifyButton"/>
+            </HBox>
+        </VBox>
+</fx:root>
