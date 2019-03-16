@@ -17,6 +17,16 @@ public class RawImage implements CustomImage{
     private int height;
 
     // Grayscale raw image
+    public RawImage(byte[][] reds, byte[][] greens, byte[][] blues, byte[][] alphas){
+        width = reds.length;
+        height = reds[0].length;
+        imageRedBytes = reds;
+        imageGreenBytes = greens;
+        imageBlueBytes = blues;
+        alphaBytes = alphas;
+        createImage();
+    }
+
     public RawImage(@NotNull File file) {
         setWidthAndHeight(file.getName());
 
@@ -32,12 +42,17 @@ public class RawImage implements CustomImage{
                 imageBlueBytes[(n/4)/width][(n/4)%width] = currentPixel;
                 alphaBytes[(n/4)/width][(n/4)%width] = (byte)255;
             }
-            this.writableImage = new WritableImage(width, height);
-            PixelWriter pixelWriter = this.writableImage.getPixelWriter();
-            pixelWriter.setPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), getImageBytes(), 0, width * 4);
+            createImage();
         } catch (IOException e) {
            throw new RuntimeException("Error loading RAW image: " + e.getMessage());
         }
+    }
+
+    private void createImage() {
+        this.writableImage = new WritableImage(width, height);
+        PixelWriter pixelWriter = this.writableImage.getPixelWriter();
+        pixelWriter.setPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), getImageBytes(), 0, width * 4);
+
     }
 
     private void setWidthAndHeight(@NotNull String name) {
@@ -120,9 +135,9 @@ public class RawImage implements CustomImage{
     private byte[] getImageBytes() {
         byte[] imageBytes = new byte[width * height * 4];
         for(int n = 0; n < width * height * 4; n+=4) {
-            imageBytes[n]   = imageRedBytes[(n/4)/width][(n/4)%width];
+            imageBytes[n]   = imageBlueBytes[(n/4)/width][(n/4)%width];
             imageBytes[n+1] = imageGreenBytes[(n/4)/width][(n/4)%width];
-            imageBytes[n+2] = imageBlueBytes[(n/4)/width][(n/4)%width];
+            imageBytes[n+2] = imageRedBytes[(n/4)/width][(n/4)%width];
             imageBytes[n+3] = alphaBytes[(n/4)/width][(n/4)%width];
         }
         return imageBytes;

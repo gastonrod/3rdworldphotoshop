@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public interface CustomImage {
 
+
     void save(@NotNull File file) throws IOException;
     WritableImage asWritableImage();
     void modifyPixel(@NotNull int value, @NotNull Point pos);

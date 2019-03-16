@@ -4,6 +4,7 @@ import javafx.scene.image.WritableImage;
 import javafx.stage.Window;
 import model.ClicksManager;
 import model.CustomImage;
+import model.CustomImageFactory;
 import model.FileManager;
 import org.jetbrains.annotations.NotNull;
 import view.MainController;
@@ -96,5 +97,25 @@ public class ImagesPresenter {
 
     public void copyFromMainToSec() {
         mainImage.copySection(secondaryImage, ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick(), ClicksManager.getSecondaryImageClick());
+    }
+
+    public void createCircle() {
+        mainImage = CustomImageFactory.circle();
+        imageController.setMainImage(mainImage.asWritableImage());
+    }
+
+    public void createColorGradient() {
+        mainImage = CustomImageFactory.colorGradient();
+        imageController.setMainImage(mainImage.asWritableImage());
+    }
+
+    public void createBlackAndWhiteGradient() {
+        mainImage = CustomImageFactory.blackAndWhiteGradient();
+        imageController.setMainImage(mainImage.asWritableImage());
+    }
+
+    public void createSquare() {
+        mainImage = CustomImageFactory.square();
+        imageController.setMainImage(mainImage.asWritableImage());
     }
 }
