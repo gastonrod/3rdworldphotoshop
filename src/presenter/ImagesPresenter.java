@@ -47,7 +47,7 @@ public class ImagesPresenter {
                     "\nFirst pos clicked: (" + secondaryPos.x + ", " + secondaryPos.y + ")" +
                     "\nSecond pos clicked: (" + currentPos.x + ", " + currentPos.y + ")";
         }
-        tab1Controller.setPixelValueText(text);
+        tab1Controller.setMainImagePixelValueText(text);
     }
 
     public void modifyPixel(@NotNull int newValue) {
@@ -86,7 +86,8 @@ public class ImagesPresenter {
     }
 
     public void secondaryImageClicked(Point pos) {
-        ClicksManager.secondaryImageClicked(pos, imageController.secondaryImageView);
+        ClicksManager.secondaryImageClicked(pos);
+        tab1Controller.setSecondaryImagePixelValueText("Secondary image clicked: (" + pos.x + ", " + pos.y + ")");
     }
 
     public void setTab1Controller(Tab1Controller tab1Controller) {
@@ -94,5 +95,6 @@ public class ImagesPresenter {
     }
 
     public void copyFromMainToSec() {
+        mainImage.copySection(secondaryImage, ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick(), ClicksManager.getSecondaryImageClick());
     }
 }

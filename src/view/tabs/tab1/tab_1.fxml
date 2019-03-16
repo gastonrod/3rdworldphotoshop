@@ -10,7 +10,8 @@
 
 <fx:root text="Modify" closable="false" type="javafx.scene.control.Tab" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
         <VBox>
-            <Text VBox.vgrow="ALWAYS" fx:id="pixelValueText"/>
+            <Text VBox.vgrow="ALWAYS" fx:id="mainImagePixelValueText"/>
+            <Text VBox.vgrow="ALWAYS" fx:id="secondaryImagePixelValueText"/>
             <Region VBox.vgrow="ALWAYS"/>
             <Button text="Copy from main to sec" onAction="#copyFromMainToSec"/>
             <HBox spacing="10" alignment="bottom_left">

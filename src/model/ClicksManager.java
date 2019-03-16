@@ -3,6 +3,7 @@ package model;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.Point;
 
@@ -36,7 +37,11 @@ public class ClicksManager {
         return mainImageSecondClick == null ? null : mainImageFirstClick;
     }
 
-    public static void secondaryImageClicked(Point pos, ImageView secondaryImageView) {
+    public static void secondaryImageClicked(@NotNull Point pos) {
         secondaryImageClick = pos;
+    }
+
+    public static Point getSecondaryImageClick() {
+        return secondaryImageClick;
     }
 }

@@ -17,7 +17,10 @@ public class Tab1Controller extends Tab {
     private ImagesPresenter imagesPresenter;
 
     @FXML
-    public Text pixelValueText;
+    public Text mainImagePixelValueText;
+
+    @FXML
+    public Text secondaryImagePixelValueText;
 
     @FXML
     public TextField pixelModifyTextField;
@@ -54,7 +57,11 @@ public class Tab1Controller extends Tab {
         imagesPresenter.copyFromMainToSec();
     }
 
-    public void setPixelValueText(String s) {
-        pixelValueText.setText(s);
+    public void setMainImagePixelValueText(String s) {
+        mainImagePixelValueText.setText(s);
+    }
+
+    public void setSecondaryImagePixelValueText(String s) {
+        secondaryImagePixelValueText.setText(s);
     }
 }
