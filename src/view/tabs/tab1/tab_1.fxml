@@ -12,7 +12,9 @@
         <VBox>
             <Text VBox.vgrow="ALWAYS" fx:id="mainImagePixelValueText"/>
             <Text VBox.vgrow="ALWAYS" fx:id="secondaryImagePixelValueText"/>
+            <Text VBox.vgrow="ALWAYS" fx:id="averagesInfoText"/>
             <Region VBox.vgrow="ALWAYS"/>
+            <Button text="Get avg and paint" onAction="#getAverageAndPaint"/>
             <Button text="Copy from main to sec" onAction="#copyFromMainToSec"/>
             <HBox spacing="10" alignment="bottom_left">
                 <TextField fx:id="pixelModifyTextField" promptText="Enter a numeric value"/>

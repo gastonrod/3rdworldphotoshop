@@ -23,6 +23,9 @@ public class Tab1Controller extends Tab {
     public Text secondaryImagePixelValueText;
 
     @FXML
+    public Text averagesInfoText;
+
+    @FXML
     public TextField pixelModifyTextField;
 
     @FXML
@@ -57,11 +60,19 @@ public class Tab1Controller extends Tab {
         imagesPresenter.copyFromMainToSec();
     }
 
+    @FXML
+    protected void getAverageAndPaint(ActionEvent event) {
+        imagesPresenter.getAverageAndPaint();
+    }
     public void setMainImagePixelValueText(String s) {
         mainImagePixelValueText.setText(s);
     }
 
     public void setSecondaryImagePixelValueText(String s) {
         secondaryImagePixelValueText.setText(s);
+    }
+
+    public void setAveragesInfoText(String s) {
+        averagesInfoText.setText(s);
     }
 }

@@ -3,8 +3,9 @@ package model;
 import javafx.scene.image.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.Point;
+import java.awt.*;
 import java.io.*;
+import java.util.Arrays;
 
 public class RawImage implements CustomImage{
 
@@ -16,10 +17,12 @@ public class RawImage implements CustomImage{
     private int width;
     private int height;
 
+    private RawImage imageWithPaintedArea;
+
     // Grayscale raw image
     public RawImage(byte[][] reds, byte[][] greens, byte[][] blues, byte[][] alphas){
-        width = reds.length;
-        height = reds[0].length;
+        width = reds[0].length;
+        height = reds.length;
         imageRedBytes = reds;
         imageGreenBytes = greens;
         imageBlueBytes = blues;
@@ -52,7 +55,6 @@ public class RawImage implements CustomImage{
         this.writableImage = new WritableImage(width, height);
         PixelWriter pixelWriter = this.writableImage.getPixelWriter();
         pixelWriter.setPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), getImageBytes(), 0, width * 4);
-
     }
 
     private void setWidthAndHeight(@NotNull String name) {
@@ -64,7 +66,7 @@ public class RawImage implements CustomImage{
 
     @Override
     public WritableImage asWritableImage() {
-        return this.writableImage;
+        return imageWithPaintedArea == null ? writableImage : imageWithPaintedArea.asWritableImage();
     }
 
     @Override
@@ -142,4 +144,59 @@ public class RawImage implements CustomImage{
         }
         return imageBytes;
     }
+
+    public int[] getAverage(@NotNull Point p1, @NotNull Point p2){
+        int x1 = Math.min(p1.x, p2.x);
+        int x2 = Math.max(p1.x, p2.x);
+        int y1 = Math.min(p1.y, p2.y);
+        int y2 = Math.max(p1.y, p2.y);
+        int averageRed = 0;
+        int averageGreen = 0;
+        int averageBlue = 0;
+        for(int i = y1; i < y2; i++) {
+            for(int j = x1; j < x2; j++) {
+                averageRed += imageRedBytes[i][j];
+                averageGreen += imageGreenBytes[i][j];
+                averageBlue += imageBlueBytes[i][j];
+            }
+        }
+        int operations = (x2 - x1) * (y2 - y1);
+        int[] ans = {averageRed / operations, averageGreen / operations, averageBlue / operations };
+        return ans;
+    }
+
+    @Override
+    public void markArea(@NotNull Point p1, @NotNull Point p2) {
+        int x1 = Math.min(p1.x, p2.x);
+        int x2 = Math.max(p1.x, p2.x);
+        int y1 = Math.min(p1.y, p2.y);
+        int y2 = Math.max(p1.y, p2.y);
+        byte[][] auxRed = new byte[imageRedBytes.length][imageRedBytes[0].length];
+        byte[][] auxGreen = new byte[imageRedBytes.length][imageRedBytes[0].length];
+        byte[][] auxBlue = new byte[imageRedBytes.length][imageRedBytes[0].length];
+        for(int i = 0; i < imageRedBytes.length; i++){
+            auxRed[i] = imageRedBytes[i].clone();
+            auxGreen[i] = imageGreenBytes[i].clone();
+            auxBlue[i] = imageBlueBytes[i].clone();
+        }
+
+        for(int i = y1; i < y2; i++){
+            auxRed[i][x1] = (byte)255;
+            auxRed[i][x2] = (byte)255;
+            auxGreen[i][x1] = (byte)0;
+            auxGreen[i][x2] = (byte)0;
+            auxBlue[i][x1] = (byte)0;
+            auxBlue[i][x2] = (byte)0;
+        }
+        for(int j = x1; j < x2; j++){
+            auxRed[y1][j] = (byte)255;
+            auxRed[y2][j] = (byte)255;
+            auxGreen[y1][j] = (byte)0;
+            auxGreen[y2][j] = (byte)0;
+            auxBlue[y1][j] = (byte)0;
+            auxBlue[y2][j] = (byte)0;
+        }
+        imageWithPaintedArea = new RawImage(auxRed, auxGreen, auxBlue, alphaBytes);
+    }
+
 }

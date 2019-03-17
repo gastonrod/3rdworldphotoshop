@@ -118,4 +118,11 @@ public class ImagesPresenter {
         mainImage = CustomImageFactory.square();
         imageController.setMainImage(mainImage.asWritableImage());
     }
+
+    public void getAverageAndPaint() {
+        mainImage.markArea(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
+        imageController.setMainImage(mainImage.asWritableImage());
+        int[] averages = mainImage.getAverage(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
+        tab1Controller.setAveragesInfoText("Averages:\nR: " + averages[0] + ", G: " + averages[1] + ", B: " + averages[2]);
+    }
 }
