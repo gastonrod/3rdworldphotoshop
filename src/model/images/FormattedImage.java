@@ -1,13 +1,11 @@
 package model.images;
 
-import model.images.AbstractImage;
 import org.apache.sanselan.Sanselan;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 
 public class FormattedImage extends AbstractImage {
 

@@ -1,6 +1,5 @@
 package model.images;
 
-import model.images.AbstractImage;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;

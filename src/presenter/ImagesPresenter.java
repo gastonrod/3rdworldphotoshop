@@ -7,7 +7,6 @@ import model.images.CustomImage;
 import model.CustomImageFactory;
 import model.managers.FileManager;
 import org.jetbrains.annotations.NotNull;
-import view.MainController;
 import view.images.ImageController;
 import view.tabs.tab1.Tab1Controller;
 
@@ -19,7 +18,6 @@ public class ImagesPresenter {
     private CustomImage mainImage;
     private CustomImage secondaryImage;
 
-    private MainController controller;
     private ImageController imageController;
     private Tab1Controller tab1Controller;
     private Window scene;
@@ -69,10 +67,6 @@ public class ImagesPresenter {
 
     public WritableImage getSecondaryImage() {
         return secondaryImage.asWritableImage();
-    }
-
-    public void setController(MainController controller) {
-        this.controller = controller;
     }
 
     public Window getWindow() {

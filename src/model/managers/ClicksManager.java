@@ -1,7 +1,6 @@
 package model.managers;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 
