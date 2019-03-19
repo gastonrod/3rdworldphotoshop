@@ -46,6 +46,9 @@ public class Tab1Controller extends Tab {
 
     @FXML
     protected void modifyPixel(ActionEvent event) {
+        if(pixelModifyTextField.getText().equals("")) {
+            return;
+        }
         int value = Integer.parseInt(pixelModifyTextField.getText());
         if(value > 255 || value < 0){
             pixelModifyButton.setText("Invalid No");
@@ -64,6 +67,12 @@ public class Tab1Controller extends Tab {
     protected void getAverageAndPaint(ActionEvent event) {
         imagesPresenter.getAverageAndPaint();
     }
+
+    @FXML
+    protected void showHSV() {
+        imagesPresenter.showHSV();
+    }
+
     public void setMainImagePixelValueText(String s) {
         mainImagePixelValueText.setText(s);
     }

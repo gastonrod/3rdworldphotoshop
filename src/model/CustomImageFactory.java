@@ -1,5 +1,8 @@
 package model;
 
+import model.images.CustomImage;
+import model.images.RawImage;
+
 public class CustomImageFactory {
     private static int imageSize = 200; // 200x200 px
 
@@ -48,7 +51,6 @@ public class CustomImageFactory {
     }
 
     public static CustomImage colorGradient() {
-        System.out.println("color gradient");
         // R -> R+B -> B -> B+G -> G
         int transitions = 6;
         byte[][] reds   = new byte[imageSize][imageSize];
@@ -101,7 +103,6 @@ public class CustomImageFactory {
 
     }
     public static CustomImage blackAndWhiteGradient() {
-        System.out.println("black and white gradient");
         byte[][] reds   = new byte[imageSize][imageSize];
         byte[][] greens = new byte[imageSize][imageSize];
         byte[][] blues  = new byte[imageSize][imageSize];

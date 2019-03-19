@@ -1,4 +1,4 @@
-package model;
+package model.images;
 
 import javafx.scene.image.WritableImage;
 import org.jetbrains.annotations.NotNull;
@@ -19,4 +19,6 @@ public interface CustomImage {
 
     int[] getAverage(@NotNull Point p1, @NotNull Point p2);
     void markArea(@NotNull Point p1, @NotNull Point p2);
+
+    float[][] getHSVRepresentation();
 }

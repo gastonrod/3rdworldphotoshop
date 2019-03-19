@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import model.images.CustomImage;
 import presenter.ImagesPresenter;
 import sample.Main;
 
@@ -50,5 +50,8 @@ public class ImageController extends VBox {
 
     public void setSecondaryImage(WritableImage writableImage) {
         secondaryImageView.setImage(writableImage);
+    }
+
+    public void showHSV(CustomImage hsvRepresentation) {
     }
 }

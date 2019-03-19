@@ -1,4 +1,4 @@
-package model;
+package model.managers;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;

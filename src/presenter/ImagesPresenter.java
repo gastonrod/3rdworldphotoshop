@@ -2,10 +2,10 @@ package presenter;
 
 import javafx.scene.image.WritableImage;
 import javafx.stage.Window;
-import model.ClicksManager;
-import model.CustomImage;
+import model.managers.ClicksManager;
+import model.images.CustomImage;
 import model.CustomImageFactory;
-import model.FileManager;
+import model.managers.FileManager;
 import org.jetbrains.annotations.NotNull;
 import view.MainController;
 import view.images.ImageController;
@@ -52,6 +52,9 @@ public class ImagesPresenter {
     }
 
     public void modifyPixel(@NotNull int newValue) {
+        if(mainImage == null || ClicksManager.getMainImageCurrentClick() == null) {
+            return;
+        }
         mainImage.modifyPixel(newValue, ClicksManager.getMainImageCurrentClick());
         imageController.setMainImage(getMainImage());
     }
@@ -82,20 +85,25 @@ public class ImagesPresenter {
         return scene;
     }
 
-    public void setImageController(ImageController imageController) {
+    public void setImageController(@NotNull ImageController imageController) {
         this.imageController = imageController;
     }
 
-    public void secondaryImageClicked(Point pos) {
+    public void secondaryImageClicked(@NotNull Point pos) {
         ClicksManager.secondaryImageClicked(pos);
         tab1Controller.setSecondaryImagePixelValueText("Secondary image clicked: (" + pos.x + ", " + pos.y + ")");
     }
 
-    public void setTab1Controller(Tab1Controller tab1Controller) {
+    public void setTab1Controller(@NotNull Tab1Controller tab1Controller) {
         this.tab1Controller = tab1Controller;
     }
 
     public void copyFromMainToSec() {
+        if(mainImage == null || secondaryImage == null ||
+                ClicksManager.getMainImageSecondClick() == null ||
+                ClicksManager.getSecondaryImageClick() == null) {
+            return;
+        }
         mainImage.copySection(secondaryImage, ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick(), ClicksManager.getSecondaryImageClick());
     }
 
@@ -120,9 +128,16 @@ public class ImagesPresenter {
     }
 
     public void getAverageAndPaint() {
+        if(mainImage == null || ClicksManager.getMainImageSecondClick() == null) {
+            return;
+        }
         mainImage.markArea(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
         imageController.setMainImage(mainImage.asWritableImage());
         int[] averages = mainImage.getAverage(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
         tab1Controller.setAveragesInfoText("Averages:\nR: " + averages[0] + ", G: " + averages[1] + ", B: " + averages[2]);
+    }
+
+    public void showHSV() {
+//        imageController.showHSV(mainImage.getHSVRepresentation());
     }
 }

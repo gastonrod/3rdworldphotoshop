@@ -1,63 +1,50 @@
-package model;
+package model.images;
 
-import javafx.scene.image.*;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-import java.io.*;
-import java.util.Arrays;
+import java.awt.Point;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-public class RawImage implements CustomImage{
+public abstract class AbstractImage implements CustomImage {
 
-    private WritableImage writableImage;
-    private byte[][] imageRedBytes;
-    private byte[][] imageGreenBytes;
-    private byte[][] imageBlueBytes;
-    private byte[][] alphaBytes;
-    private int width;
-    private int height;
+    protected WritableImage writableImage;
+    protected byte[][] imageRedBytes;
+    protected byte[][] imageGreenBytes;
+    protected byte[][] imageBlueBytes;
+    protected byte[][] alphaBytes;
+    protected int width;
+    protected int height;
 
-    private RawImage imageWithPaintedArea;
+    protected RawImage imageWithPaintedArea;
 
-    // Grayscale raw image
-    public RawImage(byte[][] reds, byte[][] greens, byte[][] blues, byte[][] alphas){
-        width = reds[0].length;
-        height = reds.length;
-        imageRedBytes = reds;
-        imageGreenBytes = greens;
-        imageBlueBytes = blues;
-        alphaBytes = alphas;
-        createImage();
-    }
+    protected AbstractImage(){}
 
-    public RawImage(@NotNull File file) {
-        setWidthAndHeight(file.getName());
-
-        try (FileInputStream fileInputStream = new FileInputStream(file)){
-            imageRedBytes = new byte[height][width];
-            imageGreenBytes = new byte[height][width];
-            imageBlueBytes = new byte[height][width];
-            alphaBytes = new byte[height][width];
-            for(int n = 0; n < width * height * 4; n+=4) {
-                byte currentPixel = (byte) fileInputStream.read();
-                imageRedBytes[(n/4)/width][(n/4)%width] = currentPixel;
-                imageGreenBytes[(n/4)/width][(n/4)%width] = currentPixel;
-                imageBlueBytes[(n/4)/width][(n/4)%width] = currentPixel;
-                alphaBytes[(n/4)/width][(n/4)%width] = (byte)255;
-            }
-            createImage();
-        } catch (IOException e) {
-           throw new RuntimeException("Error loading RAW image: " + e.getMessage());
+    // RGB byte array
+    void byteArrayToMatrices(byte[] imageBytes){
+        imageRedBytes = new byte[height][width];
+        imageGreenBytes = new byte[height][width];
+        imageBlueBytes = new byte[height][width];
+        alphaBytes = new byte[height][width];
+        for(int n = 0; n < imageBytes.length; n+= 4) {
+            imageBlueBytes[(n/4)/width][(n/4)%width]=imageBytes[n];
+            imageGreenBytes[(n/4)/width][(n/4)%width]=imageBytes[n+1];
+            imageRedBytes[(n/4)/width][(n/4)%width]=imageBytes[n+2];
+            alphaBytes[(n/4)/width][(n/4)%width]=imageBytes[n+3];
         }
     }
 
-    private void createImage() {
+    protected void createImage() {
         this.writableImage = new WritableImage(width, height);
         PixelWriter pixelWriter = this.writableImage.getPixelWriter();
         pixelWriter.setPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), getImageBytes(), 0, width * 4);
     }
 
-    private void setWidthAndHeight(@NotNull String name) {
+    protected void setWidthAndHeight(@NotNull String name) {
         String[] s = name.split("\\.")[0].split("_");
         width = Integer.parseInt(s[1]);
         height = Integer.parseInt(s[2]);
@@ -70,7 +57,7 @@ public class RawImage implements CustomImage{
     }
 
     @Override
-    public void save(@NotNull File file) throws IOException{
+    public void save(@NotNull File file) throws IOException {
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(processBytesForSaving());
         } catch (IOException e) {
@@ -81,10 +68,10 @@ public class RawImage implements CustomImage{
     @Override
     public void modifyPixel(@NotNull int value, @NotNull Point pos) {
         byte val = (byte) value;
-        imageRedBytes[pos.x][pos.y] = val;
-        imageGreenBytes[pos.x][pos.y] = val;
-        imageBlueBytes[pos.x][pos.y] = val;
-        alphaBytes[pos.x][pos.y] = (byte)255;
+        imageRedBytes[pos.y][pos.x] = val;
+        imageGreenBytes[pos.y][pos.x] = val;
+        imageBlueBytes[pos.y][pos.x] = val;
+        alphaBytes[pos.y][pos.x] = (byte)255;
         PixelWriter pixelWriter = this.writableImage.getPixelWriter();
         pixelWriter.setPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), getImageBytes(), 0, width * 4);
     }
@@ -112,8 +99,6 @@ public class RawImage implements CustomImage{
 
     @Override
     public void pasteImage(byte[][] redBytes, byte[][] greenBytes, byte[][] blueBytes, byte[][] alpha, @NotNull Point pos) {
-        System.out.println(redBytes.length);
-        System.out.println(redBytes[0].length);
         for(int i = 0; i < redBytes.length; i++){
             for(int j = 0; j < redBytes[0].length; j++){
                 imageRedBytes[i+pos.y][j+pos.x] = redBytes[i][j];
@@ -198,5 +183,4 @@ public class RawImage implements CustomImage{
         }
         imageWithPaintedArea = new RawImage(auxRed, auxGreen, auxBlue, alphaBytes);
     }
-
 }

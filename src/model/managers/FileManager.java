@@ -1,5 +1,8 @@
-package model;
+package model.managers;
 
+import model.images.CustomImage;
+import model.images.FormattedImage;
+import model.images.RawImage;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -13,9 +16,8 @@ public class FileManager {
             case "raw":
                 return new RawImage(file);
             case "pgm":
-                return null; // TODO
             case "ppm":
-                return null; // TODO
+                return new FormattedImage(file);
             default:
                 throw new RuntimeException("FileManager.openMainImage() called with an unsupported format. Filename: " + file.getName());
         }

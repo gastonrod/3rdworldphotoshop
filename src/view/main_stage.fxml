@@ -25,7 +25,6 @@
         <TabPane HBox.hgrow="ALWAYS">
             <Tab1Controller/>
             <Tab2Controller/>
-            <Tab text="Tav 2" closable="false"/>
         </TabPane>
         <VBox>
             <ImageController HBox.hgrow="ALWAYS"/>
