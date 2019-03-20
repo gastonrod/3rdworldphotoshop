@@ -38,9 +38,4 @@ public class RawImage extends AbstractImage {
            throw new RuntimeException("Error loading RAW image: " + e.getMessage());
         }
     }
-
-    @Override
-    public float[][] getHSVRepresentation() {
-        return new float[0][];
-    }
 }

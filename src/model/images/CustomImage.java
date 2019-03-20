@@ -20,5 +20,5 @@ public interface CustomImage {
     int[] getAverage(@NotNull Point p1, @NotNull Point p2);
     void markArea(@NotNull Point p1, @NotNull Point p2);
 
-    float[][] getHSVRepresentation();
+    WritableImage[] getHSVRepresentations();
 }

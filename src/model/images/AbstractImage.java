@@ -5,7 +5,7 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.Point;
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -120,12 +120,15 @@ public abstract class AbstractImage implements CustomImage {
     }
 
     private byte[] getImageBytes() {
+        return getImageBytes(imageRedBytes, imageGreenBytes, imageBlueBytes, alphaBytes);
+    }
+    private byte[] getImageBytes(byte[][] m1, byte[][] m2, byte[][] m3, byte[][] m4) {
         byte[] imageBytes = new byte[width * height * 4];
         for(int n = 0; n < width * height * 4; n+=4) {
-            imageBytes[n]   = imageBlueBytes[(n/4)/width][(n/4)%width];
-            imageBytes[n+1] = imageGreenBytes[(n/4)/width][(n/4)%width];
-            imageBytes[n+2] = imageRedBytes[(n/4)/width][(n/4)%width];
-            imageBytes[n+3] = alphaBytes[(n/4)/width][(n/4)%width];
+            imageBytes[n]   = m1[(n/4)/width][(n/4)%width];
+            imageBytes[n+1] = m2[(n/4)/width][(n/4)%width];
+            imageBytes[n+2] = m3[(n/4)/width][(n/4)%width];
+            imageBytes[n+3] = m4[(n/4)/width][(n/4)%width];
         }
         return imageBytes;
     }
@@ -183,4 +186,26 @@ public abstract class AbstractImage implements CustomImage {
         }
         imageWithPaintedArea = new RawImage(auxRed, auxGreen, auxBlue, alphaBytes);
     }
+
+    @Override
+    public WritableImage[] getHSVRepresentations() {
+        byte[][] hue = new byte[height][width];
+        byte[][] saturation = new byte[height][width];
+        byte[][] value = new byte[height][width];
+        float[] hsvAux = new float[3];
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                Color.RGBtoHSB(imageRedBytes[i][j], imageGreenBytes[i][j], imageGreenBytes[i][j], hsvAux);
+                hue[i][j] = (byte)(hsvAux[0]*255);
+                saturation[i][j] = (byte)(hsvAux[1]*255);
+                value[i][j] = (byte)(hsvAux[2]*255);
+            }
+        }
+        WritableImage[] images = new WritableImage[3];
+        images[0] = new RawImage(hue, hue, hue, alphaBytes).asWritableImage();
+        images[1] = new RawImage(saturation, saturation, saturation, alphaBytes).asWritableImage();
+        images[2] = new RawImage(value, value, value, alphaBytes).asWritableImage();
+        return images;
+    }
+
 }

@@ -132,6 +132,6 @@ public class ImagesPresenter {
     }
 
     public void showHSV() {
-//        imageController.showHSV(mainImage.getHSVRepresentation());
+        imageController.showHSV(mainImage.getHSVRepresentations());
     }
 }

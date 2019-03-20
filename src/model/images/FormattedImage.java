@@ -35,9 +35,4 @@ public class FormattedImage extends AbstractImage {
         }
 
     }
-
-    @Override
-    public float[][] getHSVRepresentation() {
-        return new float[0][];
-    }
 }

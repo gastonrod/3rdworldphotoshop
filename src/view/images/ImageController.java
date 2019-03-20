@@ -2,16 +2,21 @@ package view.images;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.images.CustomImage;
 import presenter.ImagesPresenter;
 import sample.Main;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ImageController extends VBox {
     @FXML
@@ -19,6 +24,12 @@ public class ImageController extends VBox {
 
     @FXML
     public ImageView secondaryImageView;
+    @FXML
+    public ImageView h;
+    @FXML
+    public ImageView s;
+    @FXML
+    public ImageView v;
     private ImagesPresenter imagesPresenter;
 
     public ImageController() {
@@ -52,6 +63,21 @@ public class ImageController extends VBox {
         secondaryImageView.setImage(writableImage);
     }
 
-    public void showHSV(CustomImage hsvRepresentation) {
+    public void showHSV(WritableImage[] hsvRepresentation) {
+        // There's probably a better way to do this.
+        System.out.println(Arrays.toString(hsvRepresentation));
+        try {
+            HBox hBox = new HBox();
+            hBox.getChildren().addAll(
+                    new ImageView(hsvRepresentation[0]),
+                    new ImageView(hsvRepresentation[1]),
+                    new ImageView(hsvRepresentation[2])
+                    );
+            Stage stage = new Stage();
+            stage.setScene(new Scene(hBox));
+            stage.show();
+        } catch (Exception e) {
+            throw new RuntimeException("Error while trying to load hsv_images.xml", e);
+        }
     }
 }
