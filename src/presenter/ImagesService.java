@@ -2,6 +2,7 @@ package presenter;
 
 import javafx.scene.image.WritableImage;
 import javafx.stage.Window;
+import model.SpatialOperator;
 import model.managers.ClicksManager;
 import model.images.CustomImage;
 import model.CustomImageFactory;
@@ -9,11 +10,12 @@ import model.managers.FileManager;
 import org.jetbrains.annotations.NotNull;
 import view.images.ImageController;
 import view.tabs.tab1.Tab1Controller;
+import view.tabs.tab2.Tab2Controller;
 
 import java.awt.Point;
 import java.io.File;
 
-public class ImagesPresenter {
+public class ImagesService {
 
     private CustomImage mainImage;
     private CustomImage secondaryImage;
@@ -21,6 +23,7 @@ public class ImagesPresenter {
     private ImageController imageController;
     private Tab1Controller tab1Controller;
     private Window scene;
+    private Tab2Controller tab2Controller;
 
     public void openImage(@NotNull File file, boolean isMainImage) {
         if (isMainImage) {
@@ -132,6 +135,28 @@ public class ImagesPresenter {
     }
 
     public void showHSV() {
+        if(mainImage == null){
+            return;
+        }
         imageController.showHSV(mainImage.getHSVRepresentations());
+    }
+
+    public void setTab2Controller(Tab2Controller tab2Controller) {
+        this.tab2Controller = tab2Controller;
+    }
+
+    public void addImages() {
+        mainImage = SpatialOperator.addImages(mainImage,secondaryImage);
+        imageController.setMainImage(getMainImage());
+    }
+
+    public void subtractImages() {
+        mainImage = SpatialOperator.subtractImages(mainImage,secondaryImage);
+        imageController.setMainImage(getMainImage());
+    }
+
+    public void drc() {
+        mainImage = SpatialOperator.dynamicRange(mainImage);
+        imageController.setMainImage(getMainImage());
     }
 }

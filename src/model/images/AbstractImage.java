@@ -3,6 +3,8 @@ package model.images;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import jdk.jshell.execution.Util;
+import model.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -13,10 +15,7 @@ import java.io.IOException;
 public abstract class AbstractImage implements CustomImage {
 
     protected WritableImage writableImage;
-    protected byte[][] imageRedBytes;
-    protected byte[][] imageGreenBytes;
-    protected byte[][] imageBlueBytes;
-    protected byte[][] alphaBytes;
+    protected Color[][] colors;
     protected int width;
     protected int height;
 
@@ -26,15 +25,14 @@ public abstract class AbstractImage implements CustomImage {
 
     // RGB byte array
     void byteArrayToMatrices(byte[] imageBytes){
-        imageRedBytes = new byte[height][width];
-        imageGreenBytes = new byte[height][width];
-        imageBlueBytes = new byte[height][width];
-        alphaBytes = new byte[height][width];
+        colors = new Color[height][width];
         for(int n = 0; n < imageBytes.length; n+= 4) {
-            imageBlueBytes[(n/4)/width][(n/4)%width]=imageBytes[n];
-            imageGreenBytes[(n/4)/width][(n/4)%width]=imageBytes[n+1];
-            imageRedBytes[(n/4)/width][(n/4)%width]=imageBytes[n+2];
-            alphaBytes[(n/4)/width][(n/4)%width]=imageBytes[n+3];
+            colors[(n/4)/width][(n/4)%width] = new Color(
+                    Utils.byteToInt(imageBytes[n]),
+                    Utils.byteToInt(imageBytes[n+1]),
+                    Utils.byteToInt(imageBytes[n+2]),
+                    Utils.byteToInt(imageBytes[n+3])
+                    );
         }
     }
 
@@ -67,11 +65,7 @@ public abstract class AbstractImage implements CustomImage {
 
     @Override
     public void modifyPixel(@NotNull int value, @NotNull Point pos) {
-        byte val = (byte) value;
-        imageRedBytes[pos.y][pos.x] = val;
-        imageGreenBytes[pos.y][pos.x] = val;
-        imageBlueBytes[pos.y][pos.x] = val;
-        alphaBytes[pos.y][pos.x] = (byte)255;
+        colors[pos.y][pos.x] = new Color(value, value, value, 255);
         PixelWriter pixelWriter = this.writableImage.getPixelWriter();
         pixelWriter.setPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), getImageBytes(), 0, width * 4);
     }
@@ -82,29 +76,20 @@ public abstract class AbstractImage implements CustomImage {
         int y = Math.min(x1y1.y, x2y2.y);
         int w = Math.max(x1y1.y, x2y2.y) - y;
         int h = Math.max(x1y1.x, x2y2.x) - x;
-        byte[][] auxRed = new byte[w][h];
-        byte[][] auxGreen= new byte[w][h];
-        byte[][] auxBlue = new byte[w][h];
-        byte[][] auxAlpha = new byte[w][h];
+        Color[][] auxColors = new Color[w][h];
         for(int i = 0; i < w; i++) {
             for(int j = 0; j < h; j++) {
-                auxRed[i][j] = imageRedBytes[y+i][x+j];
-                auxGreen[i][j] = imageGreenBytes[y+i][x+j];
-                auxBlue[i][j] = imageBlueBytes[y+i][x+j];
-                auxAlpha[i][j] = alphaBytes[y+i][x+j];
+                auxColors[i][j] = colors[y+i][x+j];
             }
         }
-        destinationImage.pasteImage(auxRed, auxGreen, auxBlue, auxAlpha, destinationPos);
+        destinationImage.pasteImage(auxColors, destinationPos);
     }
 
     @Override
-    public void pasteImage(byte[][] redBytes, byte[][] greenBytes, byte[][] blueBytes, byte[][] alpha, @NotNull Point pos) {
-        for(int i = 0; i < redBytes.length; i++){
-            for(int j = 0; j < redBytes[0].length; j++){
-                imageRedBytes[i+pos.y][j+pos.x] = redBytes[i][j];
-                imageGreenBytes[i+pos.y][j+pos.x] = greenBytes[i][j];
-                imageBlueBytes[i+pos.y][j+pos.x] = blueBytes[i][j];
-                alphaBytes[i+pos.y][j+pos.x] = alpha[i][j];
+    public void pasteImage(Color[][] newColors, @NotNull Point pos) {
+        for(int i = 0; i < newColors.length; i++){
+            for(int j = 0; j < newColors[0].length; j++){
+                colors[i+pos.y][j+pos.x] = newColors[i][j];
             }
         }
         writableImage.getPixelWriter().setPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), getImageBytes(), 0, width * 4);
@@ -119,16 +104,18 @@ public abstract class AbstractImage implements CustomImage {
         return greyScaleBytes;
     }
 
+    @Deprecated
     private byte[] getImageBytes() {
-        return getImageBytes(imageRedBytes, imageGreenBytes, imageBlueBytes, alphaBytes);
+        return getImageBytes(colors);
     }
-    private byte[] getImageBytes(byte[][] m1, byte[][] m2, byte[][] m3, byte[][] m4) {
+
+    private byte[] getImageBytes(Color[][] m1) {
         byte[] imageBytes = new byte[width * height * 4];
         for(int n = 0; n < width * height * 4; n+=4) {
-            imageBytes[n]   = m1[(n/4)/width][(n/4)%width];
-            imageBytes[n+1] = m2[(n/4)/width][(n/4)%width];
-            imageBytes[n+2] = m3[(n/4)/width][(n/4)%width];
-            imageBytes[n+3] = m4[(n/4)/width][(n/4)%width];
+            imageBytes[n]   = (byte)m1[(n/4)/width][(n/4)%width].getBlue();
+            imageBytes[n+1] = (byte)m1[(n/4)/width][(n/4)%width].getGreen();
+            imageBytes[n+2] = (byte)m1[(n/4)/width][(n/4)%width].getRed();
+            imageBytes[n+3] = (byte)m1[(n/4)/width][(n/4)%width].getAlpha();
         }
         return imageBytes;
     }
@@ -143,14 +130,13 @@ public abstract class AbstractImage implements CustomImage {
         int averageBlue = 0;
         for(int i = y1; i < y2; i++) {
             for(int j = x1; j < x2; j++) {
-                averageRed += imageRedBytes[i][j];
-                averageGreen += imageGreenBytes[i][j];
-                averageBlue += imageBlueBytes[i][j];
+                averageRed   += colors[i][j].getRed();
+                averageGreen += colors[i][j].getGreen();
+                averageBlue  += colors[i][j].getBlue();
             }
         }
         int operations = (x2 - x1) * (y2 - y1);
-        int[] ans = {averageRed / operations, averageGreen / operations, averageBlue / operations };
-        return ans;
+        return new int[]{averageRed / operations, averageGreen / operations, averageBlue / operations };
     }
 
     @Override
@@ -159,32 +145,21 @@ public abstract class AbstractImage implements CustomImage {
         int x2 = Math.max(p1.x, p2.x);
         int y1 = Math.min(p1.y, p2.y);
         int y2 = Math.max(p1.y, p2.y);
-        byte[][] auxRed = new byte[imageRedBytes.length][imageRedBytes[0].length];
-        byte[][] auxGreen = new byte[imageRedBytes.length][imageRedBytes[0].length];
-        byte[][] auxBlue = new byte[imageRedBytes.length][imageRedBytes[0].length];
-        for(int i = 0; i < imageRedBytes.length; i++){
-            auxRed[i] = imageRedBytes[i].clone();
-            auxGreen[i] = imageGreenBytes[i].clone();
-            auxBlue[i] = imageBlueBytes[i].clone();
+        Color[][] auxColors = new Color[colors.length][colors[0].length];
+        for(int i = 0; i < auxColors.length; i++){
+            auxColors = colors.clone();
         }
 
+        Color auxColor = new Color(255, 0, 0, 255);
         for(int i = y1; i < y2; i++){
-            auxRed[i][x1] = (byte)255;
-            auxRed[i][x2] = (byte)255;
-            auxGreen[i][x1] = (byte)0;
-            auxGreen[i][x2] = (byte)0;
-            auxBlue[i][x1] = (byte)0;
-            auxBlue[i][x2] = (byte)0;
+            auxColors[i][x1] = auxColor;
+            auxColors[i][x2] = auxColor;
         }
         for(int j = x1; j < x2; j++){
-            auxRed[y1][j] = (byte)255;
-            auxRed[y2][j] = (byte)255;
-            auxGreen[y1][j] = (byte)0;
-            auxGreen[y2][j] = (byte)0;
-            auxBlue[y1][j] = (byte)0;
-            auxBlue[y2][j] = (byte)0;
+            auxColors[y1][j] = auxColor;
+            auxColors[y2][j] = auxColor;
         }
-        imageWithPaintedArea = new RawImage(auxRed, auxGreen, auxBlue, alphaBytes);
+        imageWithPaintedArea = new RawImage(auxColors);
     }
 
     @Override
@@ -195,17 +170,22 @@ public abstract class AbstractImage implements CustomImage {
         float[] hsvAux = new float[3];
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
-                Color.RGBtoHSB(imageRedBytes[i][j], imageGreenBytes[i][j], imageGreenBytes[i][j], hsvAux);
+                Color.RGBtoHSB(colors[i][j].getRed(), colors[i][j].getGreen(), colors[i][j].getBlue(), hsvAux);
                 hue[i][j] = (byte)(hsvAux[0]*255);
                 saturation[i][j] = (byte)(hsvAux[1]*255);
                 value[i][j] = (byte)(hsvAux[2]*255);
             }
         }
         WritableImage[] images = new WritableImage[3];
-        images[0] = new RawImage(hue, hue, hue, alphaBytes).asWritableImage();
-        images[1] = new RawImage(saturation, saturation, saturation, alphaBytes).asWritableImage();
-        images[2] = new RawImage(value, value, value, alphaBytes).asWritableImage();
+        images[0] = new RawImage(hue, hue, hue).asWritableImage();
+        images[1] = new RawImage(saturation, saturation, saturation).asWritableImage();
+        images[2] = new RawImage(value, value, value).asWritableImage();
         return images;
+    }
+
+    @Override
+    public Color[][] getRGBRepresentation() {
+        return colors;
     }
 
 }

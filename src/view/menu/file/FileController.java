@@ -1,11 +1,11 @@
-package view.menu;
+package view.menu.file;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Menu;
 import javafx.stage.FileChooser;
-import presenter.ImagesPresenter;
+import presenter.ImagesService;
 import sample.Main;
 
 import java.io.File;
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class FileController extends Menu {
 
     private FileChooser fileChooser;
-    private ImagesPresenter imagesPresenter;
+    private ImagesService imagesPresenter;
 
     public FileController() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("file_menu.fxml"));
@@ -26,7 +26,7 @@ public class FileController extends Menu {
             throw new RuntimeException("");
         }
         fileChooser = new FileChooser();
-        imagesPresenter = Main.getImagesPresenter();
+        imagesPresenter = Main.getImagesService();
     }
 
     @FXML

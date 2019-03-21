@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.MenuItem?>
+<fx:root text="Create" id="ImageMenu" type="javafx.scene.control.Menu" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+    <MenuItem text="Circle" onAction="#createCircle"/>
+    <MenuItem text="Square" onAction="#createSquare"/>
+    <MenuItem text="Color gradient" onAction="#createColorGradient"/>
+    <MenuItem text="BW gradient" onAction="#createBlackAndWhiteGradient"/>
+</fx:root>

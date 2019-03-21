@@ -4,13 +4,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
-import presenter.ImagesPresenter;
+import javafx.scene.text.Text;
+import presenter.ImagesService;
 import sample.Main;
 
 import java.io.IOException;
 
 public class Tab2Controller extends Tab {
-    private ImagesPresenter imagesPresenter;
+
+    private ImagesService imagesService;
+
+    @FXML
+    public Text errorsText;
+
     public Tab2Controller() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("tab_2.fxml"));
         loader.setRoot(this);
@@ -20,27 +26,26 @@ public class Tab2Controller extends Tab {
         } catch(IOException e) {
             throw new RuntimeException("");
         }
-        imagesPresenter = Main.getImagesPresenter();
+        imagesService = Main.getImagesService();
+        imagesService.setTab2Controller(this);
     }
 
-
-    @FXML
-    protected void createCircle(ActionEvent actionEvent){
-        imagesPresenter.createCircle();
-    }
-
-    @FXML
-    void createSquare(ActionEvent actionEvent) {
-        imagesPresenter.createSquare();
+    public void setErrorsText(String s) {
+        errorsText.setText(s);
     }
 
     @FXML
-    void createBlackAndWhiteGradient(ActionEvent actionEvent) {
-        imagesPresenter.createBlackAndWhiteGradient();
+    protected void addImages(ActionEvent event) {
+        imagesService.addImages();
     }
 
     @FXML
-    void createColorGradient(ActionEvent actionEvent) {
-        imagesPresenter.createColorGradient();
+    protected void subtractImages(ActionEvent event) {
+        imagesService.subtractImages();
+    }
+
+    @FXML
+    protected void drc(ActionEvent event) {
+        imagesService.drc();
     }
 }

@@ -2,7 +2,6 @@ package view.images;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -10,8 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.images.CustomImage;
-import presenter.ImagesPresenter;
+import presenter.ImagesService;
 import sample.Main;
 
 import java.awt.*;
@@ -30,7 +28,7 @@ public class ImageController extends VBox {
     public ImageView s;
     @FXML
     public ImageView v;
-    private ImagesPresenter imagesPresenter;
+    private ImagesService imagesPresenter;
 
     public ImageController() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("images_area.fxml"));
@@ -41,7 +39,7 @@ public class ImageController extends VBox {
         } catch(IOException e) {
             throw new RuntimeException("");
         }
-        imagesPresenter = Main.getImagesPresenter();
+        imagesPresenter = Main.getImagesService();
         imagesPresenter.setImageController(this);
     }
 

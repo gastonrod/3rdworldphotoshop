@@ -7,14 +7,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import presenter.ImagesPresenter;
+import presenter.ImagesService;
 import sample.Main;
 
 import java.io.IOException;
 
 public class Tab1Controller extends Tab {
 
-    private ImagesPresenter imagesPresenter;
+    private ImagesService imagesPresenter;
 
     @FXML
     public Text mainImagePixelValueText;
@@ -40,7 +40,7 @@ public class Tab1Controller extends Tab {
         } catch(IOException e) {
             throw new RuntimeException("");
         }
-        imagesPresenter = Main.getImagesPresenter();
+        imagesPresenter = Main.getImagesService();
         imagesPresenter.setTab1Controller(this);
     }
 

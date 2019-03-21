@@ -16,17 +16,10 @@ public class FormattedImage extends AbstractImage {
             height = bufferedImage.getHeight();
             width = bufferedImage.getWidth();
 
-            imageRedBytes  = new byte[height][width];
-            imageBlueBytes = new byte[height][width];
-            imageGreenBytes = new byte[height][width];
-            alphaBytes = new byte[height][width];
+            colors = new Color[height][width];
             for(int i = 0; i < height; i++) {
                 for(int j = 0; j < width; j++) {
-                    Color color = new Color(bufferedImage.getRGB(j, i));
-                    imageRedBytes[i][j] = (byte)color.getRed();
-                    imageGreenBytes[i][j] = (byte)color.getGreen();
-                    imageBlueBytes[i][j] = (byte)color.getBlue();
-                    alphaBytes[i][j] = (byte)color.getAlpha();
+                    colors[i][j] = new Color(bufferedImage.getRGB(j, i));
                 }
             }
             createImage();

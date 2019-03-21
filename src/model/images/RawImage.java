@@ -1,19 +1,34 @@
 package model.images;
 
+import model.Utils;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.io.*;
 
 public class RawImage extends AbstractImage {
 
     // Constructor used by the image factory
-    public RawImage(byte[][] reds, byte[][] greens, byte[][] blues, byte[][] alphas){
+    public RawImage(Color[][] colors) {
+        this.colors = colors;
+        width = colors[0].length;
+        height = colors.length;
+        createImage();
+    }
+
+    public RawImage(byte[][] reds, byte[][] greens, byte[][] blues) {
         width = reds[0].length;
         height = reds.length;
-        imageRedBytes = reds;
-        imageGreenBytes = greens;
-        imageBlueBytes = blues;
-        alphaBytes = alphas;
+        colors = new Color[height][width];
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                colors[i][j] = new Color(
+                        Utils.byteToInt(reds[i][j]),
+                        Utils.byteToInt(greens[i][j]),
+                        Utils.byteToInt(blues[i][j])
+                );
+            }
+        }
         createImage();
     }
 
@@ -22,16 +37,14 @@ public class RawImage extends AbstractImage {
         setWidthAndHeight(file.getName());
 
         try (FileInputStream fileInputStream = new FileInputStream(file)){
-            imageRedBytes = new byte[height][width];
-            imageGreenBytes = new byte[height][width];
-            imageBlueBytes = new byte[height][width];
-            alphaBytes = new byte[height][width];
+            colors = new Color[height][width];
             for(int n = 0; n < width * height * 4; n+=4) {
                 byte currentPixel = (byte) fileInputStream.read();
-                imageRedBytes[(n/4)/width][(n/4)%width] = currentPixel;
-                imageGreenBytes[(n/4)/width][(n/4)%width] = currentPixel;
-                imageBlueBytes[(n/4)/width][(n/4)%width] = currentPixel;
-                alphaBytes[(n/4)/width][(n/4)%width] = (byte)255;
+                colors[(n/4)/width][(n/4)%width] = new Color(
+                        Utils.byteToInt(currentPixel),
+                        Utils.byteToInt(currentPixel),
+                        Utils.byteToInt(currentPixel)
+                        );
             }
             createImage();
         } catch (IOException e) {

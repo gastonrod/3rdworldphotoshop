@@ -3,17 +3,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.MenuBar?>
-<?import view.menu.FileController?>
+<?import view.menu.file.FileController?>
 <?import view.images.ImageController?>
 
 <?import javafx.scene.control.TabPane?>
 <?import view.tabs.tab1.Tab1Controller?>
+<?import view.menu.image.CreateController?>
 <?import view.tabs.tab2.Tab2Controller?>
 <VBox spacing="10" fx:controller="view.MainController"
       xmlns:fx="http://javafx.com/fxml">
     <padding><Insets right="5" bottom="25" left="5"/></padding>
     <MenuBar>
         <FileController/>
+        <CreateController/>
     </MenuBar>
     <HBox spacing="10">
         <!--<Content/>-->

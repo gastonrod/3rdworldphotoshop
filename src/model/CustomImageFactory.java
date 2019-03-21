@@ -3,6 +3,8 @@ package model;
 import model.images.CustomImage;
 import model.images.RawImage;
 
+import java.awt.*;
+
 public class CustomImageFactory {
     private static int imageSize = 200; // 200x200 px
 
@@ -25,7 +27,7 @@ public class CustomImageFactory {
                 }
             }
         }
-        return new RawImage(reds,greens, blues, setAlphas());
+        return new RawImage(reds,greens, blues);
     }
 
     public static CustomImage square() {
@@ -47,7 +49,7 @@ public class CustomImageFactory {
                 }
             }
         }
-        return new RawImage(reds,greens, blues, setAlphas());
+        return new RawImage(reds,greens, blues);
     }
 
     public static CustomImage colorGradient() {
@@ -88,7 +90,7 @@ public class CustomImageFactory {
         transition(reds, widthOfTransition, currentColumn, 255 / widthOfTransition);
         currentColumn += widthOfTransition;
 
-        return new RawImage(reds, greens, blues, setAlphas());
+        return new RawImage(reds, greens, blues);
     }
 
     private static void transition(byte[][] matrix, int widthOfTransition, int currentColumn, int transitionAmount) {
@@ -118,16 +120,14 @@ public class CustomImageFactory {
         transition(reds, widthOfTransition, currentColumn, 255 / imageSize);
         transition(blues, widthOfTransition, currentColumn, 255 / imageSize);
         transition(greens, widthOfTransition, currentColumn, 255 / imageSize);
-        return new RawImage(reds, greens, blues, setAlphas());
+        return new RawImage(reds, greens, blues);
     }
 
-    private static byte[][] setAlphas(){
-        byte[][] alphas = new byte[imageSize][imageSize];
-        for(int i = 0; i<alphas.length; i++) {
-            for(int j = 0; j < alphas[0].length; j++){
-                alphas[i][j] = (byte)255;
-            }
-        }
-       return alphas;
+    public static CustomImage newImage(byte[][] reds, byte[][] greens, byte[][] blues) {
+        return newImage(reds, greens, blues);
+    }
+
+    public static CustomImage newImage(Color[][] colors) {
+        return new RawImage(colors);
     }
 }
