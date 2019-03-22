@@ -130,4 +130,26 @@ public class CustomImageFactory {
     public static CustomImage newImage(Color[][] colors) {
         return new RawImage(colors);
     }
+
+    public static CustomImage whiteImage() {
+        return singleColorImage(1, 1, 1);
+    }
+
+    public static CustomImage blackImage() {
+        return singleColorImage(0, 0, 0);
+    }
+
+    public static CustomImage singleColorImage(int r, int g, int b) {
+        if(!((r == 0 || r == 1) && (g == 0 || g == 1) && (b == 0 || b == 1))) {
+            throw new IllegalArgumentException("RGB Values must be either one or zero!");
+        }
+        Color[][] colors = new Color[imageSize][imageSize];
+        for(int i = 0; i < imageSize; i++) {
+            for(int j = 0; j < imageSize; j++) {
+                colors[i][j] = new Color(r * 255, g * 255, b * 255);
+            }
+
+        }
+        return new RawImage(colors);
+    }
 }

@@ -3,14 +3,16 @@ package model.images;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import jdk.jshell.execution.Util;
 import model.Utils;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractImage implements CustomImage {
 
@@ -163,7 +165,7 @@ public abstract class AbstractImage implements CustomImage {
     }
 
     @Override
-    public WritableImage[] getHSVRepresentations() {
+    public List<WritableImage> getHSVRepresentations() {
         byte[][] hue = new byte[height][width];
         byte[][] saturation = new byte[height][width];
         byte[][] value = new byte[height][width];
@@ -176,16 +178,22 @@ public abstract class AbstractImage implements CustomImage {
                 value[i][j] = (byte)(hsvAux[2]*255);
             }
         }
-        WritableImage[] images = new WritableImage[3];
-        images[0] = new RawImage(hue, hue, hue).asWritableImage();
-        images[1] = new RawImage(saturation, saturation, saturation).asWritableImage();
-        images[2] = new RawImage(value, value, value).asWritableImage();
+        List<WritableImage> images = new ArrayList<>(3);
+        images.add(0, new RawImage(hue, hue, hue).asWritableImage());
+        images.add(1, new RawImage(saturation, saturation, saturation).asWritableImage());
+        images.add(2, new RawImage(value, value, value).asWritableImage());
         return images;
     }
 
     @Override
     public Color[][] getRGBRepresentation() {
-        return colors;
+        Color[][] rgb = new Color[height][width];
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++) {
+                rgb[i][j] = new Color(colors[i][j].getRed(),colors[i][j].getGreen(),colors[i][j].getBlue());
+            }
+        }
+        return rgb;
     }
 
 }

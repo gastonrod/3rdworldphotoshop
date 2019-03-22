@@ -12,9 +12,10 @@ import javafx.stage.Stage;
 import presenter.ImagesService;
 import sample.Main;
 
-import java.awt.*;
+import java.awt.Point;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ImageController extends VBox {
     @FXML
@@ -61,16 +62,12 @@ public class ImageController extends VBox {
         secondaryImageView.setImage(writableImage);
     }
 
-    public void showHSV(WritableImage[] hsvRepresentation) {
+    public void showNewImage(List<WritableImage> images) {
         // There's probably a better way to do this.
-        System.out.println(Arrays.toString(hsvRepresentation));
         try {
             HBox hBox = new HBox();
-            hBox.getChildren().addAll(
-                    new ImageView(hsvRepresentation[0]),
-                    new ImageView(hsvRepresentation[1]),
-                    new ImageView(hsvRepresentation[2])
-                    );
+            hBox.getChildren().addAll(images.stream().map(ImageView::new).collect(Collectors.toList()));
+//            hBox.getChildren().addAll(images.stream().map(i -> new ImageView(i)).collect(Collectors.toList()));
             Stage stage = new Stage();
             stage.setScene(new Scene(hBox));
             stage.show();

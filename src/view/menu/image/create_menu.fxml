@@ -6,4 +6,6 @@
     <MenuItem text="Square" onAction="#createSquare"/>
     <MenuItem text="Color gradient" onAction="#createColorGradient"/>
     <MenuItem text="BW gradient" onAction="#createBlackAndWhiteGradient"/>
+    <MenuItem text="Black image" onAction="#createBlack"/>
+    <MenuItem text="White image" onAction="#createWhite"/>
 </fx:root>

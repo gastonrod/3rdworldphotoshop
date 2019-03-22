@@ -1,9 +1,13 @@
 package view.tabs.tab2;
 
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
+import javafx.scene.input.DragEvent;
 import javafx.scene.text.Text;
 import presenter.ImagesService;
 import sample.Main;
@@ -16,6 +20,12 @@ public class Tab2Controller extends Tab {
 
     @FXML
     public Text errorsText;
+
+    @FXML
+    public Slider contrastSlider;
+
+    @FXML
+    public Slider umbralSlider;
 
     public Tab2Controller() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("tab_2.fxml"));
@@ -47,5 +57,21 @@ public class Tab2Controller extends Tab {
     @FXML
     protected void drc(ActionEvent event) {
         imagesService.drc();
+    }
+
+    @FXML
+    protected void negative(ActionEvent event) {
+        imagesService.imageNegative();
+    }
+
+    @FXML
+    protected void contrastDrag(Event event) {
+        imagesService.setContrast((int)contrastSlider.getValue());
+    }
+
+    @FXML
+    protected void umbralDrag(Event event) {
+        System.out.println(umbralSlider.getValue());
+        imagesService.setUmbral((int)umbralSlider.getValue());
     }
 }

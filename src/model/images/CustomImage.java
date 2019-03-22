@@ -3,9 +3,11 @@ package model.images;
 import javafx.scene.image.WritableImage;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public interface CustomImage {
 
@@ -21,7 +23,7 @@ public interface CustomImage {
     int[] getAverage(@NotNull Point p1, @NotNull Point p2);
     void markArea(@NotNull Point p1, @NotNull Point p2);
 
-    WritableImage[] getHSVRepresentations();
+    List<WritableImage> getHSVRepresentations();
 
     Color[][] getRGBRepresentation();
 }

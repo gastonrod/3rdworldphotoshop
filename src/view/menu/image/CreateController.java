@@ -43,4 +43,13 @@ public class CreateController extends Menu {
     void createColorGradient(ActionEvent actionEvent) {
         imagesPresenter.createColorGradient();
     }
+
+    @FXML
+    void createBlack(ActionEvent actionEvent) {
+        imagesPresenter.createBlackImage();
+    }
+    @FXML
+    void createWhite(ActionEvent actionEvent) {
+        imagesPresenter.createWhiteImage();
+    }
 }

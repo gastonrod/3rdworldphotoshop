@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.control.Button?>
 
+<?import javafx.scene.control.Slider?>
 <fx:root text="Operations" closable="false" type="javafx.scene.control.Tab" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
         <VBox>
             <Text VBox.vgrow="ALWAYS" fx:id="errorText"/>
@@ -13,5 +14,13 @@
             <Button text="Add" onAction="#addImages"/>
             <Button text="Subtract" onAction="#subtractImages"/>
             <Button text="Dynamic Range Compression" onAction="#drc"/>
+            <Button text="Negative" onAction="#negative"/>
+            <Text text="Contrast" textAlignment="CENTER"/>
+            <Slider fx:id="contrastSlider" onMouseReleased="#contrastDrag" max="255" min="0" blockIncrement="32" showTickLabels="true"
+                    showTickMarks="true" majorTickUnit="32"/>
+            <Text text="Umbral" textAlignment="CENTER"/>
+            <Slider fx:id="umbralSlider" onMouseReleased="#umbralDrag" max="255" min="0" blockIncrement="32" showTickLabels="true"
+                    snapToTicks="true"
+                    showTickMarks="true" majorTickUnit="32"/>
         </VBox>
 </fx:root>

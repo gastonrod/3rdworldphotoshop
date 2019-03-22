@@ -14,6 +14,7 @@ import view.tabs.tab2.Tab2Controller;
 
 import java.awt.Point;
 import java.io.File;
+import java.util.ArrayList;
 
 public class ImagesService {
 
@@ -138,7 +139,7 @@ public class ImagesService {
         if(mainImage == null){
             return;
         }
-        imageController.showHSV(mainImage.getHSVRepresentations());
+        imageController.showNewImage(mainImage.getHSVRepresentations());
     }
 
     public void setTab2Controller(Tab2Controller tab2Controller) {
@@ -158,5 +159,43 @@ public class ImagesService {
     public void drc() {
         mainImage = SpatialOperator.dynamicRange(mainImage);
         imageController.setMainImage(getMainImage());
+    }
+
+    public void imageNegative() {
+        mainImage = SpatialOperator.negativeImage(mainImage);
+        imageController.setMainImage(getMainImage());
+//        ArrayList<WritableImage> l = new ArrayList<>();
+//        l.add(SpatialOperator.negativeImage(mainImage).asWritableImage());
+//        imageController.showNewImage(l);
+    }
+
+    public void createWhiteImage() {
+        mainImage = CustomImageFactory.whiteImage();
+        imageController.setMainImage(getMainImage());
+//        ArrayList<WritableImage> l = new ArrayList<>();
+//        l.add(CustomImageFactory.whiteImage().asWritableImage());
+//        imageController.showNewImage(l);
+    }
+
+    public void createBlackImage() {
+        mainImage = CustomImageFactory.blackImage();
+        imageController.setMainImage(getMainImage());
+//        ArrayList<WritableImage> l = new ArrayList<>();
+//        l.add(CustomImageFactory.blackImage().asWritableImage());
+//        imageController.showNewImage(l);
+    }
+
+    public void setContrast(int value) {
+        imageController.setMainImage(SpatialOperator.setContrast(mainImage, value).asWritableImage());
+//        ArrayList<WritableImage> l = new ArrayList<>();
+//        l.add(CustomImageFactory.blackImage().asWritableImage());
+//        imageController.showNewImage(l);
+    }
+
+    public void setUmbral(int value) {
+//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
+        ArrayList<WritableImage> l = new ArrayList<>();
+        l.add(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
+        imageController.showNewImage(l);
     }
 }
