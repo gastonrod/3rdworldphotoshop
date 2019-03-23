@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 public interface CustomImage {
 
@@ -23,7 +23,10 @@ public interface CustomImage {
     int[] getAverage(@NotNull Point p1, @NotNull Point p2);
     void markArea(@NotNull Point p1, @NotNull Point p2);
 
-    List<WritableImage> getHSVRepresentations();
+    ArrayList<CustomImage> getHSVRepresentations();
 
     Color[][] getRGBRepresentation();
+
+    // Amount of time a color is repeated
+    int[] getColorsRepetition();
 }

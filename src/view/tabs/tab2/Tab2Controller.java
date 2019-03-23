@@ -1,13 +1,11 @@
 package view.tabs.tab2;
 
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
-import javafx.scene.input.DragEvent;
 import javafx.scene.text.Text;
 import presenter.ImagesService;
 import sample.Main;
@@ -34,10 +32,9 @@ public class Tab2Controller extends Tab {
         try {
             loader.load();
         } catch(IOException e) {
-            throw new RuntimeException("");
+            throw new RuntimeException("Error loading tab_2.fxml", e);
         }
         imagesService = Main.getImagesService();
-        imagesService.setTab2Controller(this);
     }
 
     public void setErrorsText(String s) {
@@ -71,7 +68,11 @@ public class Tab2Controller extends Tab {
 
     @FXML
     protected void umbralDrag(Event event) {
-        System.out.println(umbralSlider.getValue());
         imagesService.setUmbral((int)umbralSlider.getValue());
+    }
+
+    @FXML
+    protected void showHistogram(ActionEvent event) {
+        imagesService.showHistogram();
     }
 }

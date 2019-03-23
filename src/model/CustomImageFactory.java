@@ -8,15 +8,17 @@ import java.awt.*;
 public class CustomImageFactory {
     private static int imageSize = 200; // 200x200 px
 
+    private CustomImageFactory() {}
     public static CustomImage circle(){
-        int centerX = imageSize /2,centerY = imageSize /2;
+        int centerX = imageSize /2;
+        int centerY = imageSize /2;
         int radius = 75;
         byte[][] reds   = new byte[imageSize][imageSize];
         byte[][] greens = new byte[imageSize][imageSize];
         byte[][] blues  = new byte[imageSize][imageSize];
         for(int i = 0; i < imageSize; i++) {
             for(int j = 0; j < imageSize; j++) {
-                if (Math.sqrt(Math.pow(i - centerY, 2) + Math.pow(j - centerX, 2)) >= radius) {
+                if (Math.sqrt(Math.pow((double)i - centerY, 2) + Math.pow((double)j - centerX, 2)) >= radius) {
                     reds[i][j] = (byte)0;
                     greens[i][j] = (byte)0;
                     blues[i][j] = (byte)0;
@@ -31,7 +33,8 @@ public class CustomImageFactory {
     }
 
     public static CustomImage square() {
-        int centerX = imageSize /2,centerY = imageSize /2;
+        int centerX = imageSize /2;
+        int centerY = imageSize /2;
         byte[][] reds   = new byte[imageSize][imageSize];
         byte[][] greens = new byte[imageSize][imageSize];
         byte[][] blues  = new byte[imageSize][imageSize];
@@ -58,7 +61,8 @@ public class CustomImageFactory {
         byte[][] reds   = new byte[imageSize][imageSize];
         byte[][] greens = new byte[imageSize][imageSize];
         byte[][] blues  = new byte[imageSize][imageSize];
-        // TODO: Fixear esto, pensarlo mejor
+        // TO-DO: Fixear esto, pensarlo mejor
+        // (No queda justo de la longitud asi que hay que pintar hasta que te pases y es medio feo)
         int widthOfTransition = imageSize / transitions +7;
         int currentColumn = 0;
         // Set red
@@ -71,7 +75,6 @@ public class CustomImageFactory {
         // First transition: R-> R+B
         transition(reds, widthOfTransition, currentColumn, 0);
         transition(blues, widthOfTransition, currentColumn, 255 / widthOfTransition);
-//        transition(reds, blues, widthOfTransition, currentColumn, true);
         currentColumn+=widthOfTransition;
         // Second transition: R+B -> B
         transition(blues, widthOfTransition, currentColumn, 0);
@@ -88,7 +91,6 @@ public class CustomImageFactory {
         // Fifth transition: G -> G+R
         transition(greens, widthOfTransition, currentColumn, 0);
         transition(reds, widthOfTransition, currentColumn, 255 / widthOfTransition);
-        currentColumn += widthOfTransition;
 
         return new RawImage(reds, greens, blues);
     }

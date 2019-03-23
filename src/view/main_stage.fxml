@@ -10,6 +10,7 @@
 <?import view.tabs.tab1.Tab1Controller?>
 <?import view.menu.image.CreateController?>
 <?import view.tabs.tab2.Tab2Controller?>
+
 <VBox spacing="10" fx:controller="view.MainController"
       xmlns:fx="http://javafx.com/fxml">
     <padding><Insets right="5" bottom="25" left="5"/></padding>
@@ -18,7 +19,6 @@
         <CreateController/>
     </MenuBar>
     <HBox spacing="10">
-        <!--<Content/>-->
         <TabPane HBox.hgrow="ALWAYS">
             <Tab1Controller/>
             <Tab2Controller/>

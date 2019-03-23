@@ -38,7 +38,7 @@ public class Tab1Controller extends Tab {
         try {
             loader.load();
         } catch(IOException e) {
-            throw new RuntimeException("");
+            throw new RuntimeException("Error loading tab_1,fxml", e);
         }
         imagesPresenter = Main.getImagesService();
         imagesPresenter.setTab1Controller(this);

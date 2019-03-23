@@ -15,6 +15,7 @@
             <Button text="Subtract" onAction="#subtractImages"/>
             <Button text="Dynamic Range Compression" onAction="#drc"/>
             <Button text="Negative" onAction="#negative"/>
+            <Button text="Histogram" onAction="#showHistogram"/>
             <Text text="Contrast" textAlignment="CENTER"/>
             <Slider fx:id="contrastSlider" onMouseReleased="#contrastDrag" max="255" min="0" blockIncrement="32" showTickLabels="true"
                     showTickMarks="true" majorTickUnit="32"/>

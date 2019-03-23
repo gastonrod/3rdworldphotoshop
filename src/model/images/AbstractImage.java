@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class AbstractImage implements CustomImage {
 
@@ -57,11 +56,11 @@ public abstract class AbstractImage implements CustomImage {
     }
 
     @Override
-    public void save(@NotNull File file) throws IOException {
+    public void save(@NotNull File file){
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(processBytesForSaving());
         } catch (IOException e) {
-            throw e;
+            throw new RuntimeException("Exception wringing on file: " + file.getName(),e);
         }
     }
 
@@ -106,7 +105,6 @@ public abstract class AbstractImage implements CustomImage {
         return greyScaleBytes;
     }
 
-    @Deprecated
     private byte[] getImageBytes() {
         return getImageBytes(colors);
     }
@@ -165,7 +163,7 @@ public abstract class AbstractImage implements CustomImage {
     }
 
     @Override
-    public List<WritableImage> getHSVRepresentations() {
+    public ArrayList<CustomImage> getHSVRepresentations() {
         byte[][] hue = new byte[height][width];
         byte[][] saturation = new byte[height][width];
         byte[][] value = new byte[height][width];
@@ -178,10 +176,10 @@ public abstract class AbstractImage implements CustomImage {
                 value[i][j] = (byte)(hsvAux[2]*255);
             }
         }
-        List<WritableImage> images = new ArrayList<>(3);
-        images.add(0, new RawImage(hue, hue, hue).asWritableImage());
-        images.add(1, new RawImage(saturation, saturation, saturation).asWritableImage());
-        images.add(2, new RawImage(value, value, value).asWritableImage());
+        ArrayList<CustomImage> images = new ArrayList<>(3);
+        images.add(0, new RawImage(hue, hue, hue));
+        images.add(1, new RawImage(saturation, saturation, saturation));
+        images.add(2, new RawImage(value, value, value));
         return images;
     }
 
@@ -196,4 +194,15 @@ public abstract class AbstractImage implements CustomImage {
         return rgb;
     }
 
+    @Override
+    public int[] getColorsRepetition(){
+        int[] values = new int[Utils.L];
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++) {
+                int col = (colors[i][j].getRed() + colors[i][j].getGreen() +colors[i][j].getBlue()) / 3;
+                values[col]++;
+            }
+        }
+        return values;
+    }
 }

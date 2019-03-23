@@ -32,8 +32,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         int size = (int)(10.0 * 4.5);
-        primaryStage.setWidth(16 * size);
-        primaryStage.setHeight(9 * size);
+        primaryStage.setWidth(16.0 * size);
+        primaryStage.setHeight(9.0 * size);
         Parent root = FXMLLoader.load(getClass().getResource("../view/main_stage.fxml"));
         primaryStage.setTitle("Analisis y tratamiento de imagenes");
         primaryStage.setScene(new Scene(root, 300, 275));

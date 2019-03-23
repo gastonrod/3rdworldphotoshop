@@ -51,4 +51,5 @@ public class RawImage extends AbstractImage {
            throw new RuntimeException("Error loading RAW image: " + e.getMessage());
         }
     }
+
 }

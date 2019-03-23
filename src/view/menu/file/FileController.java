@@ -23,7 +23,7 @@ public class FileController extends Menu {
         try {
             loader.load();
         } catch(IOException e) {
-            throw new RuntimeException("");
+            throw new RuntimeException("Error loading file_menu.fxml", e);
         }
         fileChooser = new FileChooser();
         imagesPresenter = Main.getImagesService();

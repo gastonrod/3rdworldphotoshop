@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public class FileManager {
 
+    private FileManager() {}
+
     public static CustomImage openImage(@NotNull File file) {
         String extension = file.getName().split("\\.")[1];
         switch(extension){

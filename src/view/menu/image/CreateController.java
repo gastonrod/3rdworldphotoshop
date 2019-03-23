@@ -18,7 +18,7 @@ public class CreateController extends Menu {
         try {
             loader.load();
         } catch(IOException e) {
-            throw new RuntimeException("");
+            throw new RuntimeException("Error loading create_menu,fxml", e);
         }
         imagesPresenter = Main.getImagesService();
     }

@@ -13,7 +13,10 @@ public class ClicksManager {
     // Click n
     private static Point mainImageSecondClick;
 
-    public static int currentColor;
+
+    private static int currentColor;
+
+    private ClicksManager() {}
 
     public static void mainImageClicked(Point pos, ImageView imageView) {
         if(mainImageFirstClick == null) {
@@ -42,5 +45,9 @@ public class ClicksManager {
 
     public static Point getSecondaryImageClick() {
         return secondaryImageClick;
+    }
+
+    public static int getCurrentColor() {
+        return currentColor;
     }
 }

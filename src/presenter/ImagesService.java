@@ -15,6 +15,7 @@ import view.tabs.tab2.Tab2Controller;
 import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class ImagesService {
 
@@ -24,7 +25,7 @@ public class ImagesService {
     private ImageController imageController;
     private Tab1Controller tab1Controller;
     private Window scene;
-    private Tab2Controller tab2Controller;
+    private ArrayList<CustomImage> imagesInSecondWindow;
 
     public void openImage(@NotNull File file, boolean isMainImage) {
         if (isMainImage) {
@@ -43,10 +44,10 @@ public class ImagesService {
         String text;
         // Esto esta horrible
         if(secondaryPos == null) {
-            text = "Pixel value byte: " + ClicksManager.currentColor +
+            text = "Pixel value byte: " + ClicksManager.getCurrentColor() +
                     "\nFirst pos clicked: (" + currentPos.x + ", " + currentPos.y + ")";
         } else {
-            text = "Pixel value byte: " + ClicksManager.currentColor +
+            text = "Pixel value byte: " + ClicksManager.getCurrentColor() +
                     "\nFirst pos clicked: (" + secondaryPos.x + ", " + secondaryPos.y + ")" +
                     "\nSecond pos clicked: (" + currentPos.x + ", " + currentPos.y + ")";
         }
@@ -63,6 +64,10 @@ public class ImagesService {
 
     public void saveCurrentImage(@NotNull File file, boolean isMainImage) {
         FileManager.saveImage(file, isMainImage ? mainImage : secondaryImage);
+    }
+
+    public void saveImage(@NotNull File file, int id) {
+        FileManager.saveImage(file, imagesInSecondWindow.get(id));
     }
 
     public WritableImage getMainImage() {
@@ -139,11 +144,9 @@ public class ImagesService {
         if(mainImage == null){
             return;
         }
-        imageController.showNewImage(mainImage.getHSVRepresentations());
-    }
-
-    public void setTab2Controller(Tab2Controller tab2Controller) {
-        this.tab2Controller = tab2Controller;
+        imagesInSecondWindow = mainImage.getHSVRepresentations();
+        ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
+        imageController.showNewImage(writableImages);
     }
 
     public void addImages() {
@@ -197,5 +200,15 @@ public class ImagesService {
         ArrayList<WritableImage> l = new ArrayList<>();
         l.add(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
         imageController.showNewImage(l);
+    }
+
+    // Id is index in images in second window list index
+    public void setImageAsMain(int idx) {
+        mainImage = imagesInSecondWindow.get(idx);
+        imageController.setMainImage(getMainImage());
+    }
+
+    public void showHistogram() {
+        imageController.showHistogram(mainImage.getColorsRepetition());
     }
 }
