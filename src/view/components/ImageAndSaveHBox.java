@@ -6,6 +6,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import presenter.ImagesService;
 import sample.Main;
 
@@ -25,7 +26,11 @@ public class ImageAndSaveHBox extends VBox {
             });
 
         Button dockButton = new Button("Open");
-        dockButton.setOnAction(e->  imagesService.setImageAsMain(id));
+        dockButton.setOnAction(e-> {
+            imagesService.setImageInSecondWindowAsMain(id);
+            Stage stage = (Stage)(dockButton.getScene().getWindow());
+            stage.close();
+        });
         ImageView img = new ImageView(image);
         HBox buttonsContainer = new HBox();
         buttonsContainer.getChildren().addAll(saveButton, dockButton);

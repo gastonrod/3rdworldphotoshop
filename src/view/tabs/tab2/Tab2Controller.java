@@ -32,7 +32,7 @@ public class Tab2Controller extends Tab {
         try {
             loader.load();
         } catch(IOException e) {
-            throw new RuntimeException("Error loading tab_2.fxml", e);
+            throw new RuntimeException("Error loading tab_3.fxml", e);
         }
         imagesService = Main.getImagesService();
     }
@@ -74,5 +74,10 @@ public class Tab2Controller extends Tab {
     @FXML
     protected void showHistogram(ActionEvent event) {
         imagesService.showHistogram();
+    }
+
+    @FXML
+    protected void equalizeHistogram(ActionEvent event) {
+        imagesService.equalizeHistogram();
     }
 }

@@ -205,4 +205,7 @@ public abstract class AbstractImage implements CustomImage {
         }
         return values;
     }
+
+    @Override
+    public int getAmountOfPixels() { return width * height; }
 }

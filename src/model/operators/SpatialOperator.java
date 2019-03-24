@@ -1,5 +1,6 @@
-package model;
+package model.operators;
 
+import model.CustomImageFactory;
 import model.images.CustomImage;
 import model.transformers.*;
 
@@ -46,24 +47,29 @@ public class SpatialOperator {
         return CustomImageFactory.newImage(rgbAux);
     }
 
-    public static CustomImage dynamicRange(CustomImage im) {
-        DynamicRangeCompressionTransformer transformer = new DynamicRangeCompressionTransformer(im.getRGBRepresentation());
-        return transform(im, transformer);
+    public static CustomImage dynamicRange(CustomImage image) {
+        DynamicRangeCompressionTransformer transformer = new DynamicRangeCompressionTransformer(image.getRGBRepresentation());
+        return transform(image, transformer);
     }
 
-    public static CustomImage negativeImage(CustomImage im) {
+    public static CustomImage negativeImage(CustomImage image) {
         NegativeTransformer transformer = new NegativeTransformer();
-        return transform(im, transformer);
+        return transform(image, transformer);
     }
 
-    public static CustomImage setContrast(CustomImage mainImage, int value) {
+    public static CustomImage setContrast(CustomImage image, int value) {
         Contrast transformer = new Contrast(value);
-        return transform(mainImage, transformer);
+        return transform(image, transformer);
     }
 
-    public static CustomImage setUmbral(CustomImage mainImage, int value) {
+    public static CustomImage setUmbral(CustomImage image, int value) {
         Umbral transformer = new Umbral(value);
-        return transform(mainImage,transformer);
+        return transform(image,transformer);
+    }
+
+    public static CustomImage equalizeHistogram(CustomImage image) {
+        HistogramEqualizationTransformation transformer = new HistogramEqualizationTransformation(image.getColorsRepetition(), image.getAmountOfPixels());
+        return transform(image, transformer);
     }
 
     private static CustomImage transform(CustomImage image, ColorTransformation transformer) {

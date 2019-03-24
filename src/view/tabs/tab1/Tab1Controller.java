@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import presenter.ImagesService;
 import sample.Main;
+import view.Utils;
 
 import java.io.IOException;
 
@@ -46,15 +47,10 @@ public class Tab1Controller extends Tab {
 
     @FXML
     protected void modifyPixel(ActionEvent event) {
-        if(pixelModifyTextField.getText().equals("")) {
+        int value = Utils.sanitizeNumberInput(pixelModifyTextField.getText(), Utils.L);
+        if(value == -1) {
             return;
         }
-        int value = Integer.parseInt(pixelModifyTextField.getText());
-        if(value > 255 || value < 0){
-            pixelModifyButton.setText("Invalid No");
-            return;
-        }
-        pixelModifyButton.setText("Modify pixel");
         imagesPresenter.modifyPixel(value);
     }
 

@@ -2,15 +2,18 @@ package presenter;
 
 import javafx.scene.image.WritableImage;
 import javafx.stage.Window;
-import model.SpatialOperator;
+import model.operators.FilterOperator;
+import model.operators.NoiseOperator;
+import model.operators.SpatialOperator;
 import model.managers.ClicksManager;
 import model.images.CustomImage;
 import model.CustomImageFactory;
 import model.managers.FileManager;
 import org.jetbrains.annotations.NotNull;
+import view.error.ErrorCodes;
+import view.error.ErrorsWindowController;
 import view.images.ImageController;
 import view.tabs.tab1.Tab1Controller;
-import view.tabs.tab2.Tab2Controller;
 
 import java.awt.Point;
 import java.io.File;
@@ -110,6 +113,165 @@ public class ImagesService {
         mainImage.copySection(secondaryImage, ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick(), ClicksManager.getSecondaryImageClick());
     }
 
+    public void getAverageAndPaint() {
+        if(mainImage == null || ClicksManager.getMainImageSecondClick() == null) {
+            return;
+        }
+        mainImage.markArea(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
+        imageController.setMainImage(mainImage.asWritableImage());
+        int[] averages = mainImage.getAverage(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
+        tab1Controller.setAveragesInfoText("Averages:\nR: " + averages[0] + ", G: " + averages[1] + ", B: " + averages[2]);
+    }
+
+    public void showHSV() {
+        if(mainImage == null){
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        imagesInSecondWindow = mainImage.getHSVRepresentations();
+        ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
+        imageController.showNewImage(writableImages);
+    }
+
+    public void addImages() {
+        if(mainImage == null || secondaryImage == null) {
+            return;
+        }
+        mainImage = SpatialOperator.addImages(mainImage,secondaryImage);
+        imageController.setMainImage(getMainImage());
+    }
+
+    public void subtractImages() {
+        if(mainImage == null || secondaryImage == null) {
+            return;
+        }
+        mainImage = SpatialOperator.subtractImages(mainImage,secondaryImage);
+        imageController.setMainImage(getMainImage());
+    }
+
+    public void drc() {
+        if(mainImage == null) {
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        mainImage = SpatialOperator.dynamicRange(mainImage);
+        imageController.setMainImage(getMainImage());
+    }
+
+    public void imageNegative() {
+        if(mainImage == null) {
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        mainImage = SpatialOperator.negativeImage(mainImage);
+        imageController.setMainImage(getMainImage());
+//        ArrayList<WritableImage> l = new ArrayList<>();
+//        l.add(SpatialOperator.negativeImage(mainImage).asWritableImage());
+//        imageController.showNewImage(l);
+    }
+
+    public void setContrast(int value) {
+        if(mainImage == null) {
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        imageController.setMainImage(SpatialOperator.setContrast(mainImage, value).asWritableImage());
+//        ArrayList<WritableImage> l = new ArrayList<>();
+//        l.add(CustomImageFactory.blackImage().asWritableImage());
+//        imageController.showNewImage(l);
+    }
+
+    public void setUmbral(int value) {
+        if(mainImage == null) {
+            return;
+        }
+//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
+        ArrayList<WritableImage> l = new ArrayList<>();
+        l.add(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
+        imageController.showNewImage(l);
+    }
+
+    public void gaussianNoise(int mean, int std, double percent) {
+        if(mainImage == null) {
+            return;
+        }
+//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
+        imagesInSecondWindow = new ArrayList<>();
+        imagesInSecondWindow.add(NoiseOperator.addGaussianNoise(mainImage, mean, std, percent));
+        ArrayList<WritableImage> l = new ArrayList<>();
+        l.add(imagesInSecondWindow.get(0).asWritableImage());
+        imageController.showNewImage(l);
+    }
+
+    public void averageFilter(int maskSize) {
+        if(mainImage == null) {
+            return;
+        }
+//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
+        imagesInSecondWindow = new ArrayList<>();
+        imagesInSecondWindow.add(FilterOperator.averageFilter(mainImage, maskSize));
+        ArrayList<WritableImage> l = new ArrayList<>();
+        l.add(imagesInSecondWindow.get(0).asWritableImage());
+        imageController.showNewImage(l);
+    }
+    public void medianFilter(int maskSize) {
+        if(mainImage == null) {
+            return;
+        }
+//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
+        imagesInSecondWindow = new ArrayList<>();
+        imagesInSecondWindow.add(FilterOperator.medianFilter(mainImage, maskSize));
+        ArrayList<WritableImage> l = new ArrayList<>();
+        l.add(imagesInSecondWindow.get(0).asWritableImage());
+        imageController.showNewImage(l);
+    }
+
+    public void weightedMedianFilter(int maskSize, int weight) {
+        if(mainImage == null) {
+            return;
+        }
+//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
+        imagesInSecondWindow = new ArrayList<>();
+        imagesInSecondWindow.add(FilterOperator.weightedMedianFilter(mainImage, maskSize, weight));
+        ArrayList<WritableImage> l = new ArrayList<>();
+        l.add(imagesInSecondWindow.get(0).asWritableImage());
+        imageController.showNewImage(l);
+    }
+
+    public void equalizeHistogram() {
+        if(mainImage == null) {
+            return;
+        }
+        mainImage = SpatialOperator.equalizeHistogram(mainImage);
+        imageController.setMainImage(getMainImage());
+    }
+
+    // Id is index in images in second window list index
+    public void setImageInSecondWindowAsMain(int idx) {
+        mainImage = imagesInSecondWindow.get(idx);
+        imageController.setMainImage(getMainImage());
+    }
+
+    public void showHistogram() {
+        imageController.showHistogram(mainImage.getColorsRepetition());
+    }
+
+    public void createWhiteImage() {
+        mainImage = CustomImageFactory.whiteImage();
+        imageController.setMainImage(getMainImage());
+//        ArrayList<WritableImage> l = new ArrayList<>();
+//        l.add(CustomImageFactory.whiteImage().asWritableImage());
+//        imageController.showNewImage(l);
+    }
+
+    public void createBlackImage() {
+        mainImage = CustomImageFactory.blackImage();
+        imageController.setMainImage(getMainImage());
+//        ArrayList<WritableImage> l = new ArrayList<>();
+//        l.add(CustomImageFactory.blackImage().asWritableImage());
+//        imageController.showNewImage(l);
+    }
+
     public void createCircle() {
         mainImage = CustomImageFactory.circle();
         imageController.setMainImage(mainImage.asWritableImage());
@@ -130,85 +292,4 @@ public class ImagesService {
         imageController.setMainImage(mainImage.asWritableImage());
     }
 
-    public void getAverageAndPaint() {
-        if(mainImage == null || ClicksManager.getMainImageSecondClick() == null) {
-            return;
-        }
-        mainImage.markArea(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
-        imageController.setMainImage(mainImage.asWritableImage());
-        int[] averages = mainImage.getAverage(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
-        tab1Controller.setAveragesInfoText("Averages:\nR: " + averages[0] + ", G: " + averages[1] + ", B: " + averages[2]);
-    }
-
-    public void showHSV() {
-        if(mainImage == null){
-            return;
-        }
-        imagesInSecondWindow = mainImage.getHSVRepresentations();
-        ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
-        imageController.showNewImage(writableImages);
-    }
-
-    public void addImages() {
-        mainImage = SpatialOperator.addImages(mainImage,secondaryImage);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void subtractImages() {
-        mainImage = SpatialOperator.subtractImages(mainImage,secondaryImage);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void drc() {
-        mainImage = SpatialOperator.dynamicRange(mainImage);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void imageNegative() {
-        mainImage = SpatialOperator.negativeImage(mainImage);
-        imageController.setMainImage(getMainImage());
-//        ArrayList<WritableImage> l = new ArrayList<>();
-//        l.add(SpatialOperator.negativeImage(mainImage).asWritableImage());
-//        imageController.showNewImage(l);
-    }
-
-    public void createWhiteImage() {
-        mainImage = CustomImageFactory.whiteImage();
-        imageController.setMainImage(getMainImage());
-//        ArrayList<WritableImage> l = new ArrayList<>();
-//        l.add(CustomImageFactory.whiteImage().asWritableImage());
-//        imageController.showNewImage(l);
-    }
-
-    public void createBlackImage() {
-        mainImage = CustomImageFactory.blackImage();
-        imageController.setMainImage(getMainImage());
-//        ArrayList<WritableImage> l = new ArrayList<>();
-//        l.add(CustomImageFactory.blackImage().asWritableImage());
-//        imageController.showNewImage(l);
-    }
-
-    public void setContrast(int value) {
-        imageController.setMainImage(SpatialOperator.setContrast(mainImage, value).asWritableImage());
-//        ArrayList<WritableImage> l = new ArrayList<>();
-//        l.add(CustomImageFactory.blackImage().asWritableImage());
-//        imageController.showNewImage(l);
-    }
-
-    public void setUmbral(int value) {
-//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
-        ArrayList<WritableImage> l = new ArrayList<>();
-        l.add(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
-        imageController.showNewImage(l);
-    }
-
-    // Id is index in images in second window list index
-    public void setImageAsMain(int idx) {
-        mainImage = imagesInSecondWindow.get(idx);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void showHistogram() {
-        imageController.showHistogram(mainImage.getColorsRepetition());
-    }
 }

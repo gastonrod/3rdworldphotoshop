@@ -17,6 +17,7 @@ import view.components.ImageHistogram;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ImageController extends VBox {
     @FXML

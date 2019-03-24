@@ -29,4 +29,6 @@ public interface CustomImage {
 
     // Amount of time a color is repeated
     int[] getColorsRepetition();
+
+    int getAmountOfPixels();
 }
