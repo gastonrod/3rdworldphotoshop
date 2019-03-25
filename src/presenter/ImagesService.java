@@ -165,9 +165,6 @@ public class ImagesService {
         }
         mainImage = SpatialOperator.negativeImage(mainImage);
         imageController.setMainImage(getMainImage());
-//        ArrayList<WritableImage> l = new ArrayList<>();
-//        l.add(SpatialOperator.negativeImage(mainImage).asWritableImage());
-//        imageController.showNewImage(l);
     }
 
     public void setContrast(int value) {
@@ -175,67 +172,78 @@ public class ImagesService {
             ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
             return;
         }
-        imageController.setMainImage(SpatialOperator.setContrast(mainImage, value).asWritableImage());
-//        ArrayList<WritableImage> l = new ArrayList<>();
-//        l.add(CustomImageFactory.blackImage().asWritableImage());
-//        imageController.showNewImage(l);
+        mainImage = SpatialOperator.setContrast(mainImage, value);
+        imageController.setMainImage(getMainImage());
     }
 
     public void setUmbral(int value) {
         if(mainImage == null) {
             return;
         }
+        mainImage = SpatialOperator.setUmbral(mainImage, value);
+        imageController.setMainImage(getMainImage());
+    }
+
+    public void saltAndPepper(double percent) {
+        if(mainImage == null) {
+            return;
+        }
+        mainImage = NoiseOperator.saltAndPepperNoise(mainImage, percent);
+        imageController.setMainImage(getMainImage());
+    }
+
+    public void rayleighNoise(double mean, double percent) {
+        if(mainImage == null) {
+            return;
+        }
+        mainImage = NoiseOperator.rayleighNoise(mainImage, mean, percent);
+        imageController.setMainImage(getMainImage());
 //        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
-        ArrayList<WritableImage> l = new ArrayList<>();
-        l.add(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
-        imageController.showNewImage(l);
+//        imagesInSecondWindow = new ArrayList<>();
+//        imagesInSecondWindow.add(NoiseOperator.rayleighNoise(mainImage, mean, percent);
+//        ArrayList<WritableImage> l = new ArrayList<>();
+//        l.add(imagesInSecondWindow.get(0).asWritableImage());
+//        imageController.showNewImage(l);
+    }
+
+    public void exponentialNoise(double lambda, double percent) {
+        if(mainImage == null) {
+            return;
+        }
+        mainImage = NoiseOperator.exponentialNoise(mainImage, lambda, percent);
+        imageController.setMainImage(getMainImage());
     }
 
     public void gaussianNoise(int mean, int std, double percent) {
         if(mainImage == null) {
             return;
         }
-//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
-        imagesInSecondWindow = new ArrayList<>();
-        imagesInSecondWindow.add(NoiseOperator.addGaussianNoise(mainImage, mean, std, percent));
-        ArrayList<WritableImage> l = new ArrayList<>();
-        l.add(imagesInSecondWindow.get(0).asWritableImage());
-        imageController.showNewImage(l);
+        mainImage = NoiseOperator.addGaussianNoise(mainImage, mean, std, percent);
+        imageController.setMainImage(getMainImage());
     }
 
     public void averageFilter(int maskSize) {
         if(mainImage == null) {
             return;
         }
-//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
-        imagesInSecondWindow = new ArrayList<>();
-        imagesInSecondWindow.add(FilterOperator.averageFilter(mainImage, maskSize));
-        ArrayList<WritableImage> l = new ArrayList<>();
-        l.add(imagesInSecondWindow.get(0).asWritableImage());
-        imageController.showNewImage(l);
+        mainImage = FilterOperator.averageFilter(mainImage, maskSize);
+        imageController.setMainImage(getMainImage());
     }
+
     public void medianFilter(int maskSize) {
         if(mainImage == null) {
             return;
         }
-//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
-        imagesInSecondWindow = new ArrayList<>();
-        imagesInSecondWindow.add(FilterOperator.medianFilter(mainImage, maskSize));
-        ArrayList<WritableImage> l = new ArrayList<>();
-        l.add(imagesInSecondWindow.get(0).asWritableImage());
-        imageController.showNewImage(l);
+        mainImage = FilterOperator.medianFilter(mainImage, maskSize);
+        imageController.setMainImage(getMainImage());
     }
 
     public void weightedMedianFilter(int maskSize, int weight) {
         if(mainImage == null) {
             return;
         }
-//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
-        imagesInSecondWindow = new ArrayList<>();
-        imagesInSecondWindow.add(FilterOperator.weightedMedianFilter(mainImage, maskSize, weight));
-        ArrayList<WritableImage> l = new ArrayList<>();
-        l.add(imagesInSecondWindow.get(0).asWritableImage());
-        imageController.showNewImage(l);
+        mainImage = FilterOperator.weightedMedianFilter(mainImage, maskSize, weight);
+        imageController.setMainImage(getMainImage());
     }
 
     public void equalizeHistogram() {
@@ -259,37 +267,31 @@ public class ImagesService {
     public void createWhiteImage() {
         mainImage = CustomImageFactory.whiteImage();
         imageController.setMainImage(getMainImage());
-//        ArrayList<WritableImage> l = new ArrayList<>();
-//        l.add(CustomImageFactory.whiteImage().asWritableImage());
-//        imageController.showNewImage(l);
     }
 
     public void createBlackImage() {
         mainImage = CustomImageFactory.blackImage();
         imageController.setMainImage(getMainImage());
-//        ArrayList<WritableImage> l = new ArrayList<>();
-//        l.add(CustomImageFactory.blackImage().asWritableImage());
-//        imageController.showNewImage(l);
     }
 
     public void createCircle() {
         mainImage = CustomImageFactory.circle();
-        imageController.setMainImage(mainImage.asWritableImage());
+        imageController.setMainImage(getMainImage());
     }
 
     public void createColorGradient() {
         mainImage = CustomImageFactory.colorGradient();
-        imageController.setMainImage(mainImage.asWritableImage());
+        imageController.setMainImage(getMainImage());
     }
 
     public void createBlackAndWhiteGradient() {
         mainImage = CustomImageFactory.blackAndWhiteGradient();
-        imageController.setMainImage(mainImage.asWritableImage());
+        imageController.setMainImage(getMainImage());
     }
 
     public void createSquare() {
         mainImage = CustomImageFactory.square();
-        imageController.setMainImage(mainImage.asWritableImage());
+        imageController.setMainImage(getMainImage());
     }
 
 }

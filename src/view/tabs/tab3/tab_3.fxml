@@ -5,54 +5,104 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <fx:root text="Noise/Filter" closable="false" type="javafx.scene.control.Tab" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
-        <VBox>
-            <Text VBox.vgrow="ALWAYS" fx:id="errorText"/>
-            <Region VBox.vgrow="ALWAYS"/>
+    <VBox>
+        <Text VBox.vgrow="ALWAYS" fx:id="errorText"/>
+        <Region VBox.vgrow="ALWAYS"/>
+        <Accordion>
+            <panes>
             <!--Filters-->
-            <!--Median-->
-            <HBox spacing="10" alignment="bottom_left">
-                <VBox>
-                    <Text text="Mask size"/>
-                    <TextField fx:id="medianTextField" promptText="Number"/>
-                </VBox>
-                <Button text="Median filter" onAction="#medianFilter"/>
-            </HBox>
-            <!--Weighted median-->
-            <HBox spacing="10" alignment="bottom_left">
-                <VBox>
-                    <Text text="Mask size"/>
-                    <TextField fx:id="weightedMedianTextField" promptText="Number"/>
-                </VBox>
-                <VBox>
-                    <Text text="Weight"/>
-                    <TextField fx:id="weightedMedianWeightTextField" promptText="Number"/>
-                </VBox>
-                <Button text="W. Median filter" onAction="#weightedMedianFilter"/>
-            </HBox>
-            <!--Average-->
-            <HBox spacing="10" alignment="bottom_left">
-                <VBox>
-                    <Text text="Mask size"/>
-                    <TextField fx:id="averageTextField" promptText="Number"/>
-                </VBox>
-                <Button text="Average filter" onAction="#medianFilter"/>
-            </HBox>
-            <!--Noise-->
+                <!--Median-->
+                <TitledPane text="Median filter">
+                   <HBox spacing="10" alignment="bottom_left">
+                       <VBox>
+                           <Text text="Mask size"/>
+                           <TextField fx:id="medianTextField" promptText="Number"/>
+                       </VBox>
+                       <Button text="Apply" onAction="#medianFilter"/>
+                   </HBox>
+                </TitledPane>
+                <!--Weighted median-->
+                <TitledPane text="Weighted median">
+                   <HBox spacing="10" alignment="bottom_left">
+                        <VBox>
+                            <Text text="Mask size"/>
+                            <TextField fx:id="weightedMedianTextField" promptText="Number"/>
+                        </VBox>
+                        <VBox>
+                            <Text text="Weight"/>
+                            <TextField fx:id="weightedMedianWeightTextField" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#weightedMedianFilter"/>
+                   </HBox>
+                </TitledPane>
+                <!--Average-->
+                <TitledPane text="Average filter">
+                   <HBox spacing="10" alignment="bottom_left">
+                        <VBox>
+                            <Text text="Mask size"/>
+                            <TextField fx:id="averageTextField" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#medianFilter"/>
+                   </HBox>
+                </TitledPane>
+                <!--Noise-->
             <!--Gaussian-->
-            <HBox>
-                <VBox>
-                    <Text text="Mean"/>
-                    <TextField fx:id="gaussianNoiseMeanTF" promptText="Number"/>
-                </VBox>
-                <VBox>
-                    <Text text="Std"/>
-                    <TextField fx:id="gaussianNoiseStdTF" promptText="Number"/>
-                </VBox>
-                <VBox>
-                    <Text text="\% of img"/>
-                    <TextField fx:id="gaussianNoisePercentTF" promptText="Number"/>
-                </VBox>
-                <Button text="Gaussian Noise" onAction="#gaussianNoise"/>
-            </HBox>
-        </VBox>
+                <TitledPane text="Gaussian Noise">
+                    <HBox>
+                        <VBox>
+                            <Text text="Mean"/>
+                            <TextField fx:id="gaussianNoiseMeanTF" promptText="Number"/>
+                        </VBox>
+                        <VBox>
+                            <Text text="Std"/>
+                            <TextField fx:id="gaussianNoiseStdTF" promptText="Number"/>
+                        </VBox>
+                        <VBox>
+                            <Text text="\% of img"/>
+                            <TextField fx:id="gaussianNoisePercentTF" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#gaussianNoise"/>
+                    </HBox>
+                </TitledPane>
+                <!--Rayleigh-->
+                <TitledPane text="Rayleigh Noise">
+                    <HBox>
+                        <VBox>
+                            <Text text="Mean"/>
+                            <TextField fx:id="rayleighNoiseMean" promptText="Number"/>
+                        </VBox>
+                        <VBox>
+                            <Text text="\% of img"/>
+                            <TextField fx:id="rayleighNoisePercentTF" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#rayleighNoise"/>
+                    </HBox>
+                </TitledPane>
+                <!--Lambda noise-->
+                <TitledPane text="Lambda noise">
+                    <HBox>
+                        <VBox>
+                            <Text text="Lambda"/>
+                            <TextField fx:id="exponentialNoiseLambda" promptText="Number"/>
+                        </VBox>
+                        <VBox>
+                            <Text text="\% of img"/>
+                            <TextField fx:id="exponentialNoisePercentTF" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#exponentialNoise"/>
+                    </HBox>
+                </TitledPane>
+                <!--Salt and pepper noise-->
+                <TitledPane text="Salt and Pepper">
+                    <HBox>
+                        <VBox>
+                            <Text text="\% of img"/>
+                            <TextField fx:id="saltAndPepperNoisePercentTF" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#saltAndPepperNoise"/>
+                    </HBox>
+                </TitledPane>
+            </panes>
+        </Accordion>
+    </VBox>
 </fx:root>

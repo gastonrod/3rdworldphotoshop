@@ -14,9 +14,16 @@ import java.io.IOException;
 public class Tab3Controller extends Tab {
 
     private int maxMaskSize = 32;
-    private int gaussianDefaultMean    = 80;
-    private int gaussianDefaultStd     = 0;
-    private double gaussianDefaultPercent = 0.3;
+
+    private int gaussianDefaultMean = 0;
+    private int gaussianDefaultStd  = 80;
+
+    private double rayleighDefaultMean = 0.5;
+
+    private double exponentialDefaultLambda = 0.5;
+
+    private double noiseDefaultPercent = 0.3;
+
     private ImagesService imagesService;
 
     @FXML
@@ -25,6 +32,20 @@ public class Tab3Controller extends Tab {
     public TextField gaussianNoiseStdTF;
     @FXML
     public TextField gaussianNoisePercentTF;
+
+    @FXML
+    public TextField saltAndPepperNoisePercentTF;
+
+    @FXML
+    public TextField rayleighNoiseMean;
+    @FXML
+    public TextField rayleighNoisePercentTF;
+
+    @FXML
+    public TextField exponentialNoiseLambda;
+    @FXML
+    public TextField exponentialNoisePercentTF;
+
     @FXML
     public TextField averageTextField;
 
@@ -81,10 +102,39 @@ public class Tab3Controller extends Tab {
     protected void gaussianNoise(ActionEvent event) {
         int mean    = Utils.sanitizeNumberInput(gaussianNoiseMeanTF.getText(), Utils.L -1, gaussianDefaultMean);
         int std     = Utils.sanitizeNumberInput(gaussianNoiseStdTF.getText(), Utils.L - 1, gaussianDefaultStd);
-        double percent = Utils.sanitizeNumberInput(gaussianNoisePercentTF.getText(), 1.0,  gaussianDefaultPercent);
+        double percent = Utils.sanitizeNumberInput(gaussianNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
         if(mean == -1 || std == -1 || percent == -1) {
            return;
         }
         imagesService.gaussianNoise(mean, std, percent);
+    }
+
+    @FXML
+    protected void exponentialNoise(ActionEvent event) {
+        double lambda = Utils.sanitizeNumberInput(exponentialNoiseLambda.getText(), Utils.L -1, exponentialDefaultLambda);
+        double percent = Utils.sanitizeNumberInput(exponentialNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
+        if(lambda == -1 || percent == -1) {
+            return;
+        }
+        imagesService.exponentialNoise(lambda, percent);
+    }
+
+    @FXML
+    protected void rayleighNoise(ActionEvent event) {
+        double mean = Utils.sanitizeNumberInput(rayleighNoiseMean.getText(), Utils.L -1, rayleighDefaultMean);
+        double percent = Utils.sanitizeNumberInput(rayleighNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
+        if(mean == -1 || percent == -1) {
+            return;
+        }
+        imagesService.rayleighNoise(mean, percent);
+    }
+
+    @FXML
+    protected void saltAndPepperNoise(ActionEvent event) {
+        double percent = Utils.sanitizeNumberInput(saltAndPepperNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
+        if(percent == -1) {
+            return;
+        }
+        imagesService.saltAndPepper(percent);
     }
 }

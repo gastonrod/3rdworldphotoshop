@@ -1,30 +1,30 @@
 package model.probabilitydistributions;
 
+
+import net.sf.doodleproject.numerics4j.random.NormalRandomVariable;
+import net.sf.doodleproject.numerics4j.random.RNG;
+import net.sf.doodleproject.numerics4j.random.RandomRNG;
+
 import java.util.Random;
 
 public class GaussianDistribution implements ProbabilityDistribution {
 
     private double mean;
     private double std;
-    private double amountOfImage;
-    private Random rand = new Random();
+    private static RNG rng = new RandomRNG(System.currentTimeMillis());
 
     public GaussianDistribution() {
-    mean = 0;
-    std = 80;
-    amountOfImage = 0.2;
+        mean = 0;
+        std = 80;
     }
-    public GaussianDistribution(double mean, double std, double amountOfImage) {
+
+    public GaussianDistribution(double mean, double std) {
         this.mean = mean;
         this.std = std;
-        this.amountOfImage = amountOfImage;
     }
 
     @Override
     public double nextValue() {
-        if(rand.nextDouble() <= amountOfImage) {
-            return mean + rand.nextGaussian() * std;
-        }
-        return 0;
+        return NormalRandomVariable.nextRandomVariable(mean, std, rng);
     }
 }
