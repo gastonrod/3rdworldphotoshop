@@ -1,9 +1,10 @@
-package model;
+package model.utils;
 
 import java.awt.*;
 
 public class Utils {
     public static final int L = 256;
+    public static final int PREWITT_MASK_SIZE = 3;
 
     private Utils() {}
     public static int byteToInt(byte val){

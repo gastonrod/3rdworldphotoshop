@@ -1,7 +1,7 @@
 package model.operators;
 
 import model.CustomImageFactory;
-import model.Utils;
+import model.utils.Utils;
 import model.images.CustomImage;
 import model.probabilitydistributions.*;
 

@@ -11,6 +11,34 @@
         <Accordion>
             <panes>
             <!--Filters-->
+                <!--Border highlight-->
+                <TitledPane text="Border highlight">
+                    <HBox>
+                        <VBox>
+                            <Text text="Mask size"/>
+                            <TextField fx:id="borderHighlightMaskSize" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#borderHighlight"/>
+                    </HBox>
+                </TitledPane>
+                <!--Gaussian-->
+                <TitledPane text="Gaussian Filter">
+                    <HBox>
+                        <VBox>
+                            <Text text="S.D."/>
+                            <TextField fx:id="gaussianFilterSD" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#gaussianFilter"/>
+                    </HBox>
+                </TitledPane>
+                <!--Prewitt operator-->
+                <TitledPane text="Prewitt operator">
+                    <HBox>
+                        <Button text="Y" onAction="#prewittOperatorY"/>
+                        <Button text="X" onAction="#prewittOperatorX"/>
+                        <Button text="Both" onAction="#prewittOperatorBoth"/>
+                    </HBox>
+                </TitledPane>
                 <!--Median-->
                 <TitledPane text="Median filter">
                    <HBox spacing="10" alignment="bottom_left">
@@ -42,7 +70,7 @@
                             <Text text="Mask size"/>
                             <TextField fx:id="averageTextField" promptText="Number"/>
                         </VBox>
-                        <Button text="Apply" onAction="#medianFilter"/>
+                        <Button text="Apply" onAction="#averageFilter"/>
                    </HBox>
                 </TitledPane>
                 <!--Noise-->

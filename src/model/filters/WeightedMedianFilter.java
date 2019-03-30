@@ -1,6 +1,6 @@
 package model.filters;
 
-import model.Utils;
+import model.utils.Utils;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -17,12 +17,13 @@ public class WeightedMedianFilter implements Filter{
         if(Utils.inBounds(pixels.length, pixels[0].length, y, x, maskSize)) {
             return pixels[y][x];
         }
-        int[] reds  = new int[maskSize * maskSize * weight];
-        int[] blues = new int[maskSize * maskSize * weight];
-        int[] greens= new int[maskSize * maskSize * weight];
+        int pixelsCount = maskSize * maskSize * weight;
+        int[] reds  = new int[pixelsCount];
+        int[] blues = new int[pixelsCount];
+        int[] greens= new int[pixelsCount];
         int cont = 0;
-        for(int i = y-maskSize/2; i < y + maskSize /2; i++) {
-            for(int j = x-maskSize/2; j < x + maskSize /2; j++) {
+        for(int i = y-maskSize/2; i < y + maskSize /2+1; i++) {
+            for(int j = x-maskSize/2; j < x + maskSize /2+1; j++) {
                 for(int repetitions = 0; repetitions < weight; repetitions++){
                     reds[cont] = pixels[i][j].getRed();
                     blues[cont] = pixels[i][j].getBlue();
@@ -34,7 +35,7 @@ public class WeightedMedianFilter implements Filter{
         Arrays.sort(reds);
         Arrays.sort(greens);
         Arrays.sort(blues);
-        int i = maskSize * maskSize / 2;
+        int i = pixelsCount / 2;
         return new Color(reds[i], greens[i], blues[i]);
     }
 }

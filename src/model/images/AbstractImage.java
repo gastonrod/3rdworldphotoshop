@@ -3,7 +3,7 @@ package model.images;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import model.Utils;
+import model.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.Point;

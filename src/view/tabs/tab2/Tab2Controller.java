@@ -6,14 +6,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import presenter.ImagesService;
 import sample.Main;
+import view.Utils;
 
 import java.io.IOException;
 
 public class Tab2Controller extends Tab {
 
+    private double maxPhi = 2;
     private ImagesService imagesService;
 
     @FXML
@@ -24,6 +27,9 @@ public class Tab2Controller extends Tab {
 
     @FXML
     public Slider umbralSlider;
+
+    @FXML
+    public TextField potencyFunctionPhi;
 
     public Tab2Controller() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("tab_2.fxml"));
@@ -79,5 +85,11 @@ public class Tab2Controller extends Tab {
     @FXML
     protected void equalizeHistogram(ActionEvent event) {
         imagesService.equalizeHistogram();
+    }
+
+    @FXML
+    protected void potencyFunction(ActionEvent event) {
+        double phi= Utils.sanitizeNumberInput(potencyFunctionPhi.getText(), maxPhi);
+        imagesService.potencyFunction(phi);
     }
 }

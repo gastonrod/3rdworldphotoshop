@@ -16,7 +16,8 @@ public class Tab3Controller extends Tab {
     private int maxMaskSize = 32;
 
     private int gaussianDefaultMean = 0;
-    private int gaussianDefaultStd  = 80;
+    private int gaussianNoiseDefaultStd = 80;
+    private int gaussianFilterDefaultStd = 80;
 
     private double rayleighDefaultMean = 0.5;
 
@@ -25,6 +26,17 @@ public class Tab3Controller extends Tab {
     private double noiseDefaultPercent = 0.3;
 
     private ImagesService imagesService;
+
+    @FXML
+    public TextField gaussianFilterSD;
+
+    @FXML public TextField borderHighlightMaskSize;
+
+    @FXML
+    public TextField borderDetectionYTF;
+
+    @FXML
+    public TextField borderDetectionXTF;
 
     @FXML
     public TextField gaussianNoiseMeanTF;
@@ -71,12 +83,27 @@ public class Tab3Controller extends Tab {
     }
 
     @FXML
+    protected void borderHighlight(ActionEvent event) {
+        int value = Utils.sanitizeNumberInput(borderHighlightMaskSize.getText(), maxMaskSize);
+        if(value == -1) {
+            return;
+        }
+        imagesService.borderHighlight(value);
+    }
+
+    @FXML
     protected void medianFilter(ActionEvent event) {
         int value = Utils.sanitizeNumberInput(medianTextField.getText(), maxMaskSize);
         if(value == -1) {
             return;
         }
         imagesService.medianFilter(value);
+    }
+
+    @FXML
+    protected void gaussianFilter(ActionEvent event) {
+        double sd = Utils.sanitizeNumberInput(gaussianFilterSD.getText(), gaussianFilterDefaultStd);
+        imagesService.gaussianFilter(sd);
     }
 
     @FXML
@@ -101,7 +128,7 @@ public class Tab3Controller extends Tab {
     @FXML
     protected void gaussianNoise(ActionEvent event) {
         int mean    = Utils.sanitizeNumberInput(gaussianNoiseMeanTF.getText(), Utils.L -1, gaussianDefaultMean);
-        int std     = Utils.sanitizeNumberInput(gaussianNoiseStdTF.getText(), Utils.L - 1, gaussianDefaultStd);
+        int std     = Utils.sanitizeNumberInput(gaussianNoiseStdTF.getText(), Utils.L - 1, gaussianNoiseDefaultStd);
         double percent = Utils.sanitizeNumberInput(gaussianNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
         if(mean == -1 || std == -1 || percent == -1) {
            return;
@@ -111,7 +138,7 @@ public class Tab3Controller extends Tab {
 
     @FXML
     protected void exponentialNoise(ActionEvent event) {
-        double lambda = Utils.sanitizeNumberInput(exponentialNoiseLambda.getText(), Utils.L -1, exponentialDefaultLambda);
+        double lambda = Utils.sanitizeNumberInput(exponentialNoiseLambda.getText(), Utils.L - 1.0, exponentialDefaultLambda);
         double percent = Utils.sanitizeNumberInput(exponentialNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
         if(lambda == -1 || percent == -1) {
             return;
@@ -121,7 +148,7 @@ public class Tab3Controller extends Tab {
 
     @FXML
     protected void rayleighNoise(ActionEvent event) {
-        double mean = Utils.sanitizeNumberInput(rayleighNoiseMean.getText(), Utils.L -1, rayleighDefaultMean);
+        double mean = Utils.sanitizeNumberInput(rayleighNoiseMean.getText(), Utils.L -1.0, rayleighDefaultMean);
         double percent = Utils.sanitizeNumberInput(rayleighNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
         if(mean == -1 || percent == -1) {
             return;
@@ -136,5 +163,20 @@ public class Tab3Controller extends Tab {
             return;
         }
         imagesService.saltAndPepper(percent);
+    }
+
+    @FXML
+    protected void prewittOperatorY(ActionEvent event) {
+        imagesService.prewittOperatorY();
+    }
+
+    @FXML
+    protected void prewittOperatorX(ActionEvent event) {
+        imagesService.prewittOperatorX();
+    }
+
+    @FXML
+    protected void prewittOperatorBoth(ActionEvent event) {
+        imagesService.prewittOperatorBoth();
     }
 }

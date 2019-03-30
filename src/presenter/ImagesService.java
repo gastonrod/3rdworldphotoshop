@@ -3,6 +3,8 @@ package presenter;
 import javafx.scene.image.WritableImage;
 import javafx.stage.Window;
 import model.operators.FilterOperator;
+import model.utils.QuadFunction;
+import model.utils.TriFunction;
 import model.operators.NoiseOperator;
 import model.operators.SpatialOperator;
 import model.managers.ClicksManager;
@@ -10,6 +12,7 @@ import model.images.CustomImage;
 import model.CustomImageFactory;
 import model.managers.FileManager;
 import org.jetbrains.annotations.NotNull;
+import view.components.ImagesList;
 import view.error.ErrorCodes;
 import view.error.ErrorsWindowController;
 import view.images.ImageController;
@@ -18,30 +21,42 @@ import view.tabs.tab1.Tab1Controller;
 import java.awt.Point;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Stack;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ImagesService {
 
-    private CustomImage mainImage;
+    private Stack<CustomImage> mainImages = new Stack<>();
     private CustomImage secondaryImage;
 
     private ImageController imageController;
     private Tab1Controller tab1Controller;
     private Window scene;
+    private ImagesList secondWindow;
     private ArrayList<CustomImage> imagesInSecondWindow;
 
     public void openImage(@NotNull File file, boolean isMainImage) {
         if (isMainImage) {
-            mainImage = FileManager.openImage(file);
-            imageController.setMainImage(getMainImage());
+            mainImages.push(FileManager.openImage(file));
+            imageController.setMainImage(getMainImageAsWritableImage());
         } else {
             secondaryImage = FileManager.openImage(file);
-            imageController.setSecondaryImage(getSecondaryImage());
+            imageController.setSecondaryImage(getSecondaryImageAsWritableImage());
         }
     }
 
+    public void previousImage() {
+        if(mainImages.size() == 1){
+            ErrorsWindowController.newErrorCode(ErrorCodes.ONLY_ONE);
+            return;
+        }
+        mainImages.pop();
+        imageController.setMainImage(getMainImageAsWritableImage());
+    }
     public void mainImageClicked(@NotNull Point point) {
-        ClicksManager.mainImageClicked(point, imageController.mainImageView);
+        ClicksManager.mainImageClicked(point, getMainImage());
         Point secondaryPos = ClicksManager.getMainImageSecondClick();
         Point currentPos = ClicksManager.getMainImageCurrentClick();
         String text;
@@ -58,26 +73,29 @@ public class ImagesService {
     }
 
     public void modifyPixel(@NotNull int newValue) {
-        if(mainImage == null || ClicksManager.getMainImageCurrentClick() == null) {
+        if(getMainImage() == null || ClicksManager.getMainImageCurrentClick() == null) {
             return;
         }
-        mainImage.modifyPixel(newValue, ClicksManager.getMainImageCurrentClick());
-        imageController.setMainImage(getMainImage());
+        getMainImage().modifyPixel(newValue, ClicksManager.getMainImageCurrentClick());
+        imageController.setMainImage(getMainImageAsWritableImage());
     }
 
     public void saveCurrentImage(@NotNull File file, boolean isMainImage) {
-        FileManager.saveImage(file, isMainImage ? mainImage : secondaryImage);
+        FileManager.saveImage(file, isMainImage ? getMainImage(): secondaryImage);
     }
 
     public void saveImage(@NotNull File file, int id) {
         FileManager.saveImage(file, imagesInSecondWindow.get(id));
     }
 
-    public WritableImage getMainImage() {
-        return mainImage.asWritableImage();
+    public CustomImage getMainImage() {
+        return mainImages.isEmpty() ? null : mainImages.peek();
+    }
+    public WritableImage getMainImageAsWritableImage() {
+        return getMainImage().asWritableImage();
     }
 
-    public WritableImage getSecondaryImage() {
+    public WritableImage getSecondaryImageAsWritableImage() {
         return secondaryImage.asWritableImage();
     }
 
@@ -105,193 +123,223 @@ public class ImagesService {
     }
 
     public void copyFromMainToSec() {
-        if(mainImage == null || secondaryImage == null ||
+        if(getMainImage() == null || secondaryImage == null ||
                 ClicksManager.getMainImageSecondClick() == null ||
                 ClicksManager.getSecondaryImageClick() == null) {
             return;
         }
-        mainImage.copySection(secondaryImage, ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick(), ClicksManager.getSecondaryImageClick());
+        getMainImage().copySection(secondaryImage, ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick(), ClicksManager.getSecondaryImageClick());
     }
 
     public void getAverageAndPaint() {
-        if(mainImage == null || ClicksManager.getMainImageSecondClick() == null) {
+        if(getMainImage() == null || ClicksManager.getMainImageSecondClick() == null) {
             return;
         }
-        mainImage.markArea(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
-        imageController.setMainImage(mainImage.asWritableImage());
-        int[] averages = mainImage.getAverage(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
+        getMainImage().markArea(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
+        imageController.setMainImage(getMainImage().asWritableImage());
+        int[] averages = getMainImage().getAverage(ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick());
         tab1Controller.setAveragesInfoText("Averages:\nR: " + averages[0] + ", G: " + averages[1] + ", B: " + averages[2]);
     }
 
     public void showHSV() {
-        if(mainImage == null){
+        if(getMainImage() == null){
             ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
             return;
         }
-        imagesInSecondWindow = mainImage.getHSVRepresentations();
+        imagesInSecondWindow = getMainImage().getHSVRepresentations();
         ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
-        imageController.showNewImage(writableImages);
+        secondWindow = new ImagesList(writableImages);
     }
 
-    public void addImages() {
-        if(mainImage == null || secondaryImage == null) {
+    public void addToSecondWindow() {
+        if(getMainImage() == null){
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
             return;
         }
-        mainImage = SpatialOperator.addImages(mainImage,secondaryImage);
-        imageController.setMainImage(getMainImage());
+        CustomImage mainImage = getMainImage();
+        if(secondWindow == null) {
+            imagesInSecondWindow = new ArrayList<>();
+            ArrayList<WritableImage> writableImages = new ArrayList<>();
+
+            imagesInSecondWindow.add(mainImage);
+            writableImages.add(mainImage.asWritableImage());
+            secondWindow = new ImagesList(writableImages);
+        } else {
+            imagesInSecondWindow.add(mainImage);
+            secondWindow.addImage(mainImage.asWritableImage(), imagesInSecondWindow.size());
+        }
+    }
+
+    // Spatial Operator methods
+    public void addImages() {
+        applyTransformation(getMainImage(), secondaryImage, SpatialOperator::addImages);
     }
 
     public void subtractImages() {
-        if(mainImage == null || secondaryImage == null) {
-            return;
-        }
-        mainImage = SpatialOperator.subtractImages(mainImage,secondaryImage);
-        imageController.setMainImage(getMainImage());
+        applyTransformation(getMainImage(), secondaryImage, SpatialOperator::subtractImages);
     }
 
     public void drc() {
-        if(mainImage == null) {
-            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
-            return;
-        }
-        mainImage = SpatialOperator.dynamicRange(mainImage);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void imageNegative() {
-        if(mainImage == null) {
-            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
-            return;
-        }
-        mainImage = SpatialOperator.negativeImage(mainImage);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void setContrast(int value) {
-        if(mainImage == null) {
-            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
-            return;
-        }
-        mainImage = SpatialOperator.setContrast(mainImage, value);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void setUmbral(int value) {
-        if(mainImage == null) {
-            return;
-        }
-        mainImage = SpatialOperator.setUmbral(mainImage, value);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void saltAndPepper(double percent) {
-        if(mainImage == null) {
-            return;
-        }
-        mainImage = NoiseOperator.saltAndPepperNoise(mainImage, percent);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void rayleighNoise(double mean, double percent) {
-        if(mainImage == null) {
-            return;
-        }
-        mainImage = NoiseOperator.rayleighNoise(mainImage, mean, percent);
-        imageController.setMainImage(getMainImage());
-//        imageController.setMainImage(SpatialOperator.setUmbral(mainImage, value).asWritableImage());
-//        imagesInSecondWindow = new ArrayList<>();
-//        imagesInSecondWindow.add(NoiseOperator.rayleighNoise(mainImage, mean, percent);
-//        ArrayList<WritableImage> l = new ArrayList<>();
-//        l.add(imagesInSecondWindow.get(0).asWritableImage());
-//        imageController.showNewImage(l);
-    }
-
-    public void exponentialNoise(double lambda, double percent) {
-        if(mainImage == null) {
-            return;
-        }
-        mainImage = NoiseOperator.exponentialNoise(mainImage, lambda, percent);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void gaussianNoise(int mean, int std, double percent) {
-        if(mainImage == null) {
-            return;
-        }
-        mainImage = NoiseOperator.addGaussianNoise(mainImage, mean, std, percent);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void averageFilter(int maskSize) {
-        if(mainImage == null) {
-            return;
-        }
-        mainImage = FilterOperator.averageFilter(mainImage, maskSize);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void medianFilter(int maskSize) {
-        if(mainImage == null) {
-            return;
-        }
-        mainImage = FilterOperator.medianFilter(mainImage, maskSize);
-        imageController.setMainImage(getMainImage());
-    }
-
-    public void weightedMedianFilter(int maskSize, int weight) {
-        if(mainImage == null) {
-            return;
-        }
-        mainImage = FilterOperator.weightedMedianFilter(mainImage, maskSize, weight);
-        imageController.setMainImage(getMainImage());
+        applyTransformation(getMainImage(), SpatialOperator::dynamicRange);
     }
 
     public void equalizeHistogram() {
-        if(mainImage == null) {
+        applyTransformation(getMainImage(), SpatialOperator::equalizeHistogram);
+    }
+
+    public void potencyFunction(double phi) {
+        applyTransformation(getMainImage(), phi,SpatialOperator::potencyFunction);
+    }
+
+    public void imageNegative() {
+        applyTransformation(getMainImage(), SpatialOperator::negativeImage);
+    }
+
+    public void setContrast(int value) {
+        applyTransformation(getMainImage(), value, SpatialOperator::setContrast);
+    }
+
+    public void setUmbral(int value) {
+        applyTransformation(getMainImage(), value, SpatialOperator::setUmbral);
+    }
+    // End Spatial Operator methods
+
+    // NoiseOperator methods
+    public void saltAndPepper(double percent) {
+        applyTransformation(getMainImage(), percent, NoiseOperator::saltAndPepperNoise);
+    }
+
+    public void rayleighNoise(double mean, double percent) {
+        applyTransformation(getMainImage(), mean, percent, NoiseOperator::rayleighNoise);
+    }
+
+    public void exponentialNoise(double lambda, double percent) {
+        applyTransformation(getMainImage(), lambda, percent, NoiseOperator::rayleighNoise);
+    }
+
+    public void gaussianNoise(int mean, int std, double percent) {
+        // Replace with QuadFunction if necessary
+        if(getMainImage() == null) {
             return;
         }
-        mainImage = SpatialOperator.equalizeHistogram(mainImage);
-        imageController.setMainImage(getMainImage());
+        mainImages.push(NoiseOperator.addGaussianNoise(getMainImage(), mean, std, percent));
+        imageController.setMainImage(getMainImageAsWritableImage());
     }
+    // End noise operator methods
+
+    // Filter operator methods
+    public void averageFilter(int maskSize) {
+        applyTransformation(getMainImage(), maskSize, FilterOperator::averageFilter);
+    }
+
+    public void borderHighlight(int maskSize) {
+        applyTransformation(getMainImage(), maskSize, FilterOperator::borderHighlight);
+    }
+
+    public void gaussianFilter(double sd) {
+        applyTransformation(getMainImage(), sd, FilterOperator::gaussianFilter);
+    }
+
+    public void medianFilter(int maskSize) {
+        applyTransformation(getMainImage(), maskSize, FilterOperator::medianFilter);
+    }
+
+    public void weightedMedianFilter(int maskSize, int weight) {
+        applyTransformation(getMainImage(), maskSize, weight, FilterOperator::weightedMedianFilter);
+    }
+
+    public void prewittOperatorX() {
+        applyTransformation(getMainImage(), FilterOperator::prewittOperatorX);
+    }
+
+    public void prewittOperatorY() {
+        applyTransformation(getMainImage(), FilterOperator::prewittOperatorY);
+    }
+
+    public void prewittOperatorBoth() {
+        applyTransformation(getMainImage(), FilterOperator::prewittOperatorBoth);
+    }
+    // End filter operator methods
 
     // Id is index in images in second window list index
     public void setImageInSecondWindowAsMain(int idx) {
-        mainImage = imagesInSecondWindow.get(idx);
-        imageController.setMainImage(getMainImage());
+        mainImages = new Stack<>();
+        mainImages.push(imagesInSecondWindow.get(idx));
+        imageController.setMainImage(getMainImageAsWritableImage());
     }
 
     public void showHistogram() {
-        imageController.showHistogram(mainImage.getColorsRepetition());
+        imageController.showHistogram(getMainImage().getColorsRepetition());
     }
 
+    // Create images
     public void createWhiteImage() {
-        mainImage = CustomImageFactory.whiteImage();
-        imageController.setMainImage(getMainImage());
+        createImage(CustomImageFactory.whiteImage());
     }
 
     public void createBlackImage() {
-        mainImage = CustomImageFactory.blackImage();
-        imageController.setMainImage(getMainImage());
+        createImage(CustomImageFactory.blackImage());
     }
 
     public void createCircle() {
-        mainImage = CustomImageFactory.circle();
-        imageController.setMainImage(getMainImage());
+        createImage(CustomImageFactory.circle());
     }
 
     public void createColorGradient() {
-        mainImage = CustomImageFactory.colorGradient();
-        imageController.setMainImage(getMainImage());
+        createImage(CustomImageFactory.colorGradient());
     }
 
     public void createBlackAndWhiteGradient() {
-        mainImage = CustomImageFactory.blackAndWhiteGradient();
-        imageController.setMainImage(getMainImage());
+        createImage(CustomImageFactory.blackAndWhiteGradient());
     }
 
     public void createSquare() {
-        mainImage = CustomImageFactory.square();
-        imageController.setMainImage(getMainImage());
+        createImage(CustomImageFactory.square());
     }
 
+    private void createImage(CustomImage image){
+        mainImages.push(image);
+        imageController.setMainImage(getMainImageAsWritableImage());
+    }
+    // End create images
+
+    // Apply transformation variants.
+    private void applyTransformation(CustomImage image, Function<CustomImage, CustomImage> f) {
+        if(getMainImage() == null) {
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        mainImages.push(f.apply(image));
+        imageController.setMainImage(getMainImageAsWritableImage());
+    }
+
+    private <T> void applyTransformation(CustomImage image, T param, BiFunction<CustomImage, T, CustomImage> f){
+        if(getMainImage() == null || param == null) {
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        System.out.println("Passing transformation");
+        mainImages.push(f.apply(image, param));
+        imageController.setMainImage(getMainImageAsWritableImage());
+    }
+
+    private <T,K> void applyTransformation(CustomImage image, T param1, K param2, TriFunction<CustomImage, T, K, CustomImage> f) {
+        if(getMainImage() == null || param1 == null || param2 == null) {
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        mainImages.push(f.apply(image, param1, param2));
+        imageController.setMainImage(getMainImageAsWritableImage());
+    }
+
+    private <T,K,R> void applyTransformation(CustomImage image, T param1, K param2, R param3, QuadFunction<CustomImage, T, K, R,CustomImage> f) {
+        if(getMainImage() == null || param1 == null || param2 == null || param3 == null) {
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        mainImages.push(f.apply(image, param1, param2, param3));
+        imageController.setMainImage(getMainImageAsWritableImage());
+    }
+
+    // End applyTransformation variants.
 }

@@ -1,6 +1,6 @@
 package model.images;
 
-import model.Utils;
+import model.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

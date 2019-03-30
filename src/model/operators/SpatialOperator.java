@@ -57,6 +57,11 @@ public class SpatialOperator {
         return transform(image, transformer);
     }
 
+    public static CustomImage potencyFunction(CustomImage image, double phi) {
+        PotencyTransformation transformer = new PotencyTransformation(phi);
+        return transform(image, transformer);
+    }
+
     public static CustomImage setContrast(CustomImage image, int value) {
         Contrast transformer = new Contrast(value);
         return transform(image, transformer);

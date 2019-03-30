@@ -1,16 +1,26 @@
 package model.operators;
 
 import model.CustomImageFactory;
-import model.filters.AverageFilter;
-import model.filters.Filter;
-import model.filters.MedianFilter;
-import model.filters.WeightedMedianFilter;
+import model.filters.*;
 import model.images.CustomImage;
+import model.utils.Utils;
 
 import java.awt.*;
 
 public class FilterOperator {
     private FilterOperator(){}
+
+    public static CustomImage borderHighlight(CustomImage image, int maskSize) {
+        BorderHighlight filter = new BorderHighlight(maskSize);
+        return filter(image, filter, maskSize);
+    }
+
+    public static CustomImage gaussianFilter(CustomImage image, double sd) {
+        GaussianFilter filter = new GaussianFilter(sd);
+        int maskSize = (int)(sd * 2 + 1);
+        return filter(image, filter, maskSize);
+    }
+
     public static CustomImage medianFilter(CustomImage image, int maskSize) {
         MedianFilter filter = new MedianFilter();
         return filter(image, filter, maskSize);
@@ -21,8 +31,23 @@ public class FilterOperator {
         return filter(image, filter, maskSize);
     }
 
+    public static CustomImage prewittOperatorBoth(CustomImage image) {
+        PrewittFilter filter = new PrewittFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage prewittOperatorY(CustomImage image) {
+        BorderDetectionYFilter filter = new BorderDetectionYFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage prewittOperatorX(CustomImage image) {
+        BorderDetectionXFilter filter = new BorderDetectionXFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
     public static CustomImage averageFilter(CustomImage image, int maskSize) {
-        AverageFilter filter = new AverageFilter();
+        AverageFilter filter = new AverageFilter(maskSize);
         return filter(image, filter, maskSize);
     }
 

@@ -1,5 +1,6 @@
 package view.images;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -55,29 +56,21 @@ public class ImageController extends VBox {
         imagesPresenter.secondaryImageClicked(new Point((int)mouseEvent.getX(), (int)mouseEvent.getY()));
     }
 
+    @FXML
+    protected void previousImage(ActionEvent event){
+        imagesPresenter.previousImage();
+    }
+
+    @FXML
+    protected void addToSecondWindow(ActionEvent event) {
+        imagesPresenter.addToSecondWindow();
+    }
     public void setMainImage(WritableImage writableImage) {
         mainImageView.setImage(writableImage);
     }
 
     public void setSecondaryImage(WritableImage writableImage) {
         secondaryImageView.setImage(writableImage);
-    }
-
-    public void showNewImage(ArrayList<WritableImage> images) {
-        // There's probably a better way to do this.
-        ArrayList<ImageAndSaveHBox> prettyImages = new ArrayList<>(images.size());
-        for(int i = 0; i < images.size(); i++) {
-            prettyImages.add(new ImageAndSaveHBox(images.get(i), i));
-        }
-        try {
-            HBox hBox = new HBox();
-            hBox.getChildren().addAll(prettyImages);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(hBox));
-            stage.show();
-        } catch (Exception e) {
-            throw new RuntimeException("Error while trying to load hsv_images.xml", e);
-        }
     }
 
     public void showHistogram(int[] values) {

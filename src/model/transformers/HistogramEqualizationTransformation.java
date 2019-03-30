@@ -1,6 +1,6 @@
 package model.transformers;
 
-import model.Utils;
+import model.utils.Utils;
 
 import java.awt.*;
 

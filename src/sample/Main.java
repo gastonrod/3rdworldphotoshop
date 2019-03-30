@@ -10,7 +10,7 @@ import presenter.ImagesService;
 public class Main extends Application {
 
     private static ImagesService imagesService;
-    /*var = (1/(n-1) sum(valores imagen))^1/2
+    /*var = (1/(n-1) matrixSum(valores imagen))^1/2
     `* equializacion: s^k = ceil(((sk - smin / 1 - smin) + 0.5) * 255)
      * Aplicar rango dinamico en 1.b
      * gamma E (0,2)

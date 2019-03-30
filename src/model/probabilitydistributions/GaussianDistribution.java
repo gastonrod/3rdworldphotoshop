@@ -5,8 +5,6 @@ import net.sf.doodleproject.numerics4j.random.NormalRandomVariable;
 import net.sf.doodleproject.numerics4j.random.RNG;
 import net.sf.doodleproject.numerics4j.random.RandomRNG;
 
-import java.util.Random;
-
 public class GaussianDistribution implements ProbabilityDistribution {
 
     private double mean;

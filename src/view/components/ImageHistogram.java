@@ -12,7 +12,7 @@ public class ImageHistogram extends BarChart<String, Number>{
         xAxis.setLabel("Color");
         yAxis.setLabel("Repetitions");
         XYChart.Series series1 = new XYChart.Series();
-        for(int i = 0; i < repetitions.length; i++) {
+        for(int i = 2; i < repetitions.length-1; i++) {
             series1.getData().add(new XYChart.Data(Integer.toString(i),repetitions[i]));
         }
         getData().add(series1);
