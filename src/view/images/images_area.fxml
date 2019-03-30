@@ -7,8 +7,10 @@
 <fx:root id="FileMenu" prefWidth="250" prefHeight="300" type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
     <HBox>
         <ImageView fx:id="mainImageView" onMouseClicked="#onMainImageClicked" />
-        <Button text="B" onAction="#previousImage"/>
-        <Button text="P" onAction="#addToSecondWindow"/>
+        <VBox>
+            <Button text="B" onAction="#previousImage"/>
+            <Button text="P" onAction="#addToSecondWindow"/>
+        </VBox>
     </HBox>
     <ImageView fx:id="secondaryImageView" onMouseClicked="#onSecondaryImageClicked"/>
 </fx:root>

@@ -10,7 +10,7 @@ public class PotencyTransformation implements ColorTransformation{
 
     public PotencyTransformation(double phi) {
         this.phi = phi;
-        this.c = Math.pow(Utils.L-1, 1-phi);
+        this.c = Math.pow(Utils.L-1.0, 1-phi);
     }
 
     @Override

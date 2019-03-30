@@ -1,6 +1,5 @@
 package model.filters;
 
-import model.operators.FilterOperator;
 import model.utils.Utils;
 
 import java.awt.*;
@@ -21,6 +20,6 @@ public class PrewittFilter implements Filter{
         );
     }
     private int getVal(int a, int b){
-        return (int)Math.sqrt(a*a + b*b);
+        return (int)Math.sqrt((double)(a*a + b*b));
     }
 }

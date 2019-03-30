@@ -12,12 +12,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import presenter.ImagesService;
 import sample.Main;
-import view.components.ImageAndSaveHBox;
 import view.components.ImageHistogram;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ImageController extends VBox {
     @FXML
@@ -25,12 +23,7 @@ public class ImageController extends VBox {
 
     @FXML
     public ImageView secondaryImageView;
-    @FXML
-    public ImageView h;
-    @FXML
-    public ImageView s;
-    @FXML
-    public ImageView v;
+
     private ImagesService imagesPresenter;
 
     public ImageController() {
@@ -65,6 +58,7 @@ public class ImageController extends VBox {
     protected void addToSecondWindow(ActionEvent event) {
         imagesPresenter.addToSecondWindow();
     }
+
     public void setMainImage(WritableImage writableImage) {
         mainImageView.setImage(writableImage);
     }

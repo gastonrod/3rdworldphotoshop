@@ -10,12 +10,11 @@ public class SpatialOperator {
 
     private SpatialOperator() {}
 
-    // TODO: Refactor for a 2 images color transformation, if it's worth it.
     public static CustomImage addImages(CustomImage im1, CustomImage im2) {
         Color[][] rgb1 = im1.getRGBRepresentation();
         Color[][] rgb2 = im2.getRGBRepresentation();
         if(rgb1.length > rgb2.length || rgb1[0].length > rgb2[0].length) {
-            throw new IllegalArgumentException("Image 1 must be smaller than image 2!");
+            throw new IllegalArgumentException("Image 1 must be smaller than createimage 2!");
         }
         Color[][] rgbAux = new Color[rgb1.length][rgb1[0].length];
         for (int i = 0; i < rgbAux.length; i++) {
@@ -33,7 +32,7 @@ public class SpatialOperator {
         Color[][] rgb1 = im1.getRGBRepresentation();
         Color[][] rgb2 = im2.getRGBRepresentation();
         if(rgb1.length != rgb2.length || rgb1[0].length != rgb2[0].length) {
-            throw new IllegalArgumentException("Image 1 must be the same size as image 2!");
+            throw new IllegalArgumentException("Image 1 must be the same size as createimage 2!");
         }
         Color[][] rgbAux = new Color[rgb1.length][rgb1[0].length];
         for (int i = 0; i < rgbAux.length; i++) {

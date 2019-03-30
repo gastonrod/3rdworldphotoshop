@@ -33,12 +33,6 @@ public class Tab3Controller extends Tab {
     @FXML public TextField borderHighlightMaskSize;
 
     @FXML
-    public TextField borderDetectionYTF;
-
-    @FXML
-    public TextField borderDetectionXTF;
-
-    @FXML
     public TextField gaussianNoiseMeanTF;
     @FXML
     public TextField gaussianNoiseStdTF;

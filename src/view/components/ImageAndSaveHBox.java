@@ -31,6 +31,7 @@ public class ImageAndSaveHBox extends VBox {
             Stage stage = (Stage)(dockButton.getScene().getWindow());
             stage.close();
         });
+
         ImageView img = new ImageView(image);
         HBox buttonsContainer = new HBox();
         buttonsContainer.getChildren().addAll(saveButton, dockButton);

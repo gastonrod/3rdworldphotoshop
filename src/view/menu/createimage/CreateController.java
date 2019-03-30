@@ -1,4 +1,4 @@
-package view.menu.image;
+package view.menu.createimage;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

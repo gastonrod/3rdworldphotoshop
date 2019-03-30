@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import sample.Main;
 
 import java.util.ArrayList;
 
@@ -22,11 +23,11 @@ public class ImagesList {
             height = Math.max(wImg.getHeight() + heighOfButtons, height);
             prettyImages.add(new ImageAndSaveHBox(wImg, i));
         }
-        System.out.println(height);
         try {
             containerHBox.getChildren().addAll(prettyImages);
             Stage stage = new Stage();
             Scene scene = new Scene(containerHBox);
+            stage.setOnHiding(w -> Main.getImagesService().secondWindowClosed());
             stage.setResizable(true);
             stage.setScene(scene);
             stage.show();
@@ -40,7 +41,6 @@ public class ImagesList {
         Stage s = (Stage)(containerHBox.getScene().getWindow());
         width += image.getWidth();
         height = Math.max(image.getHeight() + heighOfButtons, height);
-        System.out.println(height);
         s.setWidth(width);
         s.setHeight(height);
     }

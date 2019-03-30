@@ -3,7 +3,6 @@ package view.tabs.tab1;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -28,9 +27,6 @@ public class Tab1Controller extends Tab {
 
     @FXML
     public TextField pixelModifyTextField;
-
-    @FXML
-    public Button pixelModifyButton;
 
     public Tab1Controller() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("tab_1.fxml"));

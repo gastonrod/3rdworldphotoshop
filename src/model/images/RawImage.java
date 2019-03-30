@@ -8,7 +8,7 @@ import java.io.*;
 
 public class RawImage extends AbstractImage {
 
-    // Constructor used by the image factory
+    // Constructor used by the createimage factory
     public RawImage(Color[][] colors) {
         this.colors = colors;
         width = colors[0].length;
@@ -32,7 +32,7 @@ public class RawImage extends AbstractImage {
         createImage();
     }
 
-    // Grayscale raw image
+    // Grayscale raw createimage
     public RawImage(@NotNull File file) {
         setWidthAndHeight(file.getName());
 
@@ -48,7 +48,7 @@ public class RawImage extends AbstractImage {
             }
             createImage();
         } catch (IOException e) {
-           throw new RuntimeException("Error loading RAW image: " + e.getMessage());
+           throw new RuntimeException("Error loading RAW createimage: " + e.getMessage());
         }
     }
 

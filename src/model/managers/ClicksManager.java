@@ -1,6 +1,5 @@
 package model.managers;
 
-import javafx.scene.image.ImageView;
 import model.images.CustomImage;
 import org.jetbrains.annotations.NotNull;
 

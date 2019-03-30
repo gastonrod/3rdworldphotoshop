@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<fx:root text="Open" id="ImageMenu" type="javafx.scene.control.Menu" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+    <MenuItem text="Lena B/W" onAction="#openLenaBW"/>
+    <MenuItem text="Lena Color" onAction="#openLenaColor"/>
+    <MenuItem text="Boat" onAction="#openBoat"/>
+    <MenuItem text="Shapes" onAction="#openShapes"/>
+</fx:root>

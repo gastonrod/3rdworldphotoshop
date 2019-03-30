@@ -8,16 +8,18 @@
 
 <?import javafx.scene.control.TabPane?>
 <?import view.tabs.tab1.Tab1Controller?>
-<?import view.menu.image.CreateController?>
+<?import view.menu.createimage.CreateController?>
 <?import view.tabs.tab2.Tab2Controller?>
 
 <?import view.tabs.tab3.Tab3Controller?>
+<?import view.menu.openimage.OpenImageController?>
 <VBox spacing="10" fx:controller="view.MainController"
       xmlns:fx="http://javafx.com/fxml">
     <padding><Insets right="5" bottom="25" left="5"/></padding>
     <MenuBar>
         <FileController/>
         <CreateController/>
+        <OpenImageController/>
     </MenuBar>
     <HBox spacing="10">
         <TabPane HBox.hgrow="ALWAYS">

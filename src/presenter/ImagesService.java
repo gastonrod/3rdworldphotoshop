@@ -3,7 +3,6 @@ package presenter;
 import javafx.scene.image.WritableImage;
 import javafx.stage.Window;
 import model.operators.FilterOperator;
-import model.utils.QuadFunction;
 import model.utils.TriFunction;
 import model.operators.NoiseOperator;
 import model.operators.SpatialOperator;
@@ -115,7 +114,7 @@ public class ImagesService {
 
     public void secondaryImageClicked(@NotNull Point pos) {
         ClicksManager.secondaryImageClicked(pos);
-        tab1Controller.setSecondaryImagePixelValueText("Secondary image clicked: (" + pos.x + ", " + pos.y + ")");
+        tab1Controller.setSecondaryImagePixelValueText("Secondary createimage clicked: (" + pos.x + ", " + pos.y + ")");
     }
 
     public void setTab1Controller(@NotNull Tab1Controller tab1Controller) {
@@ -166,7 +165,7 @@ public class ImagesService {
             secondWindow = new ImagesList(writableImages);
         } else {
             imagesInSecondWindow.add(mainImage);
-            secondWindow.addImage(mainImage.asWritableImage(), imagesInSecondWindow.size());
+            secondWindow.addImage(mainImage.asWritableImage(), imagesInSecondWindow.size()-1);
         }
     }
 
@@ -318,7 +317,6 @@ public class ImagesService {
             ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
             return;
         }
-        System.out.println("Passing transformation");
         mainImages.push(f.apply(image, param));
         imageController.setMainImage(getMainImageAsWritableImage());
     }
@@ -332,13 +330,9 @@ public class ImagesService {
         imageController.setMainImage(getMainImageAsWritableImage());
     }
 
-    private <T,K,R> void applyTransformation(CustomImage image, T param1, K param2, R param3, QuadFunction<CustomImage, T, K, R,CustomImage> f) {
-        if(getMainImage() == null || param1 == null || param2 == null || param3 == null) {
-            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
-            return;
-        }
-        mainImages.push(f.apply(image, param1, param2, param3));
-        imageController.setMainImage(getMainImageAsWritableImage());
+    public void secondWindowClosed() {
+        secondWindow = null;
+        imagesInSecondWindow = null;
     }
 
     // End applyTransformation variants.
