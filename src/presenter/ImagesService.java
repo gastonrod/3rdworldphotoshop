@@ -258,6 +258,21 @@ public class ImagesService {
     public void prewittOperatorBoth() {
         applyTransformation(getMainImage(), FilterOperator::prewittOperatorBoth);
     }
+
+    // This function assumes that the 2nd window is not open
+    public void prewittOperatorOpen3() {
+        if(getMainImage() == null){
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        imagesInSecondWindow = new ArrayList<>();
+        imagesInSecondWindow.add(FilterOperator.prewittOperatorX(getMainImage()));
+        imagesInSecondWindow.add(FilterOperator.prewittOperatorY(getMainImage()));
+        imagesInSecondWindow.add(FilterOperator.prewittOperatorBoth(getMainImage()));
+        ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
+        secondWindow = new ImagesList(writableImages);
+    }
+
     // End filter operator methods
 
     // Id is index in images in second window list index
@@ -334,6 +349,5 @@ public class ImagesService {
         secondWindow = null;
         imagesInSecondWindow = null;
     }
-
     // End applyTransformation variants.
 }

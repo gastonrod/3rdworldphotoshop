@@ -37,6 +37,7 @@
                         <Button text="Y" onAction="#prewittOperatorY"/>
                         <Button text="X" onAction="#prewittOperatorX"/>
                         <Button text="Both" onAction="#prewittOperatorBoth"/>
+                        <Button text="3 imgs" onAction="#prewittOperatorOpen3"/>
                     </HBox>
                 </TitledPane>
                 <!--Median-->

@@ -173,4 +173,9 @@ public class Tab3Controller extends Tab {
     protected void prewittOperatorBoth(ActionEvent event) {
         imagesService.prewittOperatorBoth();
     }
+
+    @FXML
+    protected void prewittOperatorOpen3(ActionEvent event) {
+        imagesService.prewittOperatorOpen3();
+    }
 }

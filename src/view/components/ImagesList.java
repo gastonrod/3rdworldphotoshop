@@ -16,7 +16,7 @@ public class ImagesList {
     ArrayList<ImageAndSaveHBox> prettyImages;
     HBox containerHBox = new HBox();
     public ImagesList(ArrayList<WritableImage> images){
-         prettyImages = new ArrayList<>(images.size());
+        prettyImages = new ArrayList<>(images.size());
         for(int i = 0; i < images.size(); i++) {
             WritableImage wImg = images.get(i);
             width  += wImg.getWidth();
