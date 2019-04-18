@@ -178,4 +178,14 @@ public class Tab3Controller extends Tab {
     protected void prewittOperatorOpen3(ActionEvent event) {
         imagesService.prewittOperatorOpen3();
     }
+
+    @FXML
+    protected void sobelOperatorBoth(ActionEvent event) {
+        imagesService.sobelOperatorBoth();
+    }
+
+    @FXML
+    protected void sobelOperatorOpen3(ActionEvent event) {
+        imagesService.sobelOperatorOpen3();
+    }
 }

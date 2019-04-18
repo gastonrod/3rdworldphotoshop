@@ -1,14 +1,13 @@
-package model.filters;
+package model.filters.borderdetection;
 
+import model.filters.Filter;
 import model.utils.Utils;
 
 import java.awt.*;
 
-public class PrewittFilter implements Filter{
-
-    BorderDetectionXFilter xFilter = new BorderDetectionXFilter();
-    BorderDetectionYFilter yFilter = new BorderDetectionYFilter();
-
+public class BorderDetectorOperator implements Filter {
+    Filter xFilter;
+    Filter yFilter;
     @Override
     public Color filter(Color[][] pixels, int y, int x, int maskSize) {
         Color c1 = xFilter.filter(pixels,y,x,maskSize);

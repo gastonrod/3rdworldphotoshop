@@ -259,6 +259,10 @@ public class ImagesService {
         applyTransformation(getMainImage(), FilterOperator::prewittOperatorBoth);
     }
 
+    public void sobelOperatorBoth() {
+        applyTransformation(getMainImage(), FilterOperator::sobelOperatorBoth);
+    }
+
     // This function assumes that the 2nd window is not open
     public void prewittOperatorOpen3() {
         if(getMainImage() == null){
@@ -269,6 +273,19 @@ public class ImagesService {
         imagesInSecondWindow.add(FilterOperator.prewittOperatorX(getMainImage()));
         imagesInSecondWindow.add(FilterOperator.prewittOperatorY(getMainImage()));
         imagesInSecondWindow.add(FilterOperator.prewittOperatorBoth(getMainImage()));
+        ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
+        secondWindow = new ImagesList(writableImages);
+    }
+    // This one does aswell
+    public void sobelOperatorOpen3() {
+        if(getMainImage() == null){
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        imagesInSecondWindow = new ArrayList<>();
+        imagesInSecondWindow.add(FilterOperator.sobelOperatorX(getMainImage()));
+        imagesInSecondWindow.add(FilterOperator.sobelOperatorY(getMainImage()));
+        imagesInSecondWindow.add(FilterOperator.sobelOperatorBoth(getMainImage()));
         ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
         secondWindow = new ImagesList(writableImages);
     }

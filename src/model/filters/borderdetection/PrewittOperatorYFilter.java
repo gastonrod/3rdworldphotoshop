@@ -1,8 +1,10 @@
-package model.filters;
+package model.filters.borderdetection;
 
-public class BorderDetectionYFilter extends AbstractFilter {
+import model.filters.AbstractFilter;
 
-    public BorderDetectionYFilter() {
+public class PrewittOperatorYFilter extends AbstractFilter {
+
+    public PrewittOperatorYFilter() {
         int maskSize = 3;
         mask = new double[maskSize][maskSize];
         for(int i = 0; i < maskSize; i++){

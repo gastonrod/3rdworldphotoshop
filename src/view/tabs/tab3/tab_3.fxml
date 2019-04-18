@@ -7,7 +7,6 @@
 <fx:root text="Noise/Filter" closable="false" type="javafx.scene.control.Tab" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
     <VBox>
         <Text VBox.vgrow="ALWAYS" fx:id="errorText"/>
-        <Region VBox.vgrow="ALWAYS"/>
         <Accordion>
             <panes>
             <!--Filters-->
@@ -32,12 +31,14 @@
                     </HBox>
                 </TitledPane>
                 <!--Prewitt operator-->
-                <TitledPane text="Prewitt operator">
+                <TitledPane text="Border detection operator">
                     <HBox>
                         <Button text="Y" onAction="#prewittOperatorY"/>
                         <Button text="X" onAction="#prewittOperatorX"/>
-                        <Button text="Both" onAction="#prewittOperatorBoth"/>
-                        <Button text="3 imgs" onAction="#prewittOperatorOpen3"/>
+                        <Button text="Both prewitt" onAction="#prewittOperatorBoth"/>
+                        <Button text="Both sobel" onAction="#sobelOperatorBoth"/>
+                        <Button text="3 prewitt" onAction="#prewittOperatorOpen3"/>
+                        <Button text="3 sobel" onAction="#sobelOperatorOpen3"/>
                     </HBox>
                 </TitledPane>
                 <!--Median-->
@@ -133,5 +134,6 @@
                 </TitledPane>
             </panes>
         </Accordion>
+        <Region VBox.vgrow="ALWAYS"/>
     </VBox>
 </fx:root>

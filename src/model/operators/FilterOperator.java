@@ -2,6 +2,7 @@ package model.operators;
 
 import model.CustomImageFactory;
 import model.filters.*;
+import model.filters.borderdetection.*;
 import model.images.CustomImage;
 import model.utils.Utils;
 
@@ -37,12 +38,28 @@ public class FilterOperator {
     }
 
     public static CustomImage prewittOperatorY(CustomImage image) {
-        BorderDetectionYFilter filter = new BorderDetectionYFilter();
+        PrewittOperatorYFilter filter = new PrewittOperatorYFilter();
         return filter(image, filter, Utils.PREWITT_MASK_SIZE);
     }
 
     public static CustomImage prewittOperatorX(CustomImage image) {
-        BorderDetectionXFilter filter = new BorderDetectionXFilter();
+        PrewittOperatorXFilter filter = new PrewittOperatorXFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage sobelOperatorX(CustomImage image) {
+        SobelOperatorXFilter filter = new SobelOperatorXFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+
+    public static CustomImage sobelOperatorY(CustomImage image) {
+        SobelOperatorYFilter filter = new SobelOperatorYFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage sobelOperatorBoth(CustomImage image) {
+        SobelFilter filter = new SobelFilter();
         return filter(image, filter, Utils.PREWITT_MASK_SIZE);
     }
 
