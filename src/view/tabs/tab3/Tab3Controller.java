@@ -30,8 +30,6 @@ public class Tab3Controller extends Tab {
     @FXML
     public TextField gaussianFilterSD;
 
-    @FXML public TextField borderHighlightMaskSize;
-
     @FXML
     public TextField gaussianNoiseMeanTF;
     @FXML
@@ -71,18 +69,9 @@ public class Tab3Controller extends Tab {
         try {
             loader.load();
         } catch(IOException e) {
-            throw new RuntimeException("Error loading tab_3.fxml", e);
+            throw new RuntimeException("Error loading tab_4.fxml", e);
         }
         imagesService = Main.getImagesService();
-    }
-
-    @FXML
-    protected void borderHighlight(ActionEvent event) {
-        int value = Utils.sanitizeNumberInput(borderHighlightMaskSize.getText(), maxMaskSize);
-        if(value == -1) {
-            return;
-        }
-        imagesService.borderHighlight(value);
     }
 
     @FXML
@@ -157,35 +146,5 @@ public class Tab3Controller extends Tab {
             return;
         }
         imagesService.saltAndPepper(percent);
-    }
-
-    @FXML
-    protected void prewittOperatorY(ActionEvent event) {
-        imagesService.prewittOperatorY();
-    }
-
-    @FXML
-    protected void prewittOperatorX(ActionEvent event) {
-        imagesService.prewittOperatorX();
-    }
-
-    @FXML
-    protected void prewittOperatorBoth(ActionEvent event) {
-        imagesService.prewittOperatorBoth();
-    }
-
-    @FXML
-    protected void prewittOperatorOpen3(ActionEvent event) {
-        imagesService.prewittOperatorOpen3();
-    }
-
-    @FXML
-    protected void sobelOperatorBoth(ActionEvent event) {
-        imagesService.sobelOperatorBoth();
-    }
-
-    @FXML
-    protected void sobelOperatorOpen3(ActionEvent event) {
-        imagesService.sobelOperatorOpen3();
     }
 }

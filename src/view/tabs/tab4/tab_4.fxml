@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<fx:root text="Borders" closable="false" type="javafx.scene.control.Tab" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+    <VBox>
+        <Text VBox.vgrow="ALWAYS" fx:id="errorText"/>
+        <Accordion>
+            <panes>
+                <!--Border highlight-->
+                <TitledPane text="Border highlight">
+                    <HBox>
+                        <VBox>
+                            <Text text="Mask size"/>
+                            <TextField fx:id="borderHighlightMaskSize" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#borderHighlight"/>
+                    </HBox>
+                </TitledPane>
+                <!--Sobel/Prewitt operator-->
+                <TitledPane text="Sobel/Prewitt">
+                    <HBox>
+                        <Button text="Y" onAction="#prewittOperatorY"/>
+                        <Button text="X" onAction="#prewittOperatorX"/>
+                        <Button text="Both prewitt" onAction="#prewittOperatorBoth"/>
+                        <Button text="Both sobel" onAction="#sobelOperatorBoth"/>
+                        <Button text="3 prewitt" onAction="#prewittOperatorOpen3"/>
+                        <Button text="3 sobel" onAction="#sobelOperatorOpen3"/>
+                    </HBox>
+                </TitledPane>
+                <!--Laplace operator-->
+                <TitledPane text="Laplace">
+                    <HBox>
+                        <TextField fx:id="laplaceThreshold" promptText="Threshold"/>
+                        <Button text="Laplace 0X" onAction="#laplaceCrossingZeroOperator"/>
+                        <Button text="Laplace" onAction="#laplaceOperator"/>
+                    </HBox>
+                </TitledPane>
+                <!--Laplacian of Gaussian-->
+                <TitledPane text="Laplacian of Gaussian">
+                    <HBox>
+                        <TextField fx:id="logSD" promptText="Std"/>
+                        <Button text="LoG" onAction="#logOperator"/>
+                    </HBox>
+                </TitledPane>
+                <!--Anisotropic diff-->
+                <TitledPane text="Anisotropic">
+                    <HBox>
+                        <TextField fx:id="anisotropicLambda" promptText="Lambda"/>
+                        <TextField fx:id="anisotropicIterations" promptText="Iterations"/>
+                        <TextField fx:id="anisotropicSigma" promptText="Sigma"/>
+                        <Button text="Lorentz" onAction="#anisotropicLorentz"/>
+                        <Button text="Leclerc" onAction="#anisotropicLeclerc"/>
+                    </HBox>
+                </TitledPane>
+                <!--Isotropic diff-->
+                <TitledPane text="Isotropic">
+                    <HBox>
+                        <TextField fx:id="isotropicLambda" promptText="Lambda"/>
+                        <TextField fx:id="isotropicIterations" promptText="Iterations"/>
+                        <TextField fx:id="isotropicSigma" promptText="Sigma"/>
+                        <Button text="Lorentz" onAction="#isotropicLorentz"/>
+                        <Button text="Leclerc" onAction="#isotropicLeclerc"/>
+                    </HBox>
+                </TitledPane>
+                <!--Bilateral filter-->
+                <TitledPane text="Bilateral filter">
+                    <HBox>
+                        <TextField fx:id="bilateralSds" promptText="Sds"/>
+                        <TextField fx:id="bilateralSdr" promptText="Sdr"/>
+                        <TextField fx:id="bilateralMaskSize" promptText="MaskSize"/>
+                        <Button text="Filter" onAction="#bilateralFilter"/>
+                    </HBox>
+                </TitledPane>
+            </panes>
+        </Accordion>
+        <Region VBox.vgrow="ALWAYS"/>
+    </VBox>
+</fx:root>

@@ -2,7 +2,9 @@ package presenter;
 
 import javafx.scene.image.WritableImage;
 import javafx.stage.Window;
+import model.operators.DiffusorOperator;
 import model.operators.FilterOperator;
+import model.utils.QuadFunction;
 import model.utils.TriFunction;
 import model.operators.NoiseOperator;
 import model.operators.SpatialOperator;
@@ -259,6 +261,7 @@ public class ImagesService {
         applyTransformation(getMainImage(), FilterOperator::prewittOperatorBoth);
     }
 
+
     public void sobelOperatorBoth() {
         applyTransformation(getMainImage(), FilterOperator::sobelOperatorBoth);
     }
@@ -289,6 +292,40 @@ public class ImagesService {
         ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
         secondWindow = new ImagesList(writableImages);
     }
+
+    public void bilateralFilter(double sds, double sdr, int maskSize) {
+        applyTransformation(getMainImage(), sds, sdr, maskSize, FilterOperator::bilateralFilter);
+    }
+
+
+    public void anisotropicLorentz(double lambda ,int iterations, double sigma) {
+        applyTransformation(getMainImage(), lambda, iterations, sigma, DiffusorOperator::anisotropicLorentz);
+    }
+
+    public void anisotropicLeclerc(double lambda, int iterations, double sigma) {
+        applyTransformation(getMainImage(), lambda, iterations, sigma, DiffusorOperator::anisotropicLeclerc);
+    }
+
+    public void isotropicLeclerc(double lambda, int iterations, double sigma) {
+        applyTransformation(getMainImage(), lambda, iterations, sigma, DiffusorOperator::isotropicLorentz);
+    }
+
+    public void isotropicLorentz(double lambda, int iterations, double sigma) {
+        applyTransformation(getMainImage(), lambda, iterations, sigma, DiffusorOperator::isotropicLeclerc);
+    }
+
+
+    public void laplaceCrossingZeroOperator(int threshold) {
+        applyTransformation(getMainImage(), threshold, FilterOperator::laplaceCrossingZeroOperator);
+    }
+
+    public void laplaceOperator(int threshold) {
+        applyTransformation(getMainImage(), threshold, FilterOperator::laplaceOperator);
+    }
+    public void logOperator(double sd) {
+        applyTransformation(getMainImage(), sd, FilterOperator::laplacianOfGaussianOperator);
+    }
+
 
     // End filter operator methods
 
@@ -362,9 +399,19 @@ public class ImagesService {
         imageController.setMainImage(getMainImageAsWritableImage());
     }
 
+    private <T,K,J> void applyTransformation(CustomImage image, T param1, K param2, J param3, QuadFunction<CustomImage, T, K, J, CustomImage> f) {
+        if(getMainImage() == null || param1 == null || param2 == null) {
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        mainImages.push(f.apply(image, param1, param2, param3));
+        imageController.setMainImage(getMainImageAsWritableImage());
+    }
+
     public void secondWindowClosed() {
         secondWindow = null;
         imagesInSecondWindow = null;
     }
+
     // End applyTransformation variants.
 }

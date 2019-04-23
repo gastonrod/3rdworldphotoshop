@@ -15,6 +15,9 @@ public class Utils {
     public static double sanitizeNumberInput(String textField, double maxValue){
         return sanitizeNumberInput(textField, maxValue, -1);
     }
+    public static double dsanitizeNumberInput(String textField, double maxValue){
+        return sanitizeNumberInput(textField, maxValue, -1);
+    }
 
     public static int sanitizeNumberInput(String textField, int maxValue, int defaultValue){
         if(textField.equals("")) {

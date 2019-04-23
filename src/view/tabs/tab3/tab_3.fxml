@@ -10,16 +10,6 @@
         <Accordion>
             <panes>
             <!--Filters-->
-                <!--Border highlight-->
-                <TitledPane text="Border highlight">
-                    <HBox>
-                        <VBox>
-                            <Text text="Mask size"/>
-                            <TextField fx:id="borderHighlightMaskSize" promptText="Number"/>
-                        </VBox>
-                        <Button text="Apply" onAction="#borderHighlight"/>
-                    </HBox>
-                </TitledPane>
                 <!--Gaussian-->
                 <TitledPane text="Gaussian Filter">
                     <HBox>
@@ -28,17 +18,6 @@
                             <TextField fx:id="gaussianFilterSD" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#gaussianFilter"/>
-                    </HBox>
-                </TitledPane>
-                <!--Prewitt operator-->
-                <TitledPane text="Border detection operator">
-                    <HBox>
-                        <Button text="Y" onAction="#prewittOperatorY"/>
-                        <Button text="X" onAction="#prewittOperatorX"/>
-                        <Button text="Both prewitt" onAction="#prewittOperatorBoth"/>
-                        <Button text="Both sobel" onAction="#sobelOperatorBoth"/>
-                        <Button text="3 prewitt" onAction="#prewittOperatorOpen3"/>
-                        <Button text="3 sobel" onAction="#sobelOperatorOpen3"/>
                     </HBox>
                 </TitledPane>
                 <!--Median-->

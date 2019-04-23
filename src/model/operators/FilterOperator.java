@@ -11,6 +11,11 @@ import java.awt.*;
 public class FilterOperator {
     private FilterOperator(){}
 
+    public static CustomImage bilateralFilter(CustomImage image, double sds, double sdr, int maskSize) {
+        BilateralFilter filter = new BilateralFilter(sds, sdr);
+        return filter(image, filter, maskSize);
+    }
+
     public static CustomImage borderHighlight(CustomImage image, int maskSize) {
         BorderHighlight filter = new BorderHighlight(maskSize);
         return filter(image, filter, maskSize);
@@ -30,6 +35,21 @@ public class FilterOperator {
     public static CustomImage weightedMedianFilter(CustomImage image, int maskSize, int weight) {
         WeightedMedianFilter filter = new WeightedMedianFilter(weight);
         return filter(image, filter, maskSize);
+    }
+    public static CustomImage laplaceCrossingZeroOperator(CustomImage image, int sd) {
+//        LaplacianOfGaussianOperator2 a = new LaplacianOfGaussianOperator2(sd);
+//        return filter(image, a, 7);
+        LaplaceCrossingZeroOperator laplaceCrossingZeroOperator = new LaplaceCrossingZeroOperator();
+        return CustomImageFactory.newImage(laplaceCrossingZeroOperator.applyOperator(image.getRGBRepresentation()));
+    }
+    public static CustomImage laplaceOperator(CustomImage image, int threshold) {
+        LaplaceOperator filter = new LaplaceOperator();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage laplacianOfGaussianOperator(CustomImage image, double sd) {
+        LaplacianOfGaussianOperator laplacianOfGaussianOperator = new LaplacianOfGaussianOperator(sd);
+        return CustomImageFactory.newImage(laplacianOfGaussianOperator.applyOperator(image.getRGBRepresentation()));
     }
 
     public static CustomImage prewittOperatorBoth(CustomImage image) {
@@ -83,4 +103,5 @@ public class FilterOperator {
         }
         return auxRgb;
     }
+
 }
