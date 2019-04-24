@@ -200,6 +200,14 @@ public class ImagesService {
         applyTransformation(getMainImage(), value, SpatialOperator::setContrast);
     }
 
+    public void otsuUmbral() {
+        applyTransformation(getMainImage(), SpatialOperator::setOtsuUmbral);
+    }
+
+    public void globalUmbral() {
+        applyTransformation(getMainImage(), SpatialOperator::setGlobalUmbral);
+    }
+
     public void setUmbral(int value) {
         applyTransformation(getMainImage(), value, SpatialOperator::setUmbral);
     }

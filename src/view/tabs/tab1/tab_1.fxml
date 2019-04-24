@@ -18,7 +18,7 @@
             <Button text="Get avg and paint" onAction="#getAverageAndPaint"/>
             <Button text="Copy from main to sec" onAction="#copyFromMainToSec"/>
             <HBox spacing="10" alignment="bottom_left">
-                <TextField fx:id="pixelModifyTextField" promptText="Enter a numeric value"/>
+                <TextField prefWidth="100" fx:id="pixelModifyTextField" promptText="Enter a numeric value"/>
                 <Button text="Modify pixel"
                         onAction="#modifyPixel"
                         fx:id="pixelModifyButton"/>

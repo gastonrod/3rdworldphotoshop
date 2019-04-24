@@ -42,9 +42,12 @@ public class CustomImageFactory {
             for(int j = 0; j < imageSize; j++) {
                 if (i >= centerY - centerY /2 && i < centerY + centerY /2 &&
                     j >= centerX - centerX /2 && j < centerX + centerX /2) {
-                    reds[i][j] = (byte)255;
-                    greens[i][j] = (byte)255;
-                    blues[i][j] = (byte)255;
+//                    reds[i][j] = (byte)255;
+//                    greens[i][j] = (byte)255;
+//                    blues[i][j] = (byte)255;
+                    reds[i][j] = (byte)70;
+                    greens[i][j] = (byte)70;
+                    blues[i][j] = (byte)70;
                 } else {
                     reds[i][j] = (byte)0;
                     greens[i][j] = (byte)0;

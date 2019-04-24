@@ -17,7 +17,6 @@ public class Tab3Controller extends Tab {
 
     private int gaussianDefaultMean = 0;
     private int gaussianNoiseDefaultStd = 80;
-    private int gaussianFilterDefaultStd = 80;
 
     private double rayleighDefaultMean = 0.5;
 
@@ -27,8 +26,6 @@ public class Tab3Controller extends Tab {
 
     private ImagesService imagesService;
 
-    @FXML
-    public TextField gaussianFilterSD;
 
     @FXML
     public TextField gaussianNoiseMeanTF;
@@ -50,18 +47,6 @@ public class Tab3Controller extends Tab {
     @FXML
     public TextField exponentialNoisePercentTF;
 
-    @FXML
-    public TextField averageTextField;
-
-    @FXML
-    public TextField medianTextField;
-
-    @FXML
-    public TextField weightedMedianWeightTextField;
-
-    @FXML
-    public TextField weightedMedianTextField;
-
     public Tab3Controller() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("tab_3.fxml"));
         loader.setRoot(this);
@@ -72,40 +57,6 @@ public class Tab3Controller extends Tab {
             throw new RuntimeException("Error loading tab_4.fxml", e);
         }
         imagesService = Main.getImagesService();
-    }
-
-    @FXML
-    protected void medianFilter(ActionEvent event) {
-        int value = Utils.sanitizeNumberInput(medianTextField.getText(), maxMaskSize);
-        if(value == -1) {
-            return;
-        }
-        imagesService.medianFilter(value);
-    }
-
-    @FXML
-    protected void gaussianFilter(ActionEvent event) {
-        double sd = Utils.sanitizeNumberInput(gaussianFilterSD.getText(), gaussianFilterDefaultStd);
-        imagesService.gaussianFilter(sd);
-    }
-
-    @FXML
-    protected void weightedMedianFilter(ActionEvent event) {
-        int value = Utils.sanitizeNumberInput(weightedMedianTextField.getText(), maxMaskSize);
-        int weight = Utils.sanitizeNumberInput(weightedMedianWeightTextField.getText(), maxMaskSize);
-        if(value == -1) {
-            return;
-        }
-        imagesService.weightedMedianFilter(value, weight);
-    }
-
-    @FXML
-    protected void averageFilter(ActionEvent event) {
-        int value = Utils.sanitizeNumberInput(averageTextField.getText(), maxMaskSize);
-        if(value == -1) {
-            return;
-        }
-        imagesService.averageFilter(value);
     }
 
     @FXML

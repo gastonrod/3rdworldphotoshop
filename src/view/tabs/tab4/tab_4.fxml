@@ -14,7 +14,7 @@
                     <HBox>
                         <VBox>
                             <Text text="Mask size"/>
-                            <TextField fx:id="borderHighlightMaskSize" promptText="Number"/>
+                            <TextField prefWidth="100" fx:id="borderHighlightMaskSize" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#borderHighlight"/>
                     </HBox>
@@ -33,7 +33,7 @@
                 <!--Laplace operator-->
                 <TitledPane text="Laplace">
                     <HBox>
-                        <TextField fx:id="laplaceThreshold" promptText="Threshold"/>
+                        <TextField prefWidth="100" fx:id="laplaceThreshold" promptText="Threshold"/>
                         <Button text="Laplace 0X" onAction="#laplaceCrossingZeroOperator"/>
                         <Button text="Laplace" onAction="#laplaceOperator"/>
                     </HBox>
@@ -41,37 +41,8 @@
                 <!--Laplacian of Gaussian-->
                 <TitledPane text="Laplacian of Gaussian">
                     <HBox>
-                        <TextField fx:id="logSD" promptText="Std"/>
+                        <TextField prefWidth="100" fx:id="logSD" promptText="Std"/>
                         <Button text="LoG" onAction="#logOperator"/>
-                    </HBox>
-                </TitledPane>
-                <!--Anisotropic diff-->
-                <TitledPane text="Anisotropic">
-                    <HBox>
-                        <TextField fx:id="anisotropicLambda" promptText="Lambda"/>
-                        <TextField fx:id="anisotropicIterations" promptText="Iterations"/>
-                        <TextField fx:id="anisotropicSigma" promptText="Sigma"/>
-                        <Button text="Lorentz" onAction="#anisotropicLorentz"/>
-                        <Button text="Leclerc" onAction="#anisotropicLeclerc"/>
-                    </HBox>
-                </TitledPane>
-                <!--Isotropic diff-->
-                <TitledPane text="Isotropic">
-                    <HBox>
-                        <TextField fx:id="isotropicLambda" promptText="Lambda"/>
-                        <TextField fx:id="isotropicIterations" promptText="Iterations"/>
-                        <TextField fx:id="isotropicSigma" promptText="Sigma"/>
-                        <Button text="Lorentz" onAction="#isotropicLorentz"/>
-                        <Button text="Leclerc" onAction="#isotropicLeclerc"/>
-                    </HBox>
-                </TitledPane>
-                <!--Bilateral filter-->
-                <TitledPane text="Bilateral filter">
-                    <HBox>
-                        <TextField fx:id="bilateralSds" promptText="Sds"/>
-                        <TextField fx:id="bilateralSdr" promptText="Sdr"/>
-                        <TextField fx:id="bilateralMaskSize" promptText="MaskSize"/>
-                        <Button text="Filter" onAction="#bilateralFilter"/>
                     </HBox>
                 </TitledPane>
             </panes>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<fx:root text="Filters" closable="false" type="javafx.scene.control.Tab" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+    <VBox>
+        <Text VBox.vgrow="ALWAYS" fx:id="errorText"/>
+        <Accordion>
+            <panes>
+            <!--Filters-->
+                <!--Gaussian-->
+                <TitledPane text="Gaussian Filter">
+                    <HBox>
+                        <VBox>
+                            <Text text="S.D."/>
+                            <TextField prefWidth="100" fx:id="gaussianFilterSD" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#gaussianFilter"/>
+                    </HBox>
+                </TitledPane>
+                <!--Median-->
+                <TitledPane text="Median filter">
+                   <HBox spacing="10" alignment="bottom_left">
+                       <VBox>
+                           <Text text="Mask size"/>
+                           <TextField prefWidth="100" fx:id="medianTextField" promptText="Number"/>
+                       </VBox>
+                       <Button text="Apply" onAction="#medianFilter"/>
+                   </HBox>
+                </TitledPane>
+                <!--Weighted median-->
+                <TitledPane text="Weighted median">
+                   <HBox spacing="10" alignment="bottom_left">
+                        <VBox>
+                            <Text text="Mask size"/>
+                            <TextField prefWidth="100" fx:id="weightedMedianTextField" promptText="Number"/>
+                        </VBox>
+                        <VBox>
+                            <Text text="Weight"/>
+                            <TextField prefWidth="100" fx:id="weightedMedianWeightTextField" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#weightedMedianFilter"/>
+                   </HBox>
+                </TitledPane>
+                <!--Average-->
+                <TitledPane text="Average filter">
+                   <HBox spacing="10" alignment="bottom_left">
+                        <VBox>
+                            <Text text="Mask size"/>
+                            <TextField prefWidth="100" fx:id="averageTextField" promptText="Number"/>
+                        </VBox>
+                        <Button text="Apply" onAction="#averageFilter"/>
+                   </HBox>
+                </TitledPane>
+                <!--Anisotropic diff-->
+                <TitledPane text="Anisotropic">
+                    <HBox>
+                        <TextField prefWidth="100" fx:id="anisotropicLambda" promptText="Lambda"/>
+                        <TextField prefWidth="100" fx:id="anisotropicIterations" promptText="Iterations"/>
+                        <TextField prefWidth="100" fx:id="anisotropicSigma" promptText="Sigma"/>
+                        <Button text="Lorentz" onAction="#anisotropicLorentz"/>
+                        <Button text="Leclerc" onAction="#anisotropicLeclerc"/>
+                    </HBox>
+                </TitledPane>
+                <!--Isotropic diff-->
+                <TitledPane text="Isotropic">
+                    <HBox>
+                        <TextField prefWidth="100" fx:id="isotropicLambda" promptText="Lambda"/>
+                        <TextField prefWidth="100" fx:id="isotropicIterations" promptText="Iterations"/>
+                        <TextField prefWidth="100" fx:id="isotropicSigma" promptText="Sigma"/>
+                        <Button text="Lorentz" onAction="#isotropicLorentz"/>
+                        <Button text="Leclerc" onAction="#isotropicLeclerc"/>
+                    </HBox>
+                </TitledPane>
+                <!--Bilateral filter-->
+                <TitledPane text="Bilateral filter">
+                    <HBox>
+                        <TextField prefWidth="100" fx:id="bilateralSds" promptText="Sds"/>
+                        <TextField prefWidth="100" fx:id="bilateralSdr" promptText="Sdr"/>
+                        <TextField prefWidth="100" fx:id="bilateralMaskSize" promptText="MaskSize"/>
+                        <Button text="Filter" onAction="#bilateralFilter"/>
+                    </HBox>
+                </TitledPane>
+            </panes>
+        </Accordion>
+        <Region VBox.vgrow="ALWAYS"/>
+    </VBox>
+</fx:root>

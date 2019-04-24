@@ -9,13 +9,28 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Accordion?>
 <fx:root text="Operations" closable="false" type="javafx.scene.control.Tab" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
         <VBox>
             <Text VBox.vgrow="ALWAYS" fx:id="errorText"/>
+            <Accordion>
+                <panes>
+                    <!--Umbrals-->
+                    <TitledPane text="Umbrals">
+                        <HBox>
+                            <Button text="Global" onAction="#globalUmbral"/>
+                            <Button text="Otsu" onAction="#otsuUmbral"/>
+                            <TextField prefWidth="100" text="Threshold" fx:id="umbralNumber"/>
+                            <Button text="Normal" onAction="#normalUmbral"/>
+                        </HBox>
+                    </TitledPane>
+                </panes>
+            </Accordion>
             <Region VBox.vgrow="ALWAYS"/>
             <Text text="PotencyFunction"/>
             <HBox>
-                <TextField text="Number.." fx:id="potencyFunctionPhi"/>
+                <TextField prefWidth="100" text="Number.." fx:id="potencyFunctionPhi"/>
                 <Button text="Apply" onAction="#potencyFunction"/>
             </HBox>
             <HBox>
@@ -33,10 +48,6 @@
             <Region VBox.vgrow="ALWAYS"/>
             <Text text="Contrast" textAlignment="CENTER"/>
             <Slider fx:id="contrastSlider" onMouseReleased="#contrastDrag" max="255" min="0" blockIncrement="32" showTickLabels="true"
-                    showTickMarks="true" majorTickUnit="32"/>
-            <Text text="Umbral" textAlignment="CENTER"/>
-            <Slider fx:id="umbralSlider" onMouseReleased="#umbralDrag" max="255" min="0" blockIncrement="32" showTickLabels="true"
-                    snapToTicks="true"
                     showTickMarks="true" majorTickUnit="32"/>
         </VBox>
 </fx:root>

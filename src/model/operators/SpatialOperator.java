@@ -1,8 +1,11 @@
 package model.operators;
 
+import com.sun.javafx.iio.ImageLoaderFactory;
 import model.CustomImageFactory;
 import model.images.CustomImage;
 import model.transformers.*;
+import model.umbrals.GlobalUmbral;
+import model.umbrals.OtsuUmbral;
 
 import java.awt.*;
 
@@ -66,7 +69,22 @@ public class SpatialOperator {
         return transform(image, transformer);
     }
 
+    public static CustomImage setOtsuUmbral(CustomImage image) {
+        OtsuUmbral umbral = new OtsuUmbral();
+        return CustomImageFactory.newImage(umbral.apply(image.getRGBRepresentation()));
+    }
+
+    public static CustomImage setGlobalUmbral(CustomImage image) {
+        GlobalUmbral umbral = new GlobalUmbral();
+        return CustomImageFactory.newImage(umbral.apply(image.getRGBRepresentation()));
+    }
+
     public static CustomImage setUmbral(CustomImage image, int value) {
+        Umbral transformer = new Umbral(value);
+        return transform(image,transformer);
+    }
+
+    public static Color[][] setUmbral(Color[][] image, int value) {
         Umbral transformer = new Umbral(value);
         return transform(image,transformer);
     }
@@ -90,4 +108,5 @@ public class SpatialOperator {
         }
         return rgbRepresentation;
     }
+
 }

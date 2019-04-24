@@ -26,10 +26,10 @@ public class Tab2Controller extends Tab {
     public Slider contrastSlider;
 
     @FXML
-    public Slider umbralSlider;
+    public TextField potencyFunctionPhi;
 
     @FXML
-    public TextField potencyFunctionPhi;
+    public TextField umbralNumber;
 
     public Tab2Controller() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("tab_2.fxml"));
@@ -73,11 +73,6 @@ public class Tab2Controller extends Tab {
     }
 
     @FXML
-    protected void umbralDrag(Event event) {
-        imagesService.setUmbral((int)umbralSlider.getValue());
-    }
-
-    @FXML
     protected void showHistogram(ActionEvent event) {
         imagesService.showHistogram();
     }
@@ -91,5 +86,21 @@ public class Tab2Controller extends Tab {
     protected void potencyFunction(ActionEvent event) {
         double phi= Utils.sanitizeNumberInput(potencyFunctionPhi.getText(), maxPhi);
         imagesService.potencyFunction(phi);
+    }
+
+    @FXML
+    protected void normalUmbral(ActionEvent event) {
+        int value = Utils.sanitizeNumberInput(umbralNumber.getText(), Utils.L -1);
+        if (value == -1) {
+            return;
+        }
+        imagesService.setUmbral(value);
+    }
+
+    @FXML protected void globalUmbral(ActionEvent event) {
+        imagesService.globalUmbral();
+    }
+    @FXML protected void otsuUmbral(ActionEvent event) {
+        imagesService.otsuUmbral();
     }
 }
