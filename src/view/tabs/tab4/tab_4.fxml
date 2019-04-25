@@ -20,14 +20,12 @@
                     </HBox>
                 </TitledPane>
                 <!--Sobel/Prewitt operator-->
-                <TitledPane text="Sobel/Prewitt">
+                <TitledPane text="Sobel/Prewitt/Kirsh">
                     <HBox>
-                        <Button text="Y" onAction="#prewittOperatorY"/>
-                        <Button text="X" onAction="#prewittOperatorX"/>
-                        <Button text="Both prewitt" onAction="#prewittOperatorBoth"/>
-                        <Button text="Both sobel" onAction="#sobelOperatorBoth"/>
-                        <Button text="3 prewitt" onAction="#prewittOperatorOpen3"/>
-                        <Button text="3 sobel" onAction="#sobelOperatorOpen3"/>
+                        <Button text="Prewitt" onAction="#prewittOperatorOpen3"/>
+                        <Button text="Sobel" onAction="#sobelOperatorOpen3"/>
+                        <Button text="Kirsh" onAction="#kirshOperatorOpen3"/>
+                        <Button text="Unnamed" onAction="#unnamedOperatorOpen3"/>
                     </HBox>
                 </TitledPane>
                 <!--Laplace operator-->

@@ -44,33 +44,23 @@ public class Tab4Controller extends Tab {
         imagesService.borderHighlight(value);
     }
     @FXML
-    protected void prewittOperatorY(ActionEvent event) {
-        imagesService.prewittOperatorY();
-    }
-
-    @FXML
-    protected void prewittOperatorX(ActionEvent event) {
-        imagesService.prewittOperatorX();
-    }
-
-    @FXML
-    protected void prewittOperatorBoth(ActionEvent event) {
-        imagesService.prewittOperatorBoth();
-    }
-
-    @FXML
     protected void prewittOperatorOpen3(ActionEvent event) {
         imagesService.prewittOperatorOpen3();
     }
 
     @FXML
-    protected void sobelOperatorBoth(ActionEvent event) {
-        imagesService.sobelOperatorBoth();
+    protected void sobelOperatorOpen3(ActionEvent event) {
+        imagesService.sobelOperatorOpen3();
     }
 
     @FXML
-    protected void sobelOperatorOpen3(ActionEvent event) {
-        imagesService.sobelOperatorOpen3();
+    protected void kirshOperatorOpen3(ActionEvent event) {
+        imagesService.kirshOperatorOpen3();
+    }
+
+    @FXML
+    protected void unnamedOperatorOpen3(ActionEvent event) {
+        imagesService.unnamedOperatorOpen3();
     }
 
     @FXML

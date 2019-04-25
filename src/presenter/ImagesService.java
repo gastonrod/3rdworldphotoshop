@@ -275,6 +275,32 @@ public class ImagesService {
     }
 
     // This function assumes that the 2nd window is not open
+    public void kirshOperatorOpen3() {
+        if(getMainImage() == null){
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        imagesInSecondWindow = new ArrayList<>();
+        imagesInSecondWindow.add(FilterOperator.kirshOperatorX(getMainImage()));
+        imagesInSecondWindow.add(FilterOperator.kirshOperatorY(getMainImage()));
+        imagesInSecondWindow.add(FilterOperator.kirshOperatorBoth(getMainImage()));
+        ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
+        secondWindow = new ImagesList(writableImages);
+    }
+
+    public void unnamedOperatorOpen3() {
+        if(getMainImage() == null){
+            ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);
+            return;
+        }
+        imagesInSecondWindow = new ArrayList<>();
+        imagesInSecondWindow.add(FilterOperator.unnamedOperatorX(getMainImage()));
+        imagesInSecondWindow.add(FilterOperator.unnamedOperatorY(getMainImage()));
+        imagesInSecondWindow.add(FilterOperator.unnamedOperatorBoth(getMainImage()));
+        ArrayList<WritableImage> writableImages = new ArrayList<>(imagesInSecondWindow.stream().map(i -> i.asWritableImage()).collect(Collectors.toList()));
+        secondWindow = new ImagesList(writableImages);
+    }
+
     public void prewittOperatorOpen3() {
         if(getMainImage() == null){
             ErrorsWindowController.newErrorCode(ErrorCodes.LOAD_MAIN);

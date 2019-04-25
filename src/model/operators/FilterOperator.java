@@ -67,6 +67,36 @@ public class FilterOperator {
         return filter(image, filter, Utils.PREWITT_MASK_SIZE);
     }
 
+    public static CustomImage kirshOperatorX(CustomImage image) {
+        KirshOperatorXFilter filter = new KirshOperatorXFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage kirshOperatorY(CustomImage image) {
+        KirshOperatorYFilter filter = new KirshOperatorYFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage kirshOperatorBoth(CustomImage image) {
+        KirshFilter filter = new KirshFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage unnamedOperatorX(CustomImage image) {
+        UnnamedOperatorXFilter filter = new UnnamedOperatorXFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage unnamedOperatorY(CustomImage image) {
+        UnnamedOperatorYFilter filter = new UnnamedOperatorYFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage unnamedOperatorBoth(CustomImage image) {
+        UnnamedFilter filter = new UnnamedFilter();
+        return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
     public static CustomImage sobelOperatorX(CustomImage image) {
         SobelOperatorXFilter filter = new SobelOperatorXFilter();
         return filter(image, filter, Utils.PREWITT_MASK_SIZE);
@@ -103,5 +133,4 @@ public class FilterOperator {
         }
         return auxRgb;
     }
-
 }
