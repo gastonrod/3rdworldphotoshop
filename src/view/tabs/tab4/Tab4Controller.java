@@ -65,27 +65,17 @@ public class Tab4Controller extends Tab {
 
     @FXML
     protected void laplaceCrossingZeroOperator(ActionEvent event){
-        int value = Utils.sanitizeNumberInput(laplaceThreshold.getText(), Utils.L-1);
-
-        if(value == -1) {
-            return;
-        }
-        imagesService.laplaceCrossingZeroOperator(value);
+        imagesService.laplaceCrossingZeroOperator();
     }
 
     @FXML
     protected void laplaceOperator(ActionEvent event){
-        int value = Utils.sanitizeNumberInput(laplaceThreshold.getText(), Utils.L-1);
-
-        if(value == -1) {
-            return;
-        }
-        imagesService.laplaceOperator(value);
+        imagesService.laplaceOperator();
     }
 
     @FXML
     protected  void logOperator(ActionEvent event) {
-        double value = Utils.dsanitizeNumberInput(logSD.getText(), Utils.L-1);
+        double value = Utils.dsanitizeNumberInput(logSD.getText(), Utils.L-1.0);
 
         if(value == -1) {
             return;

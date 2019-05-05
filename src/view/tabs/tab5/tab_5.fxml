@@ -70,8 +70,7 @@
                         <TextField prefWidth="100" fx:id="isotropicLambda" promptText="Lambda"/>
                         <TextField prefWidth="100" fx:id="isotropicIterations" promptText="Iterations"/>
                         <TextField prefWidth="100" fx:id="isotropicSigma" promptText="Sigma"/>
-                        <Button text="Lorentz" onAction="#isotropicLorentz"/>
-                        <Button text="Leclerc" onAction="#isotropicLeclerc"/>
+                        <Button text="Apply" onAction="#isotropicLeclerc"/>
                     </HBox>
                 </TitledPane>
                 <!--Bilateral filter-->

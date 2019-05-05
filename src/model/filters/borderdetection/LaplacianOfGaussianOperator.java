@@ -1,17 +1,15 @@
 package model.filters.borderdetection;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 
 public class LaplacianOfGaussianOperator extends AbstractFilterWithZeroCrossing {
     public LaplacianOfGaussianOperator(double sd) {
-        int maskSize = (sd*2.0) % 2 == 0 ? (int)(sd * 2.0 + 1): (int)(sd * 2.0 + 2);
-        maskSize = 7;
+        int maskSize = 7;
         mask = new double[maskSize][maskSize];
-        double y = -maskSize/2;
+        double y = -maskSize/2.0;
         DecimalFormat df = new DecimalFormat("#.#####");
         for(int i = 0 ; i < maskSize; i++, y++) {
-            double x = -maskSize/2;
+            double x = -maskSize/2.0;
             for(int j = 0; j < maskSize; j++, x++) {
                 double a = 1.0 / ( Math.sqrt(2.0 * Math.PI) * Math.pow(sd, 3) );
                 double b = 2.0 - ( x * x + y * y) / ( sd * sd );

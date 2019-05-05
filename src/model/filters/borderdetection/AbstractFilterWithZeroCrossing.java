@@ -3,13 +3,15 @@ package model.filters.borderdetection;
 import model.utils.Utils;
 
 import java.awt.Color;
-import java.util.List;
+import java.util.Arrays;
 
 public abstract class AbstractFilterWithZeroCrossing {
     protected double[][] mask;
-    protected double matrixSum;
+    protected double matrixSum = 1;
+    protected int threshold = 10;
     public Color[][] applyOperator(Color[][] pixels) {
         int [][][] newValues = new int[3][pixels.length][pixels[0].length];
+
         for(int i = 0; i < pixels.length; i++) {
             for(int j = 0; j < pixels[0].length; j++) {
                 int[] newVals = filter(pixels, i, j, mask.length);
@@ -18,9 +20,9 @@ public abstract class AbstractFilterWithZeroCrossing {
                 newValues[2][i][j] = newVals[2];
             }
         }
-        newValues[0] = applyZeroCrossing(newValues[0]);
-        newValues[1] = applyZeroCrossing(newValues[1]);
-        newValues[2] = applyZeroCrossing(newValues[2]);
+        newValues[0] = crossingZeros(newValues[0]);
+        newValues[1] = crossingZeros(newValues[1]);
+        newValues[2] = crossingZeros(newValues[2]);
         return Utils.colorsFromInts(newValues[0], newValues[1], newValues[2]);
     }
 
@@ -38,43 +40,55 @@ public abstract class AbstractFilterWithZeroCrossing {
                 greens += pixels[i][j].getGreen()* mask[indexY][indexX];
             }
         }
-        double scalar = 1.0;
         return new int[]{
-                ((int)(reds   * scalar)),
-                ((int)(greens * scalar)),
-                ((int)(blues  * scalar))
+                (int)reds,
+                (int)greens,
+                (int)blues
         };
     }
+    private int[][] crossingZeros(int[][] originalChannel) {
+        int[][] newChannel = new int[originalChannel.length][originalChannel[0].length];
+        for(int i = 0; i < originalChannel.length; i++) {
+            newChannel[i] = originalChannel[i].clone();
+        }
 
-    int[][] applyZeroCrossing(int[][] color){
-        int[][] newColor = new int[color.length][color[0].length];
-        for (int y = 1; y < color.length - 1; y++) {
-            for (int x = 1; x < color[0].length - 1; x++) {
+        for(int y = mask.length; y < originalChannel.length - mask.length; y++) {
+            for(int x = mask.length+ 1; x < originalChannel[0].length - mask.length; x++) {
+                int currentPixel = originalChannel[y][x];
+                int prevPixel = originalChannel[y][x-1];
+                Integer nextPixel = x + 1 < originalChannel[0].length - mask.length ? originalChannel[y][x+1] : null;
 
-                int left = color[y][x-1];
-                int right = color[y][x+1];
-                int up = color[y+1][x];
-                int down = color[y-1][x];
-                int[] neighbors = new int[]{left, right, up, down};
-
-                if(!Utils.allSameSign(color[y][x], neighbors)){
-                    List<Integer> differentSigns = Utils.getNumbersWithDifferentSign(color[y][x], neighbors);
-                    int min = Math.abs(color[y][x]);
-                    for(Integer i : differentSigns) {
-                        if(min > Math.abs(i)){
-                            min = Math.abs(i);
+                if(originalChannel[y][x] == 0) {
+                    /* Check + 0 - or - 0 + */
+                    if(nextPixel != null && (prevPixel > 0 && nextPixel < 0 || prevPixel < 0 && nextPixel > 0)) {
+                        // Use threshold to detect borders
+                        int newColor = Math.abs(prevPixel) + Math.abs(nextPixel);
+                        if(newColor > threshold) {
+                            newChannel[y][x] = newColor;
+                        } else {
+                            newChannel[y][x] = 0;
                         }
-                    }
-                    if(min != Math.abs(color[y][x])){
-                        newColor[y][x] = Utils.inColorRange(Math.abs(color[y][x]) + min);
                     } else {
-                        newColor[y][x] = 0;
+                        newChannel[y][x] = 0;
                     }
+                    newChannel[y][x - 1] = 0;
                 } else {
-                    newColor[y][x] = 0;
+                    /* Check + - or - + */
+                    if(prevPixel > 0 && currentPixel < 0 || prevPixel < 0 && currentPixel > 0) {
+                        int newColor = Math.abs(prevPixel) + Math.abs(currentPixel);
+                        if(newColor > threshold) {
+                            newChannel[y][x - 1] = newColor;
+                        } else {
+                            newChannel[y][x - 1] = 0;
+                        }
+                    } else {
+                        newChannel[y][x - 1] = 0;
+                    }
                 }
             }
+            newChannel[y][originalChannel[0].length - mask.length] = 0;
         }
-        return newColor;
+
+        return newChannel;
     }
 }

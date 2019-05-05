@@ -349,13 +349,14 @@ public class ImagesService {
     }
 
 
-    public void laplaceCrossingZeroOperator(int threshold) {
-        applyTransformation(getMainImage(), threshold, FilterOperator::laplaceCrossingZeroOperator);
+    public void laplaceCrossingZeroOperator() {
+        applyTransformation(getMainImage(), FilterOperator::laplaceCrossingZeroOperator);
     }
 
-    public void laplaceOperator(int threshold) {
-        applyTransformation(getMainImage(), threshold, FilterOperator::laplaceOperator);
+    public void laplaceOperator() {
+        applyTransformation(getMainImage(), FilterOperator::laplaceOperator);
     }
+
     public void logOperator(double sd) {
         applyTransformation(getMainImage(), sd, FilterOperator::laplacianOfGaussianOperator);
     }

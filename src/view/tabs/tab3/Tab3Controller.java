@@ -13,8 +13,6 @@ import java.io.IOException;
 
 public class Tab3Controller extends Tab {
 
-    private int maxMaskSize = 32;
-
     private int gaussianDefaultMean = 0;
     private int gaussianNoiseDefaultStd = 80;
 

@@ -1,6 +1,5 @@
 package model.operators;
 
-import com.sun.javafx.iio.ImageLoaderFactory;
 import model.CustomImageFactory;
 import model.images.CustomImage;
 import model.transformers.*;

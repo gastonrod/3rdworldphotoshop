@@ -112,17 +112,6 @@ public class Tab5Controller extends Tab {
         }
         imagesService.anisotropicLeclerc(lambda, iterations, sigma);
     }
-    @FXML
-    protected  void isotropicLorentz(ActionEvent event) {
-        double lambda = Utils.dsanitizeNumberInput(isotropicLambda.getText(), Utils.L-1);
-        int iterations = Utils.sanitizeNumberInput(isotropicIterations.getText(), Utils.L-1);
-        double sigma = Utils.dsanitizeNumberInput(isotropicSigma.getText(), Utils.L-1);
-
-        if(lambda == -1 || iterations == -1 || sigma == -1) {
-            return;
-        }
-        imagesService.isotropicLorentz(lambda, iterations, sigma);
-    }
 
     @FXML
     protected void isotropicLeclerc(ActionEvent event) {

@@ -5,23 +5,20 @@ public class AnisotropicDiffusion extends AbstractDiffusion {
     protected int applyDiffusion(int pixel, int up, int down, int left, int right, double lambda, EdgeDetector bd) {
         double oldValueIJ = pixel;
 
-        double DnIij = up - oldValueIJ;
-        double DsIij = down - oldValueIJ;
-        double DeIij = right - oldValueIJ;
-        double DoIij = left - oldValueIJ;
+        double dnIij = up - oldValueIJ;
+        double dsIij = down - oldValueIJ;
+        double deIij = right - oldValueIJ;
+        double doIij = left - oldValueIJ;
 
-        double Cnij = bd.g(DnIij);
-        double Csij = bd.g(DsIij);
-        double Ceij = bd.g(DeIij);
-        double Coij = bd.g(DoIij);
+        double cnij = bd.g(dnIij);
+        double cij = bd.g(dsIij);
+        double ceij = bd.g(deIij);
+        double coij = bd.g(doIij);
 
         double resultColor = oldValueIJ
                 + lambda
-                * (DnIij * Cnij + DsIij * Csij + DeIij * Ceij + DoIij
-                * Coij);
-        if(Math.abs(pixel-resultColor) > 3){
-            System.out.println(pixel+ " <> " + resultColor);
-        }
+                * (dnIij * cnij + dsIij * cij + deIij * ceij + doIij
+                * coij);
         return (int)resultColor;
     }
 }

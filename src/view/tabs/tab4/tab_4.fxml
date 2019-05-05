@@ -31,7 +31,6 @@
                 <!--Laplace operator-->
                 <TitledPane text="Laplace">
                     <HBox>
-                        <TextField prefWidth="100" fx:id="laplaceThreshold" promptText="Threshold"/>
                         <Button text="Laplace 0X" onAction="#laplaceCrossingZeroOperator"/>
                         <Button text="Laplace" onAction="#laplaceOperator"/>
                     </HBox>

@@ -36,13 +36,11 @@ public class FilterOperator {
         WeightedMedianFilter filter = new WeightedMedianFilter(weight);
         return filter(image, filter, maskSize);
     }
-    public static CustomImage laplaceCrossingZeroOperator(CustomImage image, int sd) {
-//        LaplacianOfGaussianOperator2 a = new LaplacianOfGaussianOperator2(sd);
-//        return filter(image, a, 7);
+    public static CustomImage laplaceCrossingZeroOperator(CustomImage image) {
         LaplaceCrossingZeroOperator laplaceCrossingZeroOperator = new LaplaceCrossingZeroOperator();
         return CustomImageFactory.newImage(laplaceCrossingZeroOperator.applyOperator(image.getRGBRepresentation()));
     }
-    public static CustomImage laplaceOperator(CustomImage image, int threshold) {
+    public static CustomImage laplaceOperator(CustomImage image) {
         LaplaceOperator filter = new LaplaceOperator();
         return filter(image, filter, Utils.PREWITT_MASK_SIZE);
     }
