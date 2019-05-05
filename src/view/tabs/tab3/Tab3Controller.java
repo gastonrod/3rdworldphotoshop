@@ -13,15 +13,6 @@ import java.io.IOException;
 
 public class Tab3Controller extends Tab {
 
-    private int gaussianDefaultMean = 0;
-    private int gaussianNoiseDefaultStd = 80;
-
-    private double rayleighDefaultMean = 0.5;
-
-    private double exponentialDefaultLambda = 0.5;
-
-    private double noiseDefaultPercent = 0.3;
-
     private ImagesService imagesService;
 
 
@@ -59,9 +50,9 @@ public class Tab3Controller extends Tab {
 
     @FXML
     protected void gaussianNoise(ActionEvent event) {
-        int mean    = Utils.sanitizeNumberInput(gaussianNoiseMeanTF.getText(), Utils.L -1, gaussianDefaultMean);
-        int std     = Utils.sanitizeNumberInput(gaussianNoiseStdTF.getText(), Utils.L - 1, gaussianNoiseDefaultStd);
-        double percent = Utils.sanitizeNumberInput(gaussianNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
+        int mean    = Utils.sanitizeNumberInput(gaussianNoiseMeanTF.getText(), Utils.L -1);
+        int std     = Utils.sanitizeNumberInput(gaussianNoiseStdTF.getText(), Utils.L - 1);
+        double percent = Utils.sanitizeNumberInput(gaussianNoisePercentTF.getText(), 1.0);
         if(mean == -1 || std == -1 || percent == -1) {
            return;
         }
@@ -70,8 +61,8 @@ public class Tab3Controller extends Tab {
 
     @FXML
     protected void exponentialNoise(ActionEvent event) {
-        double lambda = Utils.sanitizeNumberInput(exponentialNoiseLambda.getText(), Utils.L - 1.0, exponentialDefaultLambda);
-        double percent = Utils.sanitizeNumberInput(exponentialNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
+        double lambda = Utils.sanitizeNumberInput(exponentialNoiseLambda.getText(), Utils.L - 1.0);
+        double percent = Utils.sanitizeNumberInput(exponentialNoisePercentTF.getText(), 1.0);
         if(lambda == -1 || percent == -1) {
             return;
         }
@@ -80,8 +71,8 @@ public class Tab3Controller extends Tab {
 
     @FXML
     protected void rayleighNoise(ActionEvent event) {
-        double mean = Utils.sanitizeNumberInput(rayleighNoiseMean.getText(), Utils.L -1.0, rayleighDefaultMean);
-        double percent = Utils.sanitizeNumberInput(rayleighNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
+        double mean = Utils.sanitizeNumberInput(rayleighNoiseMean.getText(), Utils.L -1.0);
+        double percent = Utils.sanitizeNumberInput(rayleighNoisePercentTF.getText(), 1.0);
         if(mean == -1 || percent == -1) {
             return;
         }
@@ -90,7 +81,7 @@ public class Tab3Controller extends Tab {
 
     @FXML
     protected void saltAndPepperNoise(ActionEvent event) {
-        double percent = Utils.sanitizeNumberInput(saltAndPepperNoisePercentTF.getText(), 1.0, noiseDefaultPercent);
+        double percent = Utils.sanitizeNumberInput(saltAndPepperNoisePercentTF.getText(), 1.0);
         if(percent == -1) {
             return;
         }

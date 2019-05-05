@@ -30,7 +30,7 @@
             <Region VBox.vgrow="ALWAYS"/>
             <Text text="PotencyFunction"/>
             <HBox>
-                <TextField prefWidth="100" text="Number.." fx:id="potencyFunctionPhi"/>
+                <TextField prefWidth="100" text="0.75" fx:id="potencyFunctionPhi"/>
                 <Button text="Apply" onAction="#potencyFunction"/>
             </HBox>
             <HBox>

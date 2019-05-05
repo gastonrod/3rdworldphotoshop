@@ -14,7 +14,7 @@
                     <HBox>
                         <VBox>
                             <Text text="Mask size"/>
-                            <TextField prefWidth="100" fx:id="borderHighlightMaskSize" promptText="Number"/>
+                            <TextField prefWidth="100" text="7" fx:id="borderHighlightMaskSize" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#borderHighlight"/>
                     </HBox>
@@ -38,7 +38,7 @@
                 <!--Laplacian of Gaussian-->
                 <TitledPane text="Laplacian of Gaussian">
                     <HBox>
-                        <TextField prefWidth="100" fx:id="logSD" promptText="Std"/>
+                        <TextField prefWidth="100" text="0.55" fx:id="logSD" promptText="Std"/>
                         <Button text="LoG" onAction="#logOperator"/>
                     </HBox>
                 </TitledPane>

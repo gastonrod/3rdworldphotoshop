@@ -15,7 +15,7 @@
                     <HBox>
                         <VBox>
                             <Text text="S.D."/>
-                            <TextField prefWidth="100" fx:id="gaussianFilterSD" promptText="Number"/>
+                            <TextField prefWidth="100" text="3" fx:id="gaussianFilterSD" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#gaussianFilter"/>
                     </HBox>
@@ -25,7 +25,7 @@
                    <HBox spacing="10" alignment="bottom_left">
                        <VBox>
                            <Text text="Mask size"/>
-                           <TextField prefWidth="100" fx:id="medianTextField" promptText="Number"/>
+                           <TextField prefWidth="100" text="3" fx:id="medianTextField" promptText="Number"/>
                        </VBox>
                        <Button text="Apply" onAction="#medianFilter"/>
                    </HBox>
@@ -35,11 +35,11 @@
                    <HBox spacing="10" alignment="bottom_left">
                         <VBox>
                             <Text text="Mask size"/>
-                            <TextField prefWidth="100" fx:id="weightedMedianTextField" promptText="Number"/>
+                            <TextField prefWidth="100" text="3" fx:id="weightedMedianTextField" promptText="Number"/>
                         </VBox>
                         <VBox>
                             <Text text="Weight"/>
-                            <TextField prefWidth="100" fx:id="weightedMedianWeightTextField" promptText="Number"/>
+                            <TextField prefWidth="100" text="5" fx:id="weightedMedianWeightTextField" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#weightedMedianFilter"/>
                    </HBox>
@@ -49,7 +49,7 @@
                    <HBox spacing="10" alignment="bottom_left">
                         <VBox>
                             <Text text="Mask size"/>
-                            <TextField prefWidth="100" fx:id="averageTextField" promptText="Number"/>
+                            <TextField prefWidth="100" text="3" fx:id="averageTextField" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#averageFilter"/>
                    </HBox>
@@ -57,9 +57,9 @@
                 <!--Anisotropic diff-->
                 <TitledPane text="Anisotropic">
                     <HBox>
-                        <TextField prefWidth="100" fx:id="anisotropicLambda" promptText="Lambda"/>
-                        <TextField prefWidth="100" fx:id="anisotropicIterations" promptText="Iterations"/>
-                        <TextField prefWidth="100" fx:id="anisotropicSigma" promptText="Sigma"/>
+                        <TextField prefWidth="100" text="3" fx:id="anisotropicLambda" promptText="Lambda"/>
+                        <TextField prefWidth="100" text="10" fx:id="anisotropicIterations" promptText="Iterations"/>
+                        <TextField prefWidth="100" text="2" fx:id="anisotropicSigma" promptText="Sigma"/>
                         <Button text="Lorentz" onAction="#anisotropicLorentz"/>
                         <Button text="Leclerc" onAction="#anisotropicLeclerc"/>
                     </HBox>
@@ -67,18 +67,18 @@
                 <!--Isotropic diff-->
                 <TitledPane text="Isotropic">
                     <HBox>
-                        <TextField prefWidth="100" fx:id="isotropicLambda" promptText="Lambda"/>
-                        <TextField prefWidth="100" fx:id="isotropicIterations" promptText="Iterations"/>
-                        <TextField prefWidth="100" fx:id="isotropicSigma" promptText="Sigma"/>
+                        <TextField prefWidth="100" text="3" fx:id="isotropicLambda" promptText="Lambda"/>
+                        <TextField prefWidth="100" text="10" fx:id="isotropicIterations" promptText="Iterations"/>
+                        <TextField prefWidth="100" text="2" fx:id="isotropicSigma" promptText="Sigma"/>
                         <Button text="Apply" onAction="#isotropicLeclerc"/>
                     </HBox>
                 </TitledPane>
                 <!--Bilateral filter-->
                 <TitledPane text="Bilateral filter">
                     <HBox>
-                        <TextField prefWidth="100" fx:id="bilateralSds" promptText="Sds"/>
-                        <TextField prefWidth="100" fx:id="bilateralSdr" promptText="Sdr"/>
-                        <TextField prefWidth="100" fx:id="bilateralMaskSize" promptText="MaskSize"/>
+                        <TextField prefWidth="100" text="2" fx:id="bilateralSds" promptText="Sds"/>
+                        <TextField prefWidth="100" text="30" fx:id="bilateralSdr" promptText="Sdr"/>
+                        <TextField prefWidth="100" text="7" fx:id="bilateralMaskSize" promptText="MaskSize"/>
                         <Button text="Filter" onAction="#bilateralFilter"/>
                     </HBox>
                 </TitledPane>

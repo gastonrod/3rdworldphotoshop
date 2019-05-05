@@ -15,15 +15,15 @@
                     <HBox>
                         <VBox>
                             <Text text="Mean"/>
-                            <TextField prefWidth="100" fx:id="gaussianNoiseMeanTF" promptText="Number"/>
+                            <TextField prefWidth="100" text="30" fx:id="gaussianNoiseMeanTF" promptText="Number"/>
                         </VBox>
                         <VBox>
                             <Text text="Std"/>
-                            <TextField prefWidth="100" fx:id="gaussianNoiseStdTF" promptText="Number"/>
+                            <TextField prefWidth="100" text="5" fx:id="gaussianNoiseStdTF" promptText="Number"/>
                         </VBox>
                         <VBox>
                             <Text text="\% of img"/>
-                            <TextField prefWidth="100" fx:id="gaussianNoisePercentTF" promptText="Number"/>
+                            <TextField prefWidth="100" text="0.3" fx:id="gaussianNoisePercentTF" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#gaussianNoise"/>
                     </HBox>
@@ -33,11 +33,11 @@
                     <HBox>
                         <VBox>
                             <Text text="Mean"/>
-                            <TextField prefWidth="100" fx:id="rayleighNoiseMean" promptText="Number"/>
+                            <TextField prefWidth="100" text="30" fx:id="rayleighNoiseMean" promptText="Number"/>
                         </VBox>
                         <VBox>
                             <Text text="\% of img"/>
-                            <TextField prefWidth="100" fx:id="rayleighNoisePercentTF" promptText="Number"/>
+                            <TextField prefWidth="100" text="0.3" fx:id="rayleighNoisePercentTF" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#rayleighNoise"/>
                     </HBox>
@@ -47,11 +47,11 @@
                     <HBox>
                         <VBox>
                             <Text text="Lambda"/>
-                            <TextField prefWidth="100" fx:id="exponentialNoiseLambda" promptText="Number"/>
+                            <TextField prefWidth="100" text="30" fx:id="exponentialNoiseLambda" promptText="Number"/>
                         </VBox>
                         <VBox>
                             <Text text="\% of img"/>
-                            <TextField prefWidth="100" fx:id="exponentialNoisePercentTF" promptText="Number"/>
+                            <TextField prefWidth="100" text="0.3" fx:id="exponentialNoisePercentTF" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#exponentialNoise"/>
                     </HBox>
@@ -61,7 +61,7 @@
                     <HBox>
                         <VBox>
                             <Text text="\% of img"/>
-                            <TextField prefWidth="100" fx:id="saltAndPepperNoisePercentTF" promptText="Number"/>
+                            <TextField prefWidth="100" text="0.3" fx:id="saltAndPepperNoisePercentTF" promptText="Number"/>
                         </VBox>
                         <Button text="Apply" onAction="#saltAndPepperNoise"/>
                     </HBox>
