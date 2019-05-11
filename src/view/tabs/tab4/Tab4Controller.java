@@ -20,8 +20,10 @@ public class Tab4Controller extends Tab {
     private ImagesService imagesService;
 
     @FXML public TextField borderHighlightMaskSize;
-    @FXML public TextField laplaceThreshold;
     @FXML public TextField logSD;
+    @FXML public TextField cannyT1;
+    @FXML public TextField cannyT2;
+    @FXML public TextField susanT;
 
     public Tab4Controller() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("tab_4.fxml"));
@@ -71,6 +73,37 @@ public class Tab4Controller extends Tab {
     @FXML
     protected void laplaceOperator(ActionEvent event){
         imagesService.laplaceOperator();
+    }
+
+    @FXML
+    protected void canny(ActionEvent event) {
+        int t1 = Utils.sanitizeNumberInput(cannyT1.getText(), Utils.L-1);
+        int t2 = Utils.sanitizeNumberInput(cannyT2.getText(), Utils.L-1);
+
+        if(t1 == -1 || t2 == -1) {
+            return;
+        }
+        imagesService.cannyOperator(t1, t2);
+    }
+
+    @FXML
+    protected void borderSusan(ActionEvent event) {
+        int t = Utils.sanitizeNumberInput(susanT.getText(), Utils.L-1);
+
+        if(t == -1){
+            return;
+        }
+        imagesService.borderSusanOperator(t);
+    }
+
+    @FXML
+    protected void cornerSusan(ActionEvent event) {
+        int t = Utils.sanitizeNumberInput(susanT.getText(), Utils.L-1);
+
+        if(t == -1){
+            return;
+        }
+        imagesService.cornerSusanOperator(t);
     }
 
     @FXML

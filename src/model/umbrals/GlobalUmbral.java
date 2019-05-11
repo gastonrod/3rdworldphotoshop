@@ -20,6 +20,7 @@ public class GlobalUmbral implements Umbral {
             T = newT;
         }while(true);
 
+        System.out.println("T: " + T);
         return SpatialOperator.setUmbral(pixels, T);
     }
 

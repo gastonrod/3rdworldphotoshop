@@ -78,4 +78,8 @@ public class Utils {
         }
         return list;
     }
+
+    public static int toGray(Color color) {
+        return (color.getRed() + color.getBlue() + color.getGreen()) / 3;
+    }
 }

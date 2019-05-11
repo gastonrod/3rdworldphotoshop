@@ -6,6 +6,7 @@ import model.filters.borderdetection.*;
 import model.images.CustomImage;
 import model.utils.Utils;
 
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class FilterOperator {
@@ -53,6 +54,22 @@ public class FilterOperator {
     public static CustomImage prewittOperatorBoth(CustomImage image) {
         PrewittFilter filter = new PrewittFilter();
         return filter(image, filter, Utils.PREWITT_MASK_SIZE);
+    }
+
+    public static CustomImage cannyOperator(CustomImage image, int t1, int t2) {
+        CannyOperator cannyOperator = new CannyOperator(t1, t2);
+        return CustomImageFactory.newImage(cannyOperator.filter(image.getRGBRepresentation()));
+    }
+
+    public static CustomImage cornerSusanOperator(CustomImage image, int t) {
+        CornerSusan cornerSusanOperator = new CornerSusan(t);
+        image.getRGBRepresentation();
+        return CustomImageFactory.newImage(cornerSusanOperator.filter(image.getRGBRepresentation()));
+    }
+
+    public static CustomImage borderSusanOperator(CustomImage image, int t) {
+        BorderSusan borderSusanOperator = new BorderSusan(t);
+        return CustomImageFactory.newImage(borderSusanOperator.filter(image.getRGBRepresentation()));
     }
 
     public static CustomImage prewittOperatorY(CustomImage image) {

@@ -45,6 +45,7 @@ public class OtsuUmbral implements Umbral{
             T += i;
         }
         T /= maxes.size();
+        System.out.println("T: " + T);
 
         return SpatialOperator.setUmbral(pixels, T);
     }

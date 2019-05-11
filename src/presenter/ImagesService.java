@@ -348,6 +348,18 @@ public class ImagesService {
         applyTransformation(getMainImage(), lambda, iterations, sigma, DiffusorOperator::isotropicLeclerc);
     }
 
+    public void cannyOperator(int t1, int t2) {
+        applyTransformation(getMainImage(), t1, t2, FilterOperator::cannyOperator);
+    }
+
+    public void cornerSusanOperator(int t) {
+        applyTransformation(getMainImage(), t, FilterOperator::cornerSusanOperator);
+    }
+
+    public void borderSusanOperator(int t) {
+        applyTransformation(getMainImage(), t, FilterOperator::borderSusanOperator);
+    }
+
 
     public void laplaceCrossingZeroOperator() {
         applyTransformation(getMainImage(), FilterOperator::laplaceCrossingZeroOperator);

@@ -42,6 +42,22 @@
                         <Button text="LoG" onAction="#logOperator"/>
                     </HBox>
                 </TitledPane>
+                <!--Canny-->
+                <TitledPane text="Canny">
+                    <HBox>
+                        <TextField prefWidth="100" text="10" fx:id="cannyT1" promptText="t1"/>
+                        <TextField prefWidth="100" text="40" fx:id="cannyT2" promptText="t2"/>
+                        <Button text="Canny" onAction="#canny"/>
+                    </HBox>
+                </TitledPane>
+                <!--SUSAN-->
+                <TitledPane text="SUSAN">
+                    <HBox>
+                        <TextField prefWidth="100" text="10" fx:id="susanT" promptText="t1"/>
+                        <Button text="Border" onAction="#borderSusan"/>
+                        <Button text="Corner" onAction="#cornerSusan"/>
+                    </HBox>
+                </TitledPane>
             </panes>
         </Accordion>
         <Region VBox.vgrow="ALWAYS"/>
