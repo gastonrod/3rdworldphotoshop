@@ -58,6 +58,15 @@
                         <Button text="Corner" onAction="#cornerSusan"/>
                     </HBox>
                 </TitledPane>
+                <!-- Hough -->
+                <TitledPane text="Hough">
+                    <HBox>
+                        <TextField prefWidth="100" text="0.1" fx:id="houghLinesEps" promptText="eps"/>
+                        <TextField prefWidth="100" text="4" fx:id="houghLinesAmountOfLines" promptText="Am. of Ls"/>
+                        <Button text="Line" onAction="#houghLines"/>
+                        <Button text="Circle" onAction="#houghCircles"/>
+                    </HBox>
+                </TitledPane>
             </panes>
         </Accordion>
         <Region VBox.vgrow="ALWAYS"/>

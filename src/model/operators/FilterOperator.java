@@ -6,7 +6,6 @@ import model.filters.borderdetection.*;
 import model.images.CustomImage;
 import model.utils.Utils;
 
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class FilterOperator {
@@ -59,6 +58,15 @@ public class FilterOperator {
     public static CustomImage cannyOperator(CustomImage image, int t1, int t2) {
         CannyOperator cannyOperator = new CannyOperator(t1, t2);
         return CustomImageFactory.newImage(cannyOperator.filter(image.getRGBRepresentation()));
+    }
+
+    public static CustomImage houghTransformCircles(CustomImage image, double eps, int amountOfLines) {
+        HoughCircleTransform houghTransform = new HoughCircleTransform(eps, amountOfLines);
+        return CustomImageFactory.newImage(houghTransform.filter(image.getRGBRepresentation()));
+    }
+    public static CustomImage houghTransformLines(CustomImage image, double eps, int amountOfLines) {
+        HoughLineTransform houghTransform = new HoughLineTransform(eps, amountOfLines);
+        return CustomImageFactory.newImage(houghTransform.filter(image.getRGBRepresentation()));
     }
 
     public static CustomImage cornerSusanOperator(CustomImage image, int t) {
@@ -148,4 +156,5 @@ public class FilterOperator {
         }
         return auxRgb;
     }
+
 }

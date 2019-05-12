@@ -20,6 +20,9 @@ public class Utils {
         return ( y - maskSize / 2 < 0 || y + maskSize/2 >= height ||
                 x - maskSize / 2 < 0 || x + maskSize/2 >= width);
     }
+    public static boolean inBounds(int height, int width, int y, int x) {
+        return inBounds(height, width, y, x, 0);
+    }
 
     public static int inColorRange(int c) {
         return Math.max(0, Math.min(c, L-1));
@@ -30,6 +33,10 @@ public class Utils {
         double b = - m * minValue;
 
         return (int) (m * value + b);
+    }
+
+    public static Color getGray(int value) {
+        return new Color(value, value, value);
     }
 
     public static int inColorRange(double c) {
@@ -77,6 +84,24 @@ public class Utils {
             }
         }
         return list;
+    }
+
+    public static Color[][] getIntMatrixAsGrayscaledImage(int[][] matrix) {
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for(int i = 0; i < matrix.length;i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
+                min = Math.min(min, matrix[i][j]);
+                max = Math.max(max, matrix[i][j]);
+            }
+        }
+        Color[][] image = new Color[matrix.length][matrix[0].length];
+        for (int i = 0; i < image.length; i++) {
+            for (int j = 0; j < image[0].length; j++) {
+                image[i][j] = Utils.getGray(Utils.toRange(matrix[i][j], min, max));
+            }
+        }
+        return image;
     }
 
     public static int toGray(Color color) {
