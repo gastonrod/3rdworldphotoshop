@@ -356,6 +356,10 @@ public class ImagesService {
         applyTransformation(getMainImage(), t, FilterOperator::cornerSusanOperator);
     }
 
+    public void houghLines(int eps, int amountOfLines) {
+        applyTransformation(getMainImage(), eps, amountOfLines, FilterOperator::houghTransformLines);
+    }
+
     public void borderSusanOperator(int t) {
         applyTransformation(getMainImage(), t, FilterOperator::borderSusanOperator);
     }

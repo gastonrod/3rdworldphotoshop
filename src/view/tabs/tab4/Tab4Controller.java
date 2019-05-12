@@ -24,6 +24,8 @@ public class Tab4Controller extends Tab {
     @FXML public TextField cannyT1;
     @FXML public TextField cannyT2;
     @FXML public TextField susanT;
+    @FXML public TextField houghLinesEps;
+    @FXML public TextField houghLinesAmountOfLines;
 
     public Tab4Controller() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("tab_4.fxml"));
@@ -104,6 +106,18 @@ public class Tab4Controller extends Tab {
             return;
         }
         imagesService.cornerSusanOperator(t);
+    }
+
+    @FXML
+    protected void houghLines(ActionEvent event) {
+        int eps = Utils.sanitizeNumberInput(houghLinesEps.getText(), Utils.L-1);
+        int amountOfLines = Utils.sanitizeNumberInput(houghLinesAmountOfLines.getText(), Utils.L-1);
+
+        if(eps == -1 || amountOfLines == -1){
+            return;
+        }
+        imagesService.houghLines(eps, amountOfLines);
+
     }
 
     @FXML

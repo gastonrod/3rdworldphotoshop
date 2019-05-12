@@ -20,6 +20,9 @@ public class Utils {
         return ( y - maskSize / 2 < 0 || y + maskSize/2 >= height ||
                 x - maskSize / 2 < 0 || x + maskSize/2 >= width);
     }
+    public static boolean inBounds(int height, int width, int y, int x) {
+        return inBounds(height, width, y, x, 0);
+    }
 
     public static int inColorRange(int c) {
         return Math.max(0, Math.min(c, L-1));
@@ -30,6 +33,10 @@ public class Utils {
         double b = - m * minValue;
 
         return (int) (m * value + b);
+    }
+
+    public static Color getGray(int value) {
+        return new Color(value, value, value);
     }
 
     public static int inColorRange(double c) {

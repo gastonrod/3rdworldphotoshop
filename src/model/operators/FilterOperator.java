@@ -61,6 +61,11 @@ public class FilterOperator {
         return CustomImageFactory.newImage(cannyOperator.filter(image.getRGBRepresentation()));
     }
 
+    public static CustomImage houghTransformLines(CustomImage image, int eps, int amountOfLines) {
+        HoughTransform houghTransform = new HoughTransform(eps, amountOfLines);
+        return CustomImageFactory.newImage(houghTransform.filter(image.getRGBRepresentation()));
+    }
+
     public static CustomImage cornerSusanOperator(CustomImage image, int t) {
         CornerSusan cornerSusanOperator = new CornerSusan(t);
         image.getRGBRepresentation();
@@ -148,4 +153,5 @@ public class FilterOperator {
         }
         return auxRgb;
     }
+
 }
