@@ -46,6 +46,11 @@ public class FilterOperator {
         return filter(image, filter, Utils.PREWITT_MASK_SIZE);
     }
 
+    public static CustomImage exchangePixels(CustomImage image, Point p1, Point p2) {
+        PixelExchange pixelExchange = new PixelExchange();
+        return CustomImageFactory.newImage(pixelExchange.filter(image.getRGBRepresentation(),p1, p2));
+    }
+
     public static CustomImage laplacianOfGaussianOperator(CustomImage image, double sd) {
         LaplacianOfGaussianOperator laplacianOfGaussianOperator = new LaplacianOfGaussianOperator(sd);
         return CustomImageFactory.newImage(laplacianOfGaussianOperator.applyOperator(image.getRGBRepresentation()));
@@ -148,4 +153,5 @@ public class FilterOperator {
         }
         return auxRgb;
     }
+
 }

@@ -107,6 +107,11 @@ public class Tab4Controller extends Tab {
     }
 
     @FXML
+    protected void pixelExchange(ActionEvent event) {
+        imagesService.pixelExchange();
+    }
+
+    @FXML
     protected  void logOperator(ActionEvent event) {
         double value = Utils.dsanitizeNumberInput(logSD.getText(), Utils.L-1.0);
 

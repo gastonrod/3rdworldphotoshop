@@ -58,6 +58,12 @@
                         <Button text="Corner" onAction="#cornerSusan"/>
                     </HBox>
                 </TitledPane>
+                <!--Pixel Exchange-->
+                <TitledPane text="Pixel exchange">
+                    <HBox>
+                        <Button text="Apply" onAction="#pixelExchange"/>
+                    </HBox>
+                </TitledPane>
             </panes>
         </Accordion>
         <Region VBox.vgrow="ALWAYS"/>

@@ -348,6 +348,11 @@ public class ImagesService {
         applyTransformation(getMainImage(), lambda, iterations, sigma, DiffusorOperator::isotropicLeclerc);
     }
 
+    public void pixelExchange() {
+        System.out.println("owo");
+        applyTransformation(getMainImage(), ClicksManager.getMainImageCurrentClick(), ClicksManager.getMainImageSecondClick(), FilterOperator::exchangePixels);
+    }
+
     public void cannyOperator(int t1, int t2) {
         applyTransformation(getMainImage(), t1, t2, FilterOperator::cannyOperator);
     }

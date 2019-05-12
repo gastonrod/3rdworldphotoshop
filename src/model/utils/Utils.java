@@ -17,8 +17,13 @@ public class Utils {
     }
 
     public static boolean inBounds(int height, int width, int y, int x, int maskSize) {
-        return ( y - maskSize / 2 < 0 || y + maskSize/2 >= height ||
-                x - maskSize / 2 < 0 || x + maskSize/2 >= width);
+        return ( y - maskSize / 2 < 0 || y + maskSize/2 > height ||
+                x - maskSize / 2 < 0 || x + maskSize/2 > width);
+    }
+
+    public static boolean inBounds(int height, int width, int y, int x) {
+//        System.out.println(height + " - " + width + " - " + y + " - " + x);
+        return y >= 0 && y < height && x >= 0 && x < width;
     }
 
     public static int inColorRange(int c) {
