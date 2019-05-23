@@ -26,7 +26,8 @@ public class HoughLineTransform {
     }
 
     public Color[][] filter(Color[][] image) {
-//        Color[][] filteredImage = new BorderSusan(t).filter(image);
+        System.out.println("Started transform..");
+        long startingTime = System.currentTimeMillis();
         Color[][] filteredImage = FilterOperator.borderHighlight(CustomImageFactory.newImage(image), 7).getRGBRepresentation();
         try{
             filteredImage = new OtsuUmbral().apply(filteredImage);
@@ -70,6 +71,8 @@ public class HoughLineTransform {
         }
 //        Color[][] newimg = Utils.getIntMatrixAsGrayscaledImage(A);
 //        return newimg;
+        long endTime = System.currentTimeMillis();
+        System.out.println("Finished transform in: " + ((double)(endTime-startingTime))/1000.0 + "seconds");
         return image;
     }
 

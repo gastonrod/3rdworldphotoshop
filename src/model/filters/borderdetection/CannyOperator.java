@@ -6,10 +6,11 @@ import model.operators.FilterOperator;
 import model.umbrals.HisteresisUmbral;
 
 import java.awt.Color;
+import java.util.Arrays;
 
 public class CannyOperator {
 
-    private double sd = 1;
+    private double sd = 2;
     private int t1;
     private int t2;
     public CannyOperator(int t1, int t2) {
@@ -19,7 +20,7 @@ public class CannyOperator {
 
     public Color[][] filter(Color[][] image){
         CustomImage img = FilterOperator.gaussianFilter(CustomImageFactory.newImage(image), sd);
-        Color[][] Gx = FilterOperator.sobelOperatorY(img).getRGBRepresentation();
+        Color[][] Gx = FilterOperator.sobelOperatorX(img).getRGBRepresentation();
         Color[][] Gy = FilterOperator.sobelOperatorY(img).getRGBRepresentation();
         int[][] angles = getAngles(Gx, Gy);
         Color[][] G = FilterOperator.sobelOperatorBoth(img).getRGBRepresentation();
@@ -74,18 +75,23 @@ public class CannyOperator {
         int[][] angles = new int[Gx.length][Gx[0].length];
         for(int i = 0; i < Gx.length; i++){
             for(int j = 0; j < Gx[0].length; j++){
-                double angle = Math.atan2(Gy[i][j].getRed(), Gx[i][j].getRed()) % 180;
-                if(angle <= 22.5  ||angle >= 157.5) {
-                    angles[i][j] = 0;
-                }else if(angle <= 67.5) {
-                    angles[i][j] = 45;
-                }else if(angle <= 112.5) {
-                    angles[i][j] = 90;
-                }else {
-                    angles[i][j] = 135;
-                }
+                double angle = Math.toDegrees(Math.atan((double)Gy[i][j].getRed() / (double)Gx[i][j].getRed()));
+                if(Gx[i][j].getRed() == 0)
+                    angle = 90;
+                angles[i][j] = getRealAngle(angle);
             }
         }
         return angles;
+    }
+    private int getRealAngle(double angle) {
+        if(angle <= 22.5  ||angle >= 157.5) {
+            return 0;
+        }else if(angle <= 67.5) {
+            return 45;
+        }else if(angle <= 112.5) {
+            return  90;
+        }else {
+            return 135;
+        }
     }
 }

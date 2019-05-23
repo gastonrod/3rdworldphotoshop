@@ -23,7 +23,7 @@ public class FilterOperator {
 
     public static CustomImage gaussianFilter(CustomImage image, double sd) {
         GaussianFilter filter = new GaussianFilter(sd);
-        int maskSize = (int)(sd * 2 + 1);
+        int maskSize = Math.max((int)(sd * 2 + 1), 3);
         return filter(image, filter, maskSize);
     }
 
